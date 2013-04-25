@@ -65,7 +65,7 @@ class LogoutOperation extends \ICanBoogie\Operation
 		$this->record->logout();
 
 		$request = $this->request;
-		$this->response->location = isset($request['continue']) ? $request['continue'] : ($request->referer ? $request->referer : '/');
+		$this->response->location = ($request['redirect_to'] ?: $request['continue']) ?: ($request->referer ?: '/');
 
 		return true;
 	}

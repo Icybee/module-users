@@ -11,11 +11,11 @@
 
 namespace Icybee\Modules\Users;
 
-use ICanBoogie\Mailer;
 use ICanBoogie\I18n;
 use ICanBoogie\I18n\FormattedString;
 use ICanBoogie\I18n\Translator\Proxi;
 use ICanBoogie\Exception;
+use ICanBoogie\Mailer;
 
 class LoginOperation extends \ICanBoogie\Operation
 {
@@ -173,6 +173,8 @@ EOT
 	 * Saves the user id in the session, sets the `user` property of the core object, updates the
 	 * user's last connection date and finaly changes the operation location to the same request
 	 * uri.
+	 *
+	 * @return bool `true` if the user is logged.
 	 */
 	protected function process()
 	{
@@ -182,18 +184,12 @@ EOT
 		$user->metas['failed_login_count'] = null;
 		$user->metas['failed_login_time'] = null;
 		$user->login();
-
-		$core->models['users']->execute
-		(
-			'UPDATE {self} SET logged_at = now() WHERE uid = ?', array
-			(
-				$core->user_id
-			)
-		);
+		$user->logged_at = gmdate('Y-m-d H:i:s');
+		$user->save();
 
 		if (!$this->request->is_xhr)
 		{
-			$this->response->location = $this->request['continue'] ?: $this->request->uri;
+			$this->response->location = ($this->request['redirect_to'] ?: $this->request['continue']) ?: $this->request->uri;
 		}
 
 		return true;
