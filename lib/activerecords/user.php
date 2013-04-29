@@ -14,7 +14,6 @@ namespace Icybee\Modules\Users;
 use ICanBoogie\ActiveRecord\RecordNotFound;
 use ICanBoogie\DateTime;
 use ICanBoogie\Exception;
-use ICanBoogie\PropertyNotWritable;
 
 use Icybee\Modules\Users\Roles\Role;
 
@@ -260,7 +259,7 @@ class User extends \ICanBoogie\ActiveRecord implements \Brickrouge\CSSClassNames
 
 		if (empty($this->constructor))
 		{
-			$this->constructor = $this->_model_id;
+			$this->constructor = $this->model_id;
 		}
 	}
 

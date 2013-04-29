@@ -184,7 +184,7 @@ EOT
 		$user->metas['failed_login_count'] = null;
 		$user->metas['failed_login_time'] = null;
 		$user->login();
-		$user->logged_at = gmdate('Y-m-d H:i:s');
+		$user->logged_at = 'now';
 		$user->save();
 
 		if (!$this->request->is_xhr)

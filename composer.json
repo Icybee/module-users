@@ -1,6 +1,6 @@
 {
 	"name": "icybee/module-users",
-	"type": "icybee-module",
+	"type": "icanboogie-module",
 	"description": "Manages the users of the CMS Icybee",
 	"keywords": [ "user", "login" ],
 	"license": "BSD-3-Clause",
@@ -19,7 +19,7 @@
 	"minimum-stability": "dev",
 	"require": {
 		"php": ">=5.3.0",
-		"icybee/module-installer": "*",
+		"icanboogie/module-installer": "*",
 		"icanboogie/activerecord": "*",
 		"icanboogie/event": "*",
 		"brickrouge/css-class-names": "*"
