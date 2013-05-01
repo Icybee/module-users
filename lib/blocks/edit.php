@@ -291,7 +291,7 @@ class EditBlock extends \Icybee\EditBlock
 
 		if ($record && $record->uid == $user->uid && !$user->has_permission(Module::PERMISSION_ADMINISTER, $this->module))
 		{
-			unset($actions[\Icybee\SaveOperation::MODE]);
+			unset($actions[\Icybee\OPERATION_SAVE_MODE]);
 		}
 
 		return $actions;
