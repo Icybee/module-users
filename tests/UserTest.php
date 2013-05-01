@@ -170,26 +170,22 @@ class UserTest extends \PHPUnit_Framework_TestCase
 		$user->password_hash = null;
 	}
 
-	/*
-	public function test_password()
+	public function testPasswordMustBeExported()
 	{
-		$model = Test\get_model();
+		$user = new User;
+		$user->password = '123';
 
-		$user = new User($model);
-		$user->username = "example";
-		$user->email = "example@example.com";
-		$user->password = 'P4SSW0RD';
-
-		$key = $user->save();
-
-		/* @var $user \Icybee\Modules\Users\User * /
-
-		$user = $model[$key];
-		$this->assertTrue($user->compare_password('P4SSW0RD'));
+		$this->assertArrayHasKey('password', $user->to_array());
 	}
-	*/
 
-	/*
+	public function testEmptyPasswordMustNotBeExported()
+	{
+		$user = new User;
+		$user->password = null;
+
+		$this->assertArrayNotHasKey('password', $user->to_array());
+	}
+
 	public function test_password()
 	{
 		$user = new User;
@@ -199,7 +195,6 @@ class UserTest extends \PHPUnit_Framework_TestCase
 
 		$this->assertTrue($user->compare_password('P4SSW0RD'));
 	}
-	*/
 
 	public function test_css_class()
 	{

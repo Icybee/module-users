@@ -280,10 +280,17 @@ class User extends \ICanBoogie\ActiveRecord implements \Brickrouge\CSSClassNames
 	 */
 	public function to_array()
 	{
-		return parent::to_array() + array
+		$array = parent::to_array() + array
 		(
 			'logged_at' => $this->volatile_get_logged_at()
 		);
+
+		if ($this->password)
+		{
+			$array['password'] = $this->password;
+		}
+
+		return $array;
 	}
 
 	/**
