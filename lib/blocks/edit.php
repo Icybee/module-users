@@ -84,50 +84,8 @@ class EditBlock extends \Icybee\EditBlock
 		#
 
 		$user = $core->user;
-
 		$permission = $this->permission;
-
 		$uid = $values[User::UID];
-
-		#
-		# display options
-		#
-
-		$display_options = array
-		(
-			'<username>'
-		);
-
-		if ($values[User::USERNAME])
-		{
-			$display_options[0] = $values[User::USERNAME];
-		}
-
-		$firstname = $values[User::FIRSTNAME];
-
-		if ($firstname)
-		{
-			$display_options[1] = $firstname;
-		}
-
-		$lastname = $values[User::LASTNAME];
-
-		if ($lastname)
-		{
-			$display_options[2] = $lastname;
-		}
-
-		if ($firstname && $lastname)
-		{
-			$display_options[3] = $firstname . ' ' . $lastname;
-			$display_options[4] = $lastname . ' ' . $firstname;
-		}
-
-		#
-		# roles
-		#
-
-		$role_el = $this->create_control_role();
 
 		#
 		# languages
@@ -136,12 +94,6 @@ class EditBlock extends \Icybee\EditBlock
 		$languages = $core->locale->conventions['localeDisplayNames']['languages'];
 
 		uasort($languages, 'ICanBoogie\unaccent_compare_ci');
-
-		#
-		# restricted sites
-		#
-
-		$restricted_sites_el = $this->create_control_sites();
 
 		$administer = $user->has_permission(Module::PERMISSION_MANAGE, $this->module);
 
@@ -152,6 +104,15 @@ class EditBlock extends \Icybee\EditBlock
 				#
 				# name group
 				#
+
+				User::USERNAME => $administer ? new Text
+				(
+					array
+					(
+						Group::LABEL => 'username',
+						Element::REQUIRED => true
+					)
+				) : null,
 
 				User::FIRSTNAME => new Text
 				(
@@ -177,23 +138,7 @@ class EditBlock extends \Icybee\EditBlock
 					)
 				),
 
-				User::USERNAME => $administer ? new Text
-				(
-					array
-					(
-						Group::LABEL => 'username',
-						Element::REQUIRED => true
-					)
-				) : null,
-
-				User::NAME_AS => new Element
-				(
-					'select', array
-					(
-						Group::LABEL => 'name_as',
-						Element::OPTIONS => $display_options
-					)
-				),
+				User::NAME_AS => $this->create_control_for_name_as(),
 
 				#
 				# connection group
@@ -251,7 +196,7 @@ class EditBlock extends \Icybee\EditBlock
 					)
 				),
 
-				User::ROLES => $role_el,
+				User::ROLES => $this->create_control_for_role(),
 
 				User::LANGUAGE => new Element
 				(
@@ -275,7 +220,7 @@ class EditBlock extends \Icybee\EditBlock
 					)
 				),
 
-				User::RESTRICTED_SITES => $restricted_sites_el
+				User::RESTRICTED_SITES => $this->create_control_for_restricted_sites_ids()
 			)
 		);
 	}
@@ -297,7 +242,7 @@ class EditBlock extends \Icybee\EditBlock
 		return $actions;
 	}
 
-	protected function create_control_role()
+	protected function create_control_for_role()
 	{
 		global $core;
 
@@ -341,7 +286,65 @@ class EditBlock extends \Icybee\EditBlock
 		);
 	}
 
-	protected function create_control_sites()
+	/**
+	 * Returns the control element for the `name_as` param.
+	 *
+	 * @param array $values
+	 *
+	 * @return Element
+	 */
+	protected function create_control_for_name_as()
+	{
+		$values = $this->values;
+
+		$options = array
+		(
+			'<username>'
+		);
+
+		if ($values[User::USERNAME])
+		{
+			$options[0] = $values[User::USERNAME];
+		}
+
+		$firstname = $values[User::FIRSTNAME];
+
+		if ($firstname)
+		{
+			$options[1] = $firstname;
+		}
+
+		$lastname = $values[User::LASTNAME];
+
+		if ($lastname)
+		{
+			$options[2] = $lastname;
+		}
+
+		if ($firstname && $lastname)
+		{
+			$options[3] = $firstname . ' ' . $lastname;
+			$options[4] = $lastname . ' ' . $firstname;
+		}
+
+		$nickname = $values[User::NICKNAME];
+
+		if ($nickname)
+		{
+			$options[User::NAME_AS_NICKNAME] = $nickname;
+		}
+
+		return new Element
+		(
+			'select', array
+			(
+				Group::LABEL => 'name_as',
+				Element::OPTIONS => $options
+			)
+		);
+	}
+
+	protected function create_control_for_restricted_sites_ids()
 	{
 		global $core;
 
