@@ -1,6 +1,34 @@
-# The "Users" module (users) [![Build Status](https://travis-ci.org/Icybee/module-users.png?branch=master)](https://travis-ci.org/Icybee/module-users)
+# Users [![Build Status](https://travis-ci.org/Icybee/module-users.png?branch=master)](https://travis-ci.org/Icybee/module-users)
 
-The "Users" module manages the users of the CMS Icybee.
+The "Users" module (`users`) manages the users of the CMS Icybee.
+
+
+
+
+
+## Security
+
+
+
+
+
+### Preventing brute force login
+
+In order to prevent brute force login, each failed attempt is counted in the metas of the target
+user account. When the number of failed attempts reaches a limit (e.g. 10) the user account is
+locked and a message with a key to unlock it is sent to the user's email address.
+
+Once the message has been sent all subsequent connection requests will fail during an hour. After
+this delay, the counter is reseted.
+
+The following metas properties are used for the process:
+
+- (int) `failed_login_count`: The number of successive failed attempts. Reseted when the
+user successfully login.
+- (int) `failed_login_time`: Time of the last failed login.
+- (string) `login_unlock_token`: Derivative salted token of the key sent by email for the user
+to unlock its account.
+- (int) `login_unlock_time`: Time at which login is unlocked.
 
 
 
@@ -28,6 +56,8 @@ Create a `composer.json` file and run `php composer.phar install` command to ins
 	}
 }
 ```
+
+This module is part of the modules required by [Icybee](http://icybee.org).
 
 
 
@@ -74,31 +104,3 @@ The package is continuously tested by [Travis CI](http://about.travis-ci.org/).
 ## License
 
 The module is licensed under the New BSD License - See the LICENSE file for details.
-
-
-
-
-
-## Security
-
-
-
-
-
-### Preventing brute force login
-
-In order to prevent brute force login, each failed attempt is counted in the metas of the target
-user account. When the number of failed attempts reaches a limit (e.g. 10) the user account is
-locked and a message with a key to unlock it is sent to the user's email address.
-
-Once the message has been sent all subsequent connection requests will fail during an hour. After
-this delay, the counter is reseted.
-
-The following metas properties are used for the process:
-
-- (int) `failed_login_count`: The number of successive failed attempts. Reseted when the
-user successfully login.
-- (int) `failed_login_time`: Time of the last failed login.
-- (string) `login_unlock_token`: Derivative salted token of the key sent by email for the user
-to unlock its account.
-- (int) `login_unlock_time`: Time at which login is unlocked.

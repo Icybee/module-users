@@ -34,6 +34,10 @@ $core = (object) array
 	)
 );
 
+$events = new Events();
+
+Events::patch('get', function() use($events) { return $events; });
+
 /*
  * The following is comming from ICanBoogie.
  */
