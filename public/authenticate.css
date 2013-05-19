@@ -5,10 +5,9 @@ html {
 	background: #F6F6F6;
 	background: -moz-linear-gradient(top, #F6F6F6 70%, #E8E8E8);
 	background: -webkit-linear-gradient(top, #F6F6F6 70%, #E8E8E8);
-	background: linear-gradient(top, #F6F6F6 70%, #E8E8E8);
+	background: linear-gradient(to bottom, #F6F6F6 70%, #E8E8E8);
 }
  
-body.page-slug-authenticate,
 body.page-slug-authenticate #contents {
 	background: transparent;
 	box-shadow: none;
