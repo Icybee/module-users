@@ -28,7 +28,7 @@
 		, nickname = document.id(form.elements.nickname)
 		, email = document.id(form.elements.email)
 		, auto_username = !firstname.value && !lastname.value
-		, uid = form.elements['#key'] ? form.elements['#key'].value : null
+		, uid = form.elements[ICanBoogie.Operation.KEY] ? form.elements[ICanBoogie.Operation.KEY].value : null
 		, usernameGroup = username.getParent('.control-group')
 		, emailGroup = email.getParent('.control-group')
 
