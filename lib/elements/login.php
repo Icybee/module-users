@@ -68,7 +68,8 @@ class LoginForm extends Form
 				(
 					Operation::DESTINATION => 'users',
 					Operation::NAME => Module::OPERATION_LOGIN,
-					Operation::SESSION_TOKEN => $core->session->token
+					Operation::SESSION_TOKEN => $core->session->token,
+					'redirect_to' => $core->request['redirect_to']
 				),
 
 				Element::CHILDREN => array

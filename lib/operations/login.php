@@ -178,8 +178,6 @@ EOT
 	 */
 	protected function process()
 	{
-		global $core;
-
 		$user = $this->record;
 		$user->metas['failed_login_count'] = null;
 		$user->metas['failed_login_time'] = null;
@@ -187,9 +185,11 @@ EOT
 		$user->logged_at = 'now';
 		$user->save();
 
-		if (!$this->request->is_xhr)
+		$redirect_to = ($this->request['redirect_to'] ?: $this->request['continue']) ?: null;
+
+		if ($redirect_to)
 		{
-			$this->response->location = ($this->request['redirect_to'] ?: $this->request['continue']) ?: $this->request->uri;
+			$this->response->location = $redirect_to;
 		}
 
 		return true;

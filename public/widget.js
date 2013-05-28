@@ -10,7 +10,7 @@ Brickrouge.Widget.Login = new Class({
 
 	onSuccess: function(response)
 	{
-		var location = response.location || response.redirect_to
+		var location = response.redirect_to || response.location // response.location is deprecated
 
 		if (location)
 		{
@@ -18,7 +18,7 @@ Brickrouge.Widget.Login = new Class({
 		}
 		else
 		{
-			window.location.reload()
+			window.location.reload(true)
 		}
 	}
 })
@@ -48,8 +48,7 @@ Brickrouge.Widget.LoginCombo = new Class({
 
 		function nonceIn()
 		{
-			nonce.get('widget').clearAlert();
-
+			nonce.get('widget').clearAlert()
 			loginSlide.slideOut().chain(nonceSlide.slideIn.bind(nonceSlide))
 
 			return nonceSlide;
@@ -97,7 +96,6 @@ Brickrouge.Widget.LoginCombo = new Class({
 		}) (el.getParent('shakable') || el, 50, 200)
 
 		login.get('widget').addEvent('failure', shake)
-
 		nonce.get('widget').addEvent('success', function(response) {
 
 			this.alert(response.message, 'success')
