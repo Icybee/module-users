@@ -89,31 +89,11 @@ class NonceLoginRequestOperation extends Operation
 
 		if ($expires && ($now + self::FRESH_PERIOD - $expires < self::COOLOFF_DELAY))
 		{
-			/*
-
-			var_dump($now, new \ICanBoogie\DateTime(null, 'UTC'), new \DateTime('now'), new \ICanBoogie\DateTime($expires));
-
-			exit;
-
-			$expires_date = new \ICanBoogie\DateTime($expires - self::FRESH_PERIOD + self::COOLOFF_DELAY, new \DateTimeZone('UTC'));
-			$expires_date->timezone = $core->timezone;
-
-			throw new PermissionRequired
-			(
-				new FormattedString('nonce_login_request.already_sent', array
-				(
-					':time' => $expires_date->format('H:m')
-				)),
-
-				403
-			);
-			*/
-
 			throw new PermissionRequired
 			(
 				new FormattedString("A message has already been sent to your e-mail address. In order to reduce abuses, you won't be able to request a new one until :time.", array
 				(
-					':time' => DateTime::from($expires - self::FRESH_PERIOD + self::COOLOFF_DELAY)->local->format('H:i')
+					':time' => DateTime::from('@' . ($expires - self::FRESH_PERIOD + self::COOLOFF_DELAY), 'utc')->local->format('H:i')
 				)),
 
 				403
