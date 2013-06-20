@@ -27,10 +27,12 @@
 		, lastname = document.id(form.elements.lastname)
 		, nickname = document.id(form.elements.nickname)
 		, email = document.id(form.elements.email)
-		, auto_username = !firstname.value && !lastname.value
+		, auto_username = !username.value
 		, uid = form.elements[ICanBoogie.Operation.KEY] ? form.elements[ICanBoogie.Operation.KEY].value : null
 		, usernameGroup = username.getParent('.control-group')
 		, emailGroup = email.getParent('.control-group')
+		, lastCheckUsername = null
+		, lastCheckEmail = null
 
 		var operation_check_unique = new Request.API
 		({
@@ -51,10 +53,19 @@
 
 		function check_unique()
 		{
-			operation_check_unique.get({ uid: uid, username: username.value, email: email.value })
+			var value = username.value
+
+			if (!value || (value == lastCheckUsername && lastCheckEmail == email.value)) return
+
+			lastCheckUsername = value
+			lastCheckEmail = email.value
+
+			operation_check_unique.get({ uid: uid, username: value, email: email.value })
 		}
 
 		username.addEvent('keyup', function(ev) {
+
+			auto_username = !username.value
 
 			if (ev.key.length > 1 && ev.key != 'backspace' && ev.key != 'delete')
 			{
@@ -62,8 +73,6 @@
 			}
 
 			check_unique()
-
-			auto_username = false
 		})
 
 		email.addEvent('keyup', function(ev) {
@@ -76,37 +85,33 @@
 			check_unique()
 		})
 
-		if (auto_username)
+		function update()
 		{
-			function update()
+			if (!auto_username)
 			{
-				if (!auto_username)
-				{
-					return
-				}
-
-				value = ((firstname.value ? firstname.value[0] : '') + (lastname.value ? lastname.value : '')).toLowerCase()
-
-				value = value.replace(/[àáâãäåąă]/g,"a")
-				value = value.replace(/[çćčċ]/g,"c")
-				value = value.replace(/[èéêëēęė]/g,"e")
-				value = value.replace(/[ìîïīĩį]/g,"i")
-				value = value.replace(/[óôõöøőŏ]/g,"o")
-				value = value.replace(/[ùúûüų]/g,"u")
-				value = value.replace(' ', '')
-
-				username.value = value
-				username.fireEvent('change', {})
-
-				check_unique()
+				return
 			}
 
-			firstname.addEvent('keyup', update)
-			firstname.addEvent('change', update)
+			value = ((firstname.value ? firstname.value[0] : '') + (lastname.value ? lastname.value : '')).toLowerCase()
 
-			lastname.addEvent('keyup', update)
-			lastname.addEvent('change', update)
+			value = value.replace(/[àáâãäåąă]/g,"a")
+			value = value.replace(/[çćčċ]/g,"c")
+			value = value.replace(/[èéêëēęė]/g,"e")
+			value = value.replace(/[ìîïīĩį]/g,"i")
+			value = value.replace(/[óôõöøőŏ]/g,"o")
+			value = value.replace(/[ùúûüų]/g,"u")
+			value = value.replace(' ', '')
+
+			username.value = value
+			username.fireEvent('change', {})
+
+			check_unique()
 		}
+
+		firstname.addEvent('keyup', update)
+		firstname.addEvent('change', update)
+		lastname.addEvent('keyup', update)
+		lastname.addEvent('change', update)
 
 		//
 		//
