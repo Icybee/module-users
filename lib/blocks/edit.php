@@ -383,7 +383,7 @@ class EditBlock extends \Icybee\EditBlock
 				Element::GROUP => 'advanced',
 				Element::DESCRIPTION => 'siteid',
 
-				'class' => 'inputs-list',
+				'class' => 'inputs-list widget-bordered',
 				'value' => $value
 			)
 		);
