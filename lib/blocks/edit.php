@@ -105,15 +105,6 @@ class EditBlock extends \Icybee\EditBlock
 				# name group
 				#
 
-				User::USERNAME => $administer ? new Text
-				(
-					array
-					(
-						Group::LABEL => 'username',
-						Element::REQUIRED => true
-					)
-				) : null,
-
 				User::FIRSTNAME => new Text
 				(
 					array
@@ -137,6 +128,15 @@ class EditBlock extends \Icybee\EditBlock
 						Group::LABEL => 'Nickname'
 					)
 				),
+
+				User::USERNAME => $administer ? new Text
+				(
+					array
+					(
+						Group::LABEL => 'username',
+						Element::REQUIRED => true
+					)
+				) : null,
 
 				User::NAME_AS => $this->create_control_for_name_as(),
 
