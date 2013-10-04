@@ -13,9 +13,9 @@ namespace Icybee\Modules\Users;
 
 use ICanBoogie\ActiveRecord\RecordNotFound;
 use ICanBoogie\DateTime;
-use ICanBoogie\Exception;
 
 use Icybee\Modules\Users\Roles\Role;
+use ICanBoogie\I18n\FormattedString;
 
 /**
  * A user.
@@ -215,7 +215,7 @@ class User extends \ICanBoogie\ActiveRecord implements \Brickrouge\CSSClassNames
 	}
 
 	/**
-	 * Sets the {@link $logget_at} property.
+	 * Sets the {@link $logged_at} property.
 	 *
 	 * @param mixed $value
 	 */
@@ -518,12 +518,12 @@ class User extends \ICanBoogie\ActiveRecord implements \Brickrouge\CSSClassNames
 
 		if (!$config || empty($config['password_salt']))
 		{
-			throw new Exception
+			throw new \Exception
 			(
-				'<q>password_salt</q> is empty in the <q>user</q> config, here is one generated randomly: %salt', array
+				new FormattedString('<q>password_salt</q> is empty in the <q>user</q> config, here is one generated randomly: %salt', array
 				(
 					'%salt' => \ICanBoogie\generate_token_wide()
-				)
+				))
 			);
 		}
 
