@@ -89,42 +89,6 @@ return array
 
 	'permission.modify own profile' => 'Modifier son profil',
 
-	# operation/nonce_login_request
-
-	'nonce_login_request' => array
-	(
-		'already_sent' => "Un message a déjà été envoyé à votre adresse email. Afin de réduire les abus, un nouveau ne pourra être envoyé avant :time.",
-
-		'operation' => array
-		(
-
-			'title' => 'Demander une connexion a usage unique',
-			'message' => array
-			(
-				'subject' => "Voici un message pour vous aider à vous connecter",
-				'template' => <<<EOT
-Ce message a été envoyé pour vous aider à vous connecter.
-
-En utilisant l'URL suivante vous serez en mesure de vous connecter
-et de mettre à jour votre mot de passe.
-
-<:url>
-
-Cette URL est a usage unique et n'est valable que jusqu'à :until.
-
-Si vous n'avez pas créé de profil ni demandé un nouveau mot de passe, ce message peut être le
-résultat d'une tentative d'attaque sur le site. Si vous pensez que c'est le cas, merci de contacter
-son administrateur.
-
-L'adresse distante était : :ip.
-EOT
-			),
-
-			'success' => "Un message pour vous aider à vous connecter a été envoyé à l'adresse %email."
-		)
-	),
-
-
 	#
 	# login
 	#
@@ -159,14 +123,5 @@ EOT
 
 	# operation/activate
 
-	"!name account is active." => "Le compte de !name est actif.",
-
-	# operation/nonce_login_request
-
-	"Invalid email address: %email." => "Adresse e-mail invalide : %email.",
-	"Unknown email address." => "Adresse e-mail inconnue.",
-
-	# operation/nonce_login
-
-	"You are now logged in, please enter your password." => "Vous êtes maintenant connecté, saisissez votre mot de passe."
+	"!name account is active." => "Le compte de !name est actif."
 );

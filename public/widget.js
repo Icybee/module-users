@@ -23,16 +23,6 @@ Brickrouge.Widget.Login = new Class({
 	}
 })
 
-Brickrouge.Widget.NonceRequest = new Class({
-
-	Extends: Brickrouge.Form,
-
-	options: {
-
-		useXHR: true
-	}
-})
-
 Brickrouge.Widget.LoginCombo = new Class({
 
 	initialize: function(el, options)

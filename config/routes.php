@@ -37,23 +37,5 @@ return array
 		'title' => 'Connection',
 		'block' => 'connect',
 		'visibility' => 'auto'
-	),
-
-	'api:nonce-login-request' => array
-	(
-		'pattern' => '/api/nonce-login-request',
-		'controller' => 'Icybee\Modules\Users\NonceLoginRequestOperation'
-	),
-
-	'api:inline-nonce-login-request' => array
-	(
-		'pattern' => '/api/nonce-login-request/:email',
-		'controller' => 'Icybee\Modules\Users\NonceLoginRequestOperation'
-	),
-
-	'api:nonce-login' => array
-	(
-		'pattern' => '/api/nonce-login/:email/:token',
-		'controller' => 'Icybee\Modules\Users\NonceLoginOperation'
 	)
 );

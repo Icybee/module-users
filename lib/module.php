@@ -54,18 +54,6 @@ Cordialement'
 		)
 	);
 
-	protected function get_views()
-	{
-		return array
-		(
-			'nonce_login_request' => array
-			(
-				View::TITLE => 'Nonce login request',
-				View::RENDERS => View::RENDERS_OTHER
-			)
-		);
-	}
-
 	protected function resolve_primary_model_tags($tags)
 	{
 		return parent::resolve_model_tags($tags, 'primary') + array
@@ -99,8 +87,7 @@ Cordialement'
 	 * Override the method to create the "user" config.
 	 *
 	 * The "user" config is stored at "<DOCUMENT_ROOT>/protected/all/config/user.php" and contains
-	 * the randomly generated salts used to encrypt users' password, the unlock login tokens and
-	 * the nonce login tokens.
+	 * the randomly generated salts used to encrypt users' password and the unlock login token.
 	 *
 	 * The "user" config file must be writtable.
 	 *
@@ -121,7 +108,6 @@ Cordialement'
 
 			$password_salt = \ICanBoogie\generate_token(64, \ICanBoogie\TOKEN_WIDE);
 			$unlock_login_salt = \ICanBoogie\generate_token(64, \ICanBoogie\TOKEN_WIDE);
-			$nonce_login_salt = \ICanBoogie\generate_token(64, \ICanBoogie\TOKEN_WIDE);
 
 			$config = <<<EOT
 <?php
@@ -129,8 +115,7 @@ Cordialement'
 return array
 (
 	'password_salt' => '$password_salt',
-	'unlock_login_salt' => '$unlock_login_salt',
-	'nonce_login_salt' => '$nonce_login_salt'
+	'unlock_login_salt' => '$unlock_login_salt'
 );
 EOT;
 
