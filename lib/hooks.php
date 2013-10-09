@@ -66,7 +66,7 @@ class Hooks
 
 		$request = $event->request;
 
-		if ($request->context->dispatcher instanceof \ICanBoogie\OperationDispatcher || $request->is_xhr)
+		if ($request->context->dispatcher instanceof \ICanBoogie\Operation\Dispatcher && $request->is_xhr)
 		{
 			return;
 		}
