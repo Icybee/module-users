@@ -31,7 +31,7 @@ body.page-slug-authenticate #contents {
 	box-sizing: border-box;
 }
 
-.widget-login-combo button {
+.widget-login-combo .btn {
 	font-size: .9em;
 	border-width: 2px;
 	border-radius: 6px;
@@ -49,7 +49,7 @@ body.page-slug-authenticate #contents {
 	margin-top: 1em;
 }
 
-.widget-login-combo div.alert {
+.widget-login-combo .alert {
 	font-size: 1rem;
 }
 
