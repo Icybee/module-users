@@ -88,7 +88,6 @@ Brickrouge.Widget.LoginCombo = new Class({
 		login.get('widget').addEvent('failure', shake)
 		nonce.get('widget').addEvent('success', function(response) {
 
-			this.alert(response.message, 'success')
 			this.element.reset()
 
 			nonceOut.delay(6000)
