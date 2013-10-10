@@ -27,28 +27,77 @@ Brickrouge.Widget.LoginCombo = new Class({
 
 	initialize: function(el, options)
 	{
-		this.element = el = document.id(el)
-
 		var forms = el.getElements('form')
 		, login = forms[0]
 		, nonce = forms[1]
-		, loginSlide = new Fx.Slide(login, { duration: 'short', wrapper: login.getParent(), resetHeight: true })
-		, nonceSlide = new Fx.Slide(nonce, { duration: 'short', wrapper: nonce.getParent(), resetHeight: true })
 		, shake
+
+		function zoomTransition(el, transition, to) {
+
+			var scale = transition.scale[0] + (transition.scale[1] - transition.scale[0]) * to
+			, opacity = transition.opacity[0] + (transition.opacity[1] - transition.opacity[0]) * to
+
+			el.setStyles({
+
+				transform: 'scale(' + scale + ')',
+				'-moz-transform': 'scale(' + scale + ')',
+				'-webkit-transform': 'scale(' + scale + ')',
+				opacity: opacity,
+				visibility: opacity ? 'visible' : 'hidden'
+
+			})
+		}
+
+		function zoomOut(el) {
+
+			var fx = new Fx(el)
+			, transition = {
+
+				scale: [1, .5],
+				opacity: [1, 0]
+
+			}
+
+			fx.set = function(to) {
+
+				zoomTransition(el, transition, to)
+
+			}
+
+			fx.start(0, 1)
+		}
+
+		function zoomIn(el) {
+
+			var fx = new Fx(el)
+			, transition = {
+
+				scale: [1.5, 1],
+				opacity: [0, 1]
+
+			}
+
+			fx.set = function(to) {
+
+				zoomTransition(el, transition, to)
+
+			}
+
+			fx.start(0, 1)
+		}
 
 		function nonceIn()
 		{
 			nonce.get('widget').clearAlert()
-			loginSlide.slideOut().chain(nonceSlide.slideIn.bind(nonceSlide))
 
-			return nonceSlide;
+			zoomOut(login)
+			zoomIn(nonce)
 		}
 
 		function nonceOut()
 		{
-			nonceSlide.slideOut().chain(loginSlide.slideIn.bind(loginSlide))
-
-			return loginSlide
+			zoomOut(nonce)
+			zoomIn(login)
 		}
 
 		login.getElement('a').addEvent('click', function(ev) {

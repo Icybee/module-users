@@ -23,3 +23,23 @@
 body.page-slug-authenticate .widget-login-combo .form-actions {
 	text-align: center;	
 }
+
+/**/
+
+.widget-login-combo {
+	position: relative;
+}
+
+.widget-nonce-request {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	visibility: hidden;
+}
+
+.zoomOut {
+	transform: scale(.5);
+	transition: all 1s linear;
+	opacity: 0;
+}

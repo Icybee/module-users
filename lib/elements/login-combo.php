@@ -47,8 +47,8 @@ class LoginComboElement extends Element
 	protected function render_inner_html()
 	{
 		return parent::render_inner_html() . <<<EOT
-<div class="wrapper">{$this->elements['login']}</div>
-<div class="wrapper" style="height: 0">{$this->elements['password']}</div>
+{$this->elements['login']}
+{$this->elements['password']}
 EOT;
 	}
 }
