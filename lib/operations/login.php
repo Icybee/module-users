@@ -83,7 +83,7 @@ class LoginOperation extends \ICanBoogie\Operation
 			$user->metas['login_unlock_time'] = null;
 		}
 
-		if (!$user->compare_password($password))
+		if (!$user->verify_password($password))
 		{
 			$errors[User::PASSWORD] = new FormattedString('Unknown username/password combination.');
 

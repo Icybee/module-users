@@ -193,7 +193,7 @@ class UserTest extends \PHPUnit_Framework_TestCase
 		$user->email = "example@example.com";
 		$user->password = 'P4SSW0RD';
 
-		$this->assertTrue($user->compare_password('P4SSW0RD'));
+		$this->assertTrue($user->verify_password('P4SSW0RD'));
 	}
 
 	public function test_css_class()

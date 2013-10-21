@@ -525,7 +525,7 @@ class User extends \ICanBoogie\ActiveRecord implements \Brickrouge\CSSClassNames
 	 * @return bool `true` if the hashed password matches the user's password hash,
 	 * `false` otherwise.
 	 */
-	public function compare_password($password)
+	public function verify_password($password)
 	{
 		return \password_verify($password, $this->password_hash);
 	}
