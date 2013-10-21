@@ -45,20 +45,7 @@ class UnlockLoginOperation extends \ICanBoogie\Operation
 			throw new \Exception('Unknown user');
 		}
 
-		$config = $core->configs['user'];
-
-		if (!$config || empty($config['unlock_login_salt']))
-		{
-			throw new \Exception(\ICanBoogie\format
-			(
-				'<em>unlock_login_salt</em> is empty in the <em>user</em> config, here is one generated randomly: %salt', array
-				(
-					'%salt' => \ICanBoogie\generate_token(64, \ICanBoogie\TOKEN_WIDE)
-				)
-			));
-		}
-
-		if ($user->metas['login_unlock_token'] != base64_encode(\ICanBoogie\pbkdf2($token, $config['unlock_login_salt'])))
+		if ($user->metas['login_unlock_token'] != $token)
 		{
 			throw new \Exception('Invalid token.');
 		}

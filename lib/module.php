@@ -107,15 +107,13 @@ Cordialement'
 			}
 
 			$password_salt = \ICanBoogie\generate_token(64, \ICanBoogie\TOKEN_WIDE);
-			$unlock_login_salt = \ICanBoogie\generate_token(64, \ICanBoogie\TOKEN_WIDE);
 
 			$config = <<<EOT
 <?php
 
 return array
 (
-	'password_salt' => '$password_salt',
-	'unlock_login_salt' => '$unlock_login_salt'
+	'password_salt' => '$password_salt' 
 );
 EOT;
 

@@ -92,22 +92,9 @@ class LoginOperation extends \ICanBoogie\Operation
 
 			if ($user->metas['failed_login_count'] > 10)
 			{
-				$config = $core->configs['user'];
+				$token = \ICanBoogie\generate_token(40, \ICanBoogie\TOKEN_ALPHA . \ICanBoogie\TOKEN_NUMERIC);
 
-				if (!$config || empty($config['unlock_login_salt']))
-				{
-					throw new Exception
-					(
-						'<q>unlock_login_salt</q> is empty in the <q>user</q> config, here is one generated randomly: %salt', array
-						(
-							'%salt' => \ICanBoogie\generate_token(64, \ICanBoogie\TOKEN_WIDE)
-						)
-					);
-				}
-
-				$token = base64_encode(\ICanBoogie\generate_token(32, \ICanBoogie\TOKEN_WIDE));
-
-				$user->metas['login_unlock_token'] = base64_encode(\ICanBoogie\pbkdf2($token, $config['unlock_login_salt']));
+				$user->metas['login_unlock_token'] = $token;
 				$user->metas['login_unlock_time'] = $now + 3600;
 
 				$until = I18n\format_date($now + 3600, 'HH:mm');
