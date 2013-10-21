@@ -25,8 +25,7 @@ $core = (object) array
 	(
 		'user' => array
 		(
-			'password_salt' => sha1('Sufjan Stevens'),
-			'unlock_login_salt' => sha1('Cat Power')
+			'password_salt' => sha1('Sufjan Stevens')
 		)
 	)
 );
