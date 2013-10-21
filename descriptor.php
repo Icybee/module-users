@@ -20,7 +20,7 @@ return array
 					'uid' => 'serial',
 					'constructor' => array('varchar', 64, 'indexed' => true),
 					'email' => array('varchar', 64, 'unique' => true),
-					'password_hash' => array('char', 40),
+					'password_hash' => array('varchar', 255),
 					'username' => array('varchar', 32, 'unique' => true),
 					'firstname' => array('varchar', 32),
 					'lastname' => array('varchar', 32),

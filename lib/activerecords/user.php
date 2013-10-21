@@ -133,7 +133,11 @@ class User extends \ICanBoogie\ActiveRecord implements \Brickrouge\CSSClassNames
 	protected function volatile_set_password($password)
 	{
 		$this->password = $password;
-		$this->password_hash = $this->hash_password($password);
+
+		if ($password)
+		{
+			$this->password_hash = $this->hash_password($password);
+		}
 	}
 
 	/**
@@ -506,34 +510,15 @@ class User extends \ICanBoogie\ActiveRecord implements \Brickrouge\CSSClassNames
 	 *
 	 * @param string $password
 	 *
-	 * @throws Exception If the `password_salt` key is empty in the "user" configuration.
-	 *
 	 * @return string
 	 */
 	static public function hash_password($password)
 	{
-		global $core;
-
-		$config = $core->configs['user'];
-
-		if (!$config || empty($config['password_salt']))
-		{
-			throw new \Exception
-			(
-				new FormattedString('<q>password_salt</q> is empty in the <q>user</q> config, here is one generated randomly: %salt', array
-				(
-					'%salt' => \ICanBoogie\generate_token_wide()
-				))
-			);
-		}
-
-		return sha1(\ICanBoogie\pbkdf2($password, $config['password_salt']));
+		return \password_hash($password, \PASSWORD_BCRYPT);
 	}
 
 	/**
 	 * Compares a password to the user's password hash.
-	 *
-	 * The specified password is hashed with the {@link hash_password} method.
 	 *
 	 * @param string $password
 	 *
@@ -542,7 +527,7 @@ class User extends \ICanBoogie\ActiveRecord implements \Brickrouge\CSSClassNames
 	 */
 	public function compare_password($password)
 	{
-		return self::hash_password($password) === $this->password_hash;
+		return \password_verify($password, $this->password_hash);
 	}
 
 	/**
