@@ -62,67 +62,6 @@ Cordialement'
 		);
 	}
 
-	/**
-	 * Override the method to check if the "user" config is correctly created.
-	 *
-	 * @see ICanBoogie.Module::is_installed()
-	 */
-	public function is_installed(\ICanBoogie\Errors $errors)
-	{
-		global $core;
-
-		$config = $core->configs['user'];
-
-		if (!$config)
-		{
-			$errors[$this->id] = new FormattedString('The <q>user</q> config is missing.');
-
-			return false;
-		}
-
-		return parent::is_installed($errors);
-	}
-
-	/**
-	 * Override the method to create the "user" config.
-	 *
-	 * The "user" config is stored at "<DOCUMENT_ROOT>/protected/all/config/user.php" and contains
-	 * the randomly generated salts used to encrypt users' password and the unlock login token.
-	 *
-	 * The "user" config file must be writtable.
-	 *
-	 * @see ICanBoogie.Module::install()
-	 */
-	public function install(\ICanBoogie\Errors $errors)
-	{
-		$path = \ICanBoogie\DOCUMENT_ROOT . 'protected/all/config/user.php';
-
-		if (!file_exists($path))
-		{
-			if (!is_writable(dirname($path)))
-			{
-				$errors[$this->id] = new FormattedString('The file %path must be writable during installation', array('%path' => $path));
-
-				return false;
-			}
-
-			$password_salt = \ICanBoogie\generate_token(64, \ICanBoogie\TOKEN_WIDE);
-
-			$config = <<<EOT
-<?php
-
-return array
-(
-	'password_salt' => '$password_salt' 
-);
-EOT;
-
-			file_put_contents($path, $config);
-		}
-
-		return parent::install($errors);
-	}
-
 	protected function block_connect()
 	{
 		global $core;
