@@ -91,7 +91,7 @@ class EditBlock extends \Icybee\EditBlock
 		# languages
 		#
 
-		$languages = $core->locale->conventions['localeDisplayNames']['languages'];
+		$languages = $core->locale['languages'];
 
 		uasort($languages, 'ICanBoogie\unaccent_compare_ci');
 
