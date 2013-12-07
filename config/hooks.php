@@ -17,8 +17,8 @@ return array
 
 	'prototypes' => array
 	(
-		'ICanBoogie\Core::get_user' => $hooks . 'get_user',
-		'ICanBoogie\Core::get_user_id' => $hooks . 'get_user_id'
+		'ICanBoogie\Core::lazy_get_user' => $hooks . 'get_user',
+		'ICanBoogie\Core::lazy_get_user_id' => $hooks . 'get_user_id'
 	),
 
 	'patron.markups' => array

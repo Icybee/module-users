@@ -125,12 +125,12 @@ class User extends \ICanBoogie\ActiveRecord implements \Brickrouge\CSSClassNames
 	 */
 	protected $password;
 
-	protected function volatile_get_password()
+	protected function get_password()
 	{
 		return $this->password;
 	}
 
-	protected function volatile_set_password($password)
+	protected function set_password($password)
 	{
 		$this->password = $password;
 
@@ -206,7 +206,7 @@ class User extends \ICanBoogie\ActiveRecord implements \Brickrouge\CSSClassNames
 	 *
 	 * @return \ICanBoogie\DateTime
 	 */
-	protected function volatile_get_logged_at()
+	protected function get_logged_at()
 	{
 		$logged_at = $this->logged_at;
 
@@ -223,7 +223,7 @@ class User extends \ICanBoogie\ActiveRecord implements \Brickrouge\CSSClassNames
 	 *
 	 * @param mixed $value
 	 */
-	protected function volatile_set_logged_at($value)
+	protected function set_logged_at($value)
 	{
 		$this->logged_at = $value;
 	}
@@ -286,7 +286,7 @@ class User extends \ICanBoogie\ActiveRecord implements \Brickrouge\CSSClassNames
 	{
 		$array = parent::to_array() + array
 		(
-			'logged_at' => $this->volatile_get_logged_at()
+			'logged_at' => $this->get_logged_at() // TODO-20131207: unecessary with newer version of Prototype
 		);
 
 		if ($this->password)
@@ -308,7 +308,7 @@ class User extends \ICanBoogie\ActiveRecord implements \Brickrouge\CSSClassNames
 	 *
 	 * @return string
 	 */
-	protected function volatile_get_name()
+	protected function get_name()
 	{
 		$values = array
 		(
@@ -337,7 +337,7 @@ class User extends \ICanBoogie\ActiveRecord implements \Brickrouge\CSSClassNames
 	 *
 	 * @return \Icybee\Modules\Users\Users\Role
 	 */
-	protected function get_role()
+	protected function lazy_get_role()
 	{
 		global $core;
 
@@ -372,7 +372,7 @@ class User extends \ICanBoogie\ActiveRecord implements \Brickrouge\CSSClassNames
 	 *
 	 * @return array
 	 */
-	protected function get_roles()
+	protected function lazy_get_roles()
 	{
 		global $core;
 
@@ -414,7 +414,7 @@ class User extends \ICanBoogie\ActiveRecord implements \Brickrouge\CSSClassNames
 	 *
 	 * @return boolean `true` if the user is the admin user, `false` otherwise.
 	 */
-	protected function volatile_get_is_admin()
+	protected function get_is_admin()
 	{
 		return $this->uid == 1;
 	}
@@ -426,7 +426,7 @@ class User extends \ICanBoogie\ActiveRecord implements \Brickrouge\CSSClassNames
 	 *
 	 * @return boolean `true` if the user is a guest user, `false` otherwise.
 	 */
-	protected function volatile_get_is_guest()
+	protected function get_is_guest()
 	{
 		return !$this->uid;
 	}
@@ -438,7 +438,7 @@ class User extends \ICanBoogie\ActiveRecord implements \Brickrouge\CSSClassNames
 	 *
 	 * @return array The array is empty if the user has no site restriction.
 	 */
-	protected function get_restricted_sites_ids()
+	protected function lazy_get_restricted_sites_ids()
 	{
 		global $core;
 
@@ -602,7 +602,7 @@ class User extends \ICanBoogie\ActiveRecord implements \Brickrouge\CSSClassNames
 	 *
 	 * @return string
 	 */
-	protected function get_css_class()
+	protected function lazy_get_css_class()
 	{
 		return $this->css_class();
 	}
@@ -612,7 +612,7 @@ class User extends \ICanBoogie\ActiveRecord implements \Brickrouge\CSSClassNames
 	 *
 	 * @return array[string]mixed
 	 */
-	protected function get_css_class_names()
+	protected function lazy_get_css_class_names()
 	{
 		return array
 		(

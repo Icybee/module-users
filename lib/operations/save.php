@@ -18,11 +18,11 @@ use ICanBoogie\I18n\FormattedString;
  */
 class SaveOperation extends \Icybee\Operation\Constructor\Save
 {
-	protected function get_properties()
+	protected function lazy_get_properties()
 	{
 		global $core;
 
-		$properties = parent::get_properties();
+		$properties = parent::lazy_get_properties();
 		$request = $this->request;
 
 		if ($request[User::PASSWORD])

@@ -35,7 +35,7 @@ class LoginOperation extends \ICanBoogie\Operation
 	/**
 	 * Returns the "connect" form of the target module.
 	 */
-	protected function get_form()
+	protected function lazy_get_form()
 	{
 		return new LoginForm();
 	}

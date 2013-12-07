@@ -25,7 +25,7 @@ class LogoutOperation extends \ICanBoogie\Operation
 	 *
 	 * The current user is returned.
 	 */
-	protected function get_record()
+	protected function lazy_get_record()
 	{
 		global $core;
 

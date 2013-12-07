@@ -20,7 +20,7 @@
 	"require": {
 		"php": ">=5.3",
 		"icanboogie/module-installer": "*",
-		"icanboogie/activerecord": "*",
+		"icanboogie/activerecord": "2.x",
 		"icanboogie/event": "*",
 		"brickrouge/css-class-names": "*",
 		"ircmaxell/password-compat": "dev-master#3eabd819bf9e1eb6cdfa0c52c252823c2d0e1a6a"

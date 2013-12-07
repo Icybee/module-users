@@ -20,7 +20,7 @@ namespace Icybee\Modules\Users;
  */
 class UnlockLoginOperation extends \ICanBoogie\Operation
 {
-	protected function get_record()
+	protected function lazy_get_record()
 	{
 		$username = $this->request['username'];
 
