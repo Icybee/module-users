@@ -26,6 +26,7 @@ use ICanBoogie\I18n\FormattedString;
  * @property-read \Icybee\Modules\Users\Users\Role $role
  *
  * @property \DateTime|mixed $logged_at The date at which the user logged.
+ * @property-read string $password_hash The password hash.
  */
 class User extends \ICanBoogie\ActiveRecord implements \Brickrouge\CSSClassNames
 {
@@ -149,6 +150,16 @@ class User extends \ICanBoogie\ActiveRecord implements \Brickrouge\CSSClassNames
 	 * @var string
 	 */
 	protected $password_hash;
+
+	/**
+	 * Returns the password hash.
+	 *
+	 * @return string
+	 */
+	protected function get_password_hash()
+	{
+		return $this->password_hash;
+	}
 
 	/**
 	 * Username of the user.
@@ -527,7 +538,23 @@ class User extends \ICanBoogie\ActiveRecord implements \Brickrouge\CSSClassNames
 	 */
 	public function verify_password($password)
 	{
-		return \password_verify($password, $this->password_hash);
+		if (\password_verify($password, $this->password_hash))
+		{
+			return true;
+		}
+
+		#
+		# Trying old hashing
+		#
+
+		$config = \ICanBoogie\Core::get()->configs['user'];
+
+		if (empty($config['password_salt']))
+		{
+			return false;
+		}
+
+		return sha1(\ICanBoogie\pbkdf2($password, $config['password_salt'])) == $this->password_hash;
 	}
 
 	/**

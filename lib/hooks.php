@@ -26,6 +26,7 @@ use ICanBoogie\Session;
 
 use Icybee\AdminDecorator;
 use Icybee\DocumentDecorator;
+use ICanBoogie\Operation\ProcessEvent;
 
 class Hooks
 {
@@ -177,6 +178,23 @@ class Hooks
 		}
 
 		throw new WebsiteAdminNotAccessible();
+	}
+
+	/**
+	 * Adds an info alert informing the user that the security was improved and he could benefit
+	 * from it by entering its password again.
+	 *
+	 * @param ProcessEvent $event
+	 * @param LoginOperation $target
+	 */
+	static public function on_login(ProcessEvent $event, LoginOperation $target)
+	{
+		$user = $target->record;
+
+		if ($user->password_hash && $user->password_hash[0] != '$')
+		{
+			\ICanBoogie\log_info('users.login.updated_security', array('!url' => $user->url('profile')));
+		}
 	}
 
 	/*

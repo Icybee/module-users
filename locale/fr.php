@@ -101,6 +101,7 @@ return array
 	'My profile' => 'Mon profil',
 	'User profile' => 'Profil utilisateur',
 	"Password and password verify don't match." => "Le mot de passe et sa vérification ne correspondent pas.",
+	'users.login.updated_security' => "La sécurité des comptes utilisateur a été renforcée, <a href=\"!url\">mettez à jour votre mot de passe</a> pour en bénéficier.",
 
 	#
 	# resume

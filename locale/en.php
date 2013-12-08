@@ -93,5 +93,7 @@ return array
 		'connection' => 'Connection'
 	),
 
-	'module_title.users' => 'Users'
+	'module_title.users' => 'Users',
+
+	'users.login.updated_security' => "The safety of user accounts has been strengthened, <a href=\"!url\">update your password</a> to benefit from it."
 );
