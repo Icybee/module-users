@@ -24,7 +24,7 @@ return array
 
 	'users.manage.column' => array
 	(
-		'created' => 'Date created',
+		'created_at' => 'Date created',
 		'email' => 'E-mail',
 		'logged_at' => 'Date logged',
 		'roles' => 'Roles',

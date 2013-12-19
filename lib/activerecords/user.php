@@ -38,7 +38,7 @@ class User extends \ICanBoogie\ActiveRecord implements \Brickrouge\CSSClassNames
 	const FIRSTNAME = 'firstname';
 	const LASTNAME = 'lastname';
 	const NICKNAME = 'nickname';
-	const CREATED = 'created';
+	const CREATED_AT = 'created_at';
 	const LOGGED_AT = 'logged_at';
 	const CONSTRUCTOR = 'constructor';
 	const LANGUAGE = 'language';
@@ -199,11 +199,38 @@ class User extends \ICanBoogie\ActiveRecord implements \Brickrouge\CSSClassNames
 	public $name_as = self::NAME_AS_USERNAME;
 
 	/**
-	 * The date the user record was created.
+	 * The date and time at which the user was created.
 	 *
 	 * @var string
 	 */
-	public $created;
+	private $created_at;
+
+	/**
+	 * Returns the date and time at which the used was created.
+	 *
+	 * @return \ICanBoogie\DateTime
+	 */
+	protected function get_created_at()
+	{
+		$datetime = $this->created_at;
+
+		if ($datetime instanceof DateTime)
+		{
+			return $datetime;
+		}
+
+		return $this->created_at = $datetime === null ? DateTime::none() : new DateTime($datetime, 'utc');
+	}
+
+	/**
+	 * Sets the date and time at which the used was created.
+	 *
+	 * @param mixed $value
+	 */
+	protected function set_created_at($value)
+	{
+		$this->created_at = $value;
+	}
 
 	/**
 	 * The date at which the user logged.
@@ -219,14 +246,14 @@ class User extends \ICanBoogie\ActiveRecord implements \Brickrouge\CSSClassNames
 	 */
 	protected function get_logged_at()
 	{
-		$logged_at = $this->logged_at;
+		$datetime = $this->logged_at;
 
-		if ($logged_at instanceof DateTime)
+		if ($datetime instanceof DateTime)
 		{
-			return $logged_at;
+			return $datetime;
 		}
 
-		return $this->logged_at = $logged_at === null ? DateTime::none() : new DateTime($logged_at, 'utc');
+		return $this->logged_at = $datetime === null ? DateTime::none() : new DateTime($datetime, 'utc');
 	}
 
 	/**

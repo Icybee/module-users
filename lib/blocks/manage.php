@@ -30,8 +30,8 @@ class ManageBlock extends \Icybee\ManageBlock
 		(
 			$module, $attributes + array
 			(
-				self::T_COLUMNS_ORDER => array(User::USERNAME, User::IS_ACTIVATED, User::EMAIL, 'roles', User::CREATED, User::LOGGED_AT),
-				self::T_ORDER_BY => array('created', 'desc')
+				self::T_COLUMNS_ORDER => array(User::USERNAME, User::IS_ACTIVATED, User::EMAIL, 'roles', User::CREATED_AT, User::LOGGED_AT),
+				self::T_ORDER_BY => array('created_at', 'desc')
 			)
 		);
 	}
@@ -42,7 +42,7 @@ class ManageBlock extends \Icybee\ManageBlock
 	 * - `username`: An instance of {@link ManageBlock\UsernameColumn}.
 	 * - `email`: An instance of {@link ManageBlock\EmailColumn}.
 	 * - `roles`: An instance of {@link ManageBlock\RolesColumn}.
-	 * - `created`: An instance of {@link \Icybee\ManageBlock\DateTimeColumn}.
+	 * - `created_at`: An instance of {@link \Icybee\ManageBlock\DateTimeColumn}.
 	 * - `logged_at`: An instance of {@link ManageBlock\LoggedAtColumn}.
 	 * - `is_activated`: An instance of {@link ManageBlock\IsActivatedColumn}.
 	 */
@@ -53,7 +53,7 @@ class ManageBlock extends \Icybee\ManageBlock
 			User::USERNAME => __CLASS__ . '\UsernameColumn',
 			User::EMAIL => __CLASS__ . '\EmailColumn',
 			'roles' => __CLASS__ . '\RolesColumn',
-			User::CREATED => 'Icybee\ManageBlock\DateTimeColumn',
+			User::CREATED_AT => 'Icybee\ManageBlock\DateTimeColumn',
 			User::LOGGED_AT => __CLASS__ . '\LoggedAtColumn',
 			User::IS_ACTIVATED => __CLASS__ . '\IsActivatedColumn'
 		));

@@ -29,7 +29,7 @@ return array
 					'language' => array('varchar', 8),
 					'timezone' => array('varchar', 32),
 					'logged_at' => 'datetime',
-					'created' => array('timestamp', 'default' => 'CURRENT_TIMESTAMP'),
+					'created_at' => array('timestamp', 'default' => 'CURRENT_TIMESTAMP'),
 					'is_activated' => array('boolean', 'indexed' => true)
 				)
 			)

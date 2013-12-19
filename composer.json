@@ -25,6 +25,9 @@
 		"brickrouge/css-class-names": "*",
 		"ircmaxell/password-compat": "dev-master#3eabd819bf9e1eb6cdfa0c52c252823c2d0e1a6a"
 	},
+	"require-dev": {
+		"icanboogie/operation": "2.x"
+	},
 	"repositories": [
 		{
 			"type": "vcs",

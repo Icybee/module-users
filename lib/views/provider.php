@@ -111,7 +111,7 @@ class ViewProvider extends \Icybee\Modules\Views\ActiveRecordProvider
 			$query->filter_by_is_activated(true);
 		}
 
-		return parent::alter_query($query, $conditions)->order('created DESC');
+		return parent::alter_query($query, $conditions)->order('created_at DESC');
 	}
 
 	/**
