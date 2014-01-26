@@ -191,7 +191,7 @@ class Hooks
 	{
 		$user = $target->record;
 
-		if ($user->password_hash && $user->password_hash[0] != '$')
+		if ($user-->has_legacy_password_hash)
 		{
 			\ICanBoogie\log_info('users.login.updated_security', array('!url' => $user->url('profile')));
 		}

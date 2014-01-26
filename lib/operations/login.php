@@ -17,6 +17,9 @@ use ICanBoogie\I18n\Translator\Proxi;
 use ICanBoogie\Exception;
 use ICanBoogie\Mailer;
 
+/**
+ * @property-read User $record The logged user.
+ */
 class LoginOperation extends \ICanBoogie\Operation
 {
 	/**

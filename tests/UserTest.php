@@ -203,6 +203,22 @@ class UserTest extends \PHPUnit_Framework_TestCase
 		$user->password_hash = null;
 	}
 
+	public function test_get_has_legacy_password_hash()
+	{
+		$this->assertNull(User::from()->has_legacy_password_hash);
+		$this->assertTrue(User::from([ 'password_hash' => sha1('password') ])->has_legacy_password_hash);
+		$this->assertFalse(User::from([ 'password_hash' => User::hash_password('password') ])->has_legacy_password_hash);
+	}
+
+	/**
+	 * @expectedException ICanBoogie\PropertyNotWritable
+	 */
+	public function test_set_has_legacy_password_hash()
+	{
+		$user = new User;
+		$user->has_legacy_password_hash = null;
+	}
+
 	public function testPasswordMustBeExported()
 	{
 		$user = new User;

@@ -27,6 +27,8 @@ use ICanBoogie\I18n\FormattedString;
  *
  * @property \DateTime|mixed $logged_at The date at which the user logged.
  * @property-read string $password_hash The password hash.
+ * @property-read bool|null $has_legacy_password_hash Whether the password hash is a legacy hash.
+ * {@link User::get_has_legacy_password_hash()}.
  */
 class User extends \ICanBoogie\ActiveRecord implements \Brickrouge\CSSClassNames
 {
@@ -154,13 +156,21 @@ class User extends \ICanBoogie\ActiveRecord implements \Brickrouge\CSSClassNames
 	protected $password_hash;
 
 	/**
-	 * Returns the password hash.
+	 * Checks if the password hash is a legacy hash, and not a hash created by
+	 * the {@link \password_hash()} function.
 	 *
-	 * @return string
+	 * @return bool|null `true` if the password hash is a legacy hash, `false` if the password
+	 * hash was created by the {@link \password_hash()} function, and `null` if the passsword hash
+	 * is empty.
 	 */
-	protected function get_password_hash()
+	protected function get_has_legacy_password_hash()
 	{
-		return $this->password_hash;
+		if (!$this->password_hash)
+		{
+			return;
+		}
+
+		return $this->password_hash[0] != '$';
 	}
 
 	/**
