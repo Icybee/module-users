@@ -18,11 +18,11 @@
 	},
 	"minimum-stability": "dev",
 	"require": {
-		"php": ">=5.3",
+		"php": ">=5.4",
 		"icanboogie/module-installer": "*",
 		"icanboogie/activerecord": "2.x",
 		"icanboogie/event": "*",
-		"brickrouge/css-class-names": "*",
+		"brickrouge/css-class-names": "2.x",
 		"ircmaxell/password-compat": "dev-master#3eabd819bf9e1eb6cdfa0c52c252823c2d0e1a6a"
 	},
 	"require-dev": {

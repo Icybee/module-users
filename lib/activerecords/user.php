@@ -30,6 +30,8 @@ use ICanBoogie\I18n\FormattedString;
  */
 class User extends \ICanBoogie\ActiveRecord implements \Brickrouge\CSSClassNames
 {
+	use \Brickrouge\CSSClassNamesProperty;
+
 	const UID = 'uid';
 	const EMAIL = 'email';
 	const PASSWORD = 'password';
@@ -652,21 +654,11 @@ class User extends \ICanBoogie\ActiveRecord implements \Brickrouge\CSSClassNames
 	}
 
 	/**
-	 * Returns the CSS class of the node.
-	 *
-	 * @return string
-	 */
-	protected function lazy_get_css_class()
-	{
-		return $this->css_class();
-	}
-
-	/**
 	 * Returns the CSS class names of the node.
 	 *
 	 * @return array[string]mixed
 	 */
-	protected function lazy_get_css_class_names()
+	protected function get_css_class_names()
 	{
 		return array
 		(
@@ -678,17 +670,5 @@ class User extends \ICanBoogie\ActiveRecord implements \Brickrouge\CSSClassNames
 			'is-guest' => $this->is_guest,
 			'is-logged' => !$this->is_guest
 		);
-	}
-
-	/**
-	 * Return the CSS class of the node.
-	 *
-	 * @param string|array $modifiers CSS class names modifiers
-	 *
-	 * @return string
-	 */
-	public function css_class($modifiers=null)
-	{
-		return \Brickrouge\render_css_class($this->css_class_names, $modifiers);
 	}
 }

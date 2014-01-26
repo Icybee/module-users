@@ -77,5 +77,5 @@ return array
 	),
 
 	Module::T_TITLE => 'Users',
-	Module::T_VERSION => '1.0'
+	Module::T_VERSION => '2.0-dev'
 );
