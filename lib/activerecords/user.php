@@ -11,11 +11,12 @@
 
 namespace Icybee\Modules\Users;
 
+use ICanBoogie\ActiveRecord\CreatedAtProperty;
+use ICanBoogie\ActiveRecord\DateTimePropertySupport;
 use ICanBoogie\ActiveRecord\RecordNotFound;
 use ICanBoogie\DateTime;
 
 use Icybee\Modules\Users\Roles\Role;
-use ICanBoogie\I18n\FormattedString;
 
 /**
  * A user.
@@ -25,10 +26,11 @@ use ICanBoogie\I18n\FormattedString;
  * @property-read boolean $is_guest true if the user is a guest, false otherwise.
  * @property-read \Icybee\Modules\Users\Users\Role $role
  *
- * @property \DateTime|mixed $logged_at The date at which the user logged.
  * @property-read string $password_hash The password hash.
  * @property-read bool|null $has_legacy_password_hash Whether the password hash is a legacy hash.
  * {@link User::get_has_legacy_password_hash()}.
+ *
+ * @property \ICanBoogie\DateTime $logged_at The date and time at which the user was logged.
  */
 class User extends \ICanBoogie\ActiveRecord implements \Brickrouge\CSSClassNames
 {
@@ -210,73 +212,8 @@ class User extends \ICanBoogie\ActiveRecord implements \Brickrouge\CSSClassNames
 	 */
 	public $name_as = self::NAME_AS_USERNAME;
 
-	/**
-	 * The date and time at which the user was created.
-	 *
-	 * @var string
-	 */
-	private $created_at;
-
-	/**
-	 * Returns the date and time at which the used was created.
-	 *
-	 * @return \ICanBoogie\DateTime
-	 */
-	protected function get_created_at()
-	{
-		$datetime = $this->created_at;
-
-		if ($datetime instanceof DateTime)
-		{
-			return $datetime;
-		}
-
-		return $this->created_at = $datetime === null ? DateTime::none() : new DateTime($datetime, 'utc');
-	}
-
-	/**
-	 * Sets the date and time at which the used was created.
-	 *
-	 * @param mixed $value
-	 */
-	protected function set_created_at($value)
-	{
-		$this->created_at = $value;
-	}
-
-	/**
-	 * The date at which the user logged.
-	 *
-	 * @var mixed
-	 */
-	private $logged_at;
-
-	/**
-	 * Returns the login date.
-	 *
-	 * @return \ICanBoogie\DateTime
-	 */
-	protected function get_logged_at()
-	{
-		$datetime = $this->logged_at;
-
-		if ($datetime instanceof DateTime)
-		{
-			return $datetime;
-		}
-
-		return $this->logged_at = $datetime === null ? DateTime::none() : new DateTime($datetime, 'utc');
-	}
-
-	/**
-	 * Sets the {@link $logged_at} property.
-	 *
-	 * @param mixed $value
-	 */
-	protected function set_logged_at($value)
-	{
-		$this->logged_at = $value;
-	}
+	use CreatedAtProperty;
+	use LoggedAtProperty;
 
 	/**
 	 * Prefered language of the user.
@@ -334,10 +271,7 @@ class User extends \ICanBoogie\ActiveRecord implements \Brickrouge\CSSClassNames
 	 */
 	public function to_array()
 	{
-		$array = parent::to_array() + array
-		(
-			'logged_at' => $this->get_logged_at() // TODO-20131207: unecessary with newer version of Prototype
-		);
+		$array = parent::to_array();
 
 		if ($this->password)
 		{
@@ -680,5 +614,40 @@ class User extends \ICanBoogie\ActiveRecord implements \Brickrouge\CSSClassNames
 			'is-guest' => $this->is_guest,
 			'is-logged' => !$this->is_guest
 		);
+	}
+}
+
+/**
+ * Implements the`logged_at` property.
+ *
+ * @property \ICanBoogie\DateTime $logged_at The date and time at which the user was logged.
+ */
+trait LoggedAtProperty
+{
+	/**
+	 * The date and time at which the user was logged.
+	 *
+	 * @var mixed
+	 */
+	private $logged_at;
+
+	/**
+	 * Returns the date and time at which the user was logged.
+	 *
+	 * @return \ICanBoogie\DateTime
+	 */
+	protected function get_logged_at()
+	{
+		return DateTimePropertySupport::datetime_get($this->logged_at);
+	}
+
+	/**
+	 * Sets the date and time at which the user was logged.
+	 *
+	 * @param mixed $datetime
+	 */
+	protected function set_logged_at($datetime)
+	{
+		DateTimePropertySupport::datetime_set($this->logged_at, $datetime);
 	}
 }
