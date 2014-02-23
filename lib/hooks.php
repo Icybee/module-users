@@ -27,6 +27,7 @@ use ICanBoogie\Session;
 use Icybee\AdminDecorator;
 use Icybee\DocumentDecorator;
 use ICanBoogie\Operation\ProcessEvent;
+use ICanBoogie\ActiveRecord;
 
 class Hooks
 {
@@ -264,6 +265,72 @@ class Hooks
 		}
 
 		return $user;
+	}
+
+	/**
+	 * Returns a user permission resolver configurer with the `users` config.
+	 *
+	 * @param Core $core
+	 *
+	 * @return PermissionResolver
+	 */
+	static public function get_user_permission_resolver(Core $core)
+	{
+		return new PermissionResolver(PermissionResolver::autoconfig($core));
+	}
+
+	/**
+	 * Returns a user permission resolver configurer with the `users` config.
+	 *
+	 * @param Core $core
+	 *
+	 * @return PermissionResolver
+	 */
+	static public function get_user_ownership_resolver(Core $core)
+	{
+		return new OwnershipResolver(OwnershipResolver::autoconfig($core));
+	}
+
+	/**
+	 * Checks if a user has a given permission.
+	 *
+	 * @param Core $core
+	 * @param User $user
+	 * @param string $permission
+	 * @param string $target
+	 */
+	static public function check_user_permission(Core $core, User $user, $permission, $target=null)
+	{
+		return $core->user_permission_resolver->__invoke($user, $permission, $target);
+	}
+
+	/**
+	 * Checks if a user has the ownership of a record.
+	 *
+	 * @param Core $core
+	 * @param User $user
+	 * @param ActiveRecord $record
+	 */
+	static public function check_user_ownership(Core $core, User $user, ActiveRecord $record)
+	{
+		return $core->user_ownership_resolver->__invoke($user, $record);
+	}
+
+	/**
+	 * Resolves user ownership of a record.
+	 *
+	 * @param User $user
+	 * @param ActiveRecord $record
+	 *
+	 * @return boolean|null `true` if the user identifier matches the `uid` property of the record,
+	 * `null` otherwise.
+	 */
+	static public function resolve_user_ownership(User $user, ActiveRecord $record)
+	{
+		if (isset($record->uid) && $record->uid == $user->uid)
+		{
+			return true;
+		}
 	}
 
 	/*

@@ -435,16 +435,18 @@ class User extends \ICanBoogie\ActiveRecord implements \Brickrouge\CSSClassNames
 	 * @param string|int $permission
 	 * @param mixed $target
 	 *
-	 * @return int|bool
+	 * @return mixed
 	 */
 	public function has_permission($permission, $target=null)
 	{
+		global $core;
+
 		if ($this->is_admin)
 		{
 			return Module::PERMISSION_ADMINISTER;
 		}
 
-		return $this->role->has_permission($permission, $target);
+		return $core->check_user_permission($this, $permission, $target);
 	}
 
 	/**
@@ -460,6 +462,11 @@ class User extends \ICanBoogie\ActiveRecord implements \Brickrouge\CSSClassNames
 	 */
 	public function has_ownership($module, $record)
 	{
+		global $core;
+
+		return $core->check_user_ownership($this, $record);
+
+		/*
 		$permission = $this->has_permission(Module::PERMISSION_MAINTAIN, $module);
 
 		if ($permission == Module::PERMISSION_ADMINISTER)
@@ -487,6 +494,7 @@ class User extends \ICanBoogie\ActiveRecord implements \Brickrouge\CSSClassNames
 		}
 
 		return true;
+		*/
 	}
 
 	/**
