@@ -11,6 +11,7 @@
 
 namespace Icybee\Modules\Users;
 
+use ICanBoogie\ActiveRecord;
 use ICanBoogie\Core;
 use ICanBoogie\Debug;
 use ICanBoogie\HTTP\RedirectResponse;
@@ -18,6 +19,7 @@ use ICanBoogie\HTTP\Request;
 use ICanBoogie\HTTP\Response;
 use ICanBoogie\I18n\FormattedString;
 use ICanBoogie\Operation;
+use ICanBoogie\Operation\ProcessEvent;
 use ICanBoogie\PermissionRequired;
 use ICanBoogie\PropertyNotDefined;
 use ICanBoogie\Route;
@@ -26,8 +28,6 @@ use ICanBoogie\Session;
 
 use Icybee\AdminDecorator;
 use Icybee\DocumentDecorator;
-use ICanBoogie\Operation\ProcessEvent;
-use ICanBoogie\ActiveRecord;
 
 class Hooks
 {

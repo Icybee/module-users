@@ -465,36 +465,6 @@ class User extends \ICanBoogie\ActiveRecord implements \Brickrouge\CSSClassNames
 		global $core;
 
 		return $core->check_user_ownership($this, $record);
-
-		/*
-		$permission = $this->has_permission(Module::PERMISSION_MAINTAIN, $module);
-
-		if ($permission == Module::PERMISSION_ADMINISTER)
-		{
-			return true;
-		}
-
-		if (is_array($record))
-		{
-			$record = (object) $record;
-		}
-		else if (!is_object($record))
-		{
-			throw new \InvalidArgumentException("<q>record</q> must be an object.");
-		}
-
-		if (empty($record->uid))
-		{
-			return $permission == Module::PERMISSION_ADMINISTER;
-		}
-
-		if (!$permission || $record->uid != $this->uid)
-		{
-			return false;
-		}
-
-		return true;
-		*/
 	}
 
 	/**
