@@ -24,16 +24,14 @@ class ManageBlock extends \Icybee\ManageBlock
 		$document->js->add('manage.js');
 	}
 
-	public function __construct($module, array $attributes=array())
+	public function __construct($module, array $attributes=[])
 	{
-		parent::__construct
-		(
-			$module, $attributes + array
-			(
-				self::T_COLUMNS_ORDER => array(User::USERNAME, User::IS_ACTIVATED, User::EMAIL, 'roles', User::CREATED_AT, User::LOGGED_AT),
-				self::T_ORDER_BY => array('created_at', 'desc')
-			)
-		);
+		parent::__construct($module, $attributes + [
+
+			self::T_COLUMNS_ORDER => array(User::USERNAME, User::IS_ACTIVATED, User::EMAIL, 'roles', User::CREATED_AT, User::LOGGED_AT),
+			self::T_ORDER_BY => array('created_at', 'desc')
+
+		]);
 	}
 
 	/**
@@ -48,15 +46,16 @@ class ManageBlock extends \Icybee\ManageBlock
 	 */
 	protected function get_available_columns()
 	{
-		return array_merge(parent::get_available_columns(), array
-		(
+		return array_merge(parent::get_available_columns(), [
+
 			User::USERNAME => __CLASS__ . '\UsernameColumn',
 			User::EMAIL => __CLASS__ . '\EmailColumn',
 			'roles' => __CLASS__ . '\RolesColumn',
 			User::CREATED_AT => 'Icybee\ManageBlock\DateTimeColumn',
 			User::LOGGED_AT => __CLASS__ . '\LoggedAtColumn',
 			User::IS_ACTIVATED => __CLASS__ . '\IsActivatedColumn'
-		));
+
+		]);
 	}
 
 	/**
@@ -76,11 +75,12 @@ class ManageBlock extends \Icybee\ManageBlock
 	 */
 	protected function get_available_jobs()
 	{
-		return array_merge(parent::get_available_jobs(), array
-		(
+		return array_merge(parent::get_available_jobs(), [
+
 			Module::OPERATION_ACTIVATE => I18n\t('activate.operation.title'),
 			Module::OPERATION_DEACTIVATE => I18n\t('deactivate.operation.title')
-		));
+
+		]);
 	}
 }
 
@@ -114,17 +114,15 @@ class UsernameColumn extends Column
 			$label .= ' <small>(' . $name . ')</small>';
 		}
 
-		return new Element
-		(
-			'a', array
-			(
-				Element::INNER_HTML => $label,
+		return new Element('a', [
 
-				'class' => 'edit',
-				'href' => \ICanBoogie\Routing\contextualize("/admin/{$record->constructor}/{$record->uid}/edit"),
-				'title' => I18n\t('manage.edit')
-			)
-		);
+			Element::INNER_HTML => $label,
+
+			'class' => 'edit',
+			'href' => \ICanBoogie\Routing\contextualize("/admin/{$record->constructor}/{$record->uid}/edit"),
+			'title' => I18n\t('manage.edit')
+
+		]);
 	}
 }
 
@@ -196,24 +194,24 @@ class LoggedAtColumn extends DateTimeColumn
  */
 class IsActivatedColumn extends BooleanColumn
 {
-	public function __construct(\Icybee\ManageBlock $manager, $id, array $options=array())
+	public function __construct(\Icybee\ManageBlock $manager, $id, array $options=[])
 	{
-		parent::__construct
-		(
-			$manager, $id, $options + array
-			(
-				'title' => null,
-				'class' => 'cell-fitted',
-				'filters' => array
-				(
-					'options' => array
-					(
-						'=1' => 'Activated',
-						'=0' => 'Deactivated'
-					)
-				)
-			)
-		);
+		parent::__construct($manager, $id, $options + [
+
+			'title' => null,
+			'class' => 'cell-fitted',
+			'filters' => [
+
+				'options' => [
+
+					'=1' => 'Activated',
+					'=0' => 'Deactivated'
+
+				]
+
+			]
+
+		]);
 	}
 
 	public function render_cell($record)
@@ -237,16 +235,14 @@ class UserColumn extends Column
 	private $user_cache;
 	private $resolved_user_names;
 
-	public function __construct(\Icybee\ManageBlock $manager, $id, array $options=array())
+	public function __construct(\Icybee\ManageBlock $manager, $id, array $options=[])
 	{
-		parent::__construct
-		(
-			$manager, $id, $options + array
-			(
-				'title' => 'User',
-				'orderable' => true
-			)
-		);
+		parent::__construct($manager, $id, $options + [
+
+			'title' => 'User',
+			'orderable' => true
+
+		]);
 
 		$this->resolved_user_names = $this->resolve_user_names($manager->model);
 	}
@@ -276,7 +272,7 @@ class UserColumn extends Column
 
 		return $core->models['users']
 		->select('uid, IF((firstname != "" AND lastname != ""), CONCAT_WS(" ", firstname, lastname), username) name')
-		->where(array('uid' => $users_keys))
+		->filter_by_uid($users_keys)
 		->order('name')
 		->pairs;
 	}
@@ -287,7 +283,7 @@ class UserColumn extends Column
 
 		if ($filter_value)
 		{
-			$query->where(array($this->id => $filter_value));
+			$query->and([ $this->id => $filter_value ]);
 		}
 
 		return $query;
@@ -313,7 +309,7 @@ class UserColumn extends Column
 		global $core;
 
 		$records = parent::alter_records($records);
-		$keys = array();
+		$keys = [];
 
 		foreach ($records as $record)
 		{
@@ -344,7 +340,7 @@ class UserColumn extends Column
 			return;
 		}
 
-		$options = array();
+		$options = [];
 
 		foreach ($this->resolved_user_names as $uid => $name)
 		{

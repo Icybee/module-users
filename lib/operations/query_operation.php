@@ -18,13 +18,15 @@ class QueryOperationOperation extends \Icybee\Operation\Module\QueryOperation
 		$keys = $this->request['keys'];
 		$count = count($keys);
 
-		return array
-		(
-			'params' => array
-			(
+		return [
+
+			'params' => [
+
 				'keys' => $keys
-			)
-		);
+
+			]
+
+		];
 	}
 
 	protected function query_deactivate()
@@ -32,23 +34,27 @@ class QueryOperationOperation extends \Icybee\Operation\Module\QueryOperation
 		$keys = $this->request['keys'];
 		$count = count($keys);
 
-		return array
-		(
-			'params' => array
-			(
+		return [
+
+			'params' => [
+
 				'keys' => $keys
-			)
-		);
+
+			]
+
+		];
 	}
 
 	protected function query_send_password()
 	{
-		return array
-		(
-			'params' => array
-			(
+		return [
+
+			'params' => [
+
 				'keys' => $this->request['keys']
-			)
-		);
+
+			]
+
+		];
 	}
 }

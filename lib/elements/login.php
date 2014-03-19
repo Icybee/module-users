@@ -25,7 +25,7 @@ class LoginForm extends Form
 {
 	const PASSWORD_RECOVERY_LINK = '#password-recovery-link';
 
-	public $lost_password = array();
+	public $lost_password = [];
 
 	/**
 	 * Adds the "widget.css" and "widget.js" assets.
@@ -40,70 +40,68 @@ class LoginForm extends Form
 		parent::add_assets($document);
 	}
 
-	public function __construct(array $attributes=array())
+	public function __construct(array $attributes=[])
 	{
 		global $core;
 
-		$this->lost_password = new A(I18n\t('lost_password', array(), array('scope' => 'users.label', 'default' => 'I forgot my password')), "#lost-password", array('rel' => 'nonce-request'));
+		$this->lost_password = new A(I18n\t('lost_password', [], [ 'scope' => 'users.label', 'default' => 'I forgot my password' ]), "#lost-password", [
 
-		parent::__construct
-		(
-			$attributes + array
-			(
-				Form::ACTIONS => array
-				(
-					new Button
-					(
-						'Connect', array
-						(
-							'type' => 'submit',
-							'class' => 'btn-primary'
-						)
-					)
-				),
+			'rel' => 'nonce-request'
 
-				Form::RENDERER => 'Simple',
+		]);
 
-				Form::HIDDENS => array
-				(
-					Operation::DESTINATION => 'users',
-					Operation::NAME => Module::OPERATION_LOGIN,
-					Operation::SESSION_TOKEN => $core->session->token,
-					'redirect_to' => $core->request['redirect_to']
-				),
+		parent::__construct($attributes + [
 
-				Element::CHILDREN => array
-				(
-					User::USERNAME => new Text
-					(
-						array
-						(
-							Form::LABEL => 'username',
-							Element::REQUIRED => true,
+			Form::ACTIONS => [
 
-							'autofocus' => true
-						)
-					),
+				new Button('Connect', [
 
-					User::PASSWORD => new Text
-					(
-						array
-						(
-							Form::LABEL => 'password',
-							Element::REQUIRED => true,
-							Element::DESCRIPTION => $this->lost_password,
+					'type' => 'submit',
+					'class' => 'btn-primary'
 
-							'type' => 'password'
-						)
-					)
-				),
+				])
 
-				Element::WIDGET_CONSTRUCTOR => 'Login',
+			],
 
-				'class' => 'widget-login',
-				'name' => 'users/login'
-			)
-		);
+			Form::RENDERER => 'Simple',
+
+			Form::HIDDENS => [
+
+				Operation::DESTINATION => 'users',
+				Operation::NAME => Module::OPERATION_LOGIN,
+				Operation::SESSION_TOKEN => $core->session->token,
+				'redirect_to' => $core->request['redirect_to']
+
+			],
+
+			Element::CHILDREN => [
+
+				User::USERNAME => new Text([
+
+					Form::LABEL => 'username',
+					Element::REQUIRED => true,
+
+					'autofocus' => true
+
+				]),
+
+				User::PASSWORD => new Text([
+
+					Form::LABEL => 'password',
+					Element::REQUIRED => true,
+					Element::DESCRIPTION => $this->lost_password,
+
+					'type' => 'password'
+
+				])
+			],
+
+			Element::WIDGET_CONSTRUCTOR => 'Login',
+
+			'class' => 'widget-login',
+			'name' => 'users/login'
+
+		]);
 	}
 
 	public function render()

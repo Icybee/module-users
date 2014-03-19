@@ -20,28 +20,26 @@ use Icybee\Modules\Users\NonceLogin\NonceRequestForm;
 
 class LoginComboElement extends Element
 {
-	protected $elements = array();
+	protected $elements = [];
 
-	public function __construct(array $attributes=array())
+	public function __construct(array $attributes=[])
 	{
 		$login = new LoginForm;
 		$password = new NonceRequestForm();
 
-		$password->children['email'][Element::DESCRIPTION] = new A(I18n\t('Cancel', array(), array('scope' => 'button')));
+		$password->children['email'][Element::DESCRIPTION] = new A(I18n\t('Cancel', [], [ 'scope' => 'button' ]));
 
 		$this->elements['login'] = $login;
 		$this->elements['password'] = $password;
 
-		parent::__construct
-		(
-			'div', $attributes + array
-			(
-				Element::WIDGET_CONSTRUCTOR => 'LoginCombo',
+		parent::__construct('div', $attributes + [
 
-				'id' => 'login',
-				'class' => 'widget-login-combo'
-			)
-		);
+			Element::WIDGET_CONSTRUCTOR => 'LoginCombo',
+
+			'id' => 'login',
+			'class' => 'widget-login-combo'
+
+		]);
 	}
 
 	protected function render_inner_html()

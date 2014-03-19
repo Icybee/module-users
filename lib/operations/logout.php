@@ -37,12 +37,11 @@ class LogoutOperation extends \ICanBoogie\Operation
 	 */
 	protected function get_controls()
 	{
-		return array
-		(
-			self::CONTROL_RECORD => true
-		)
+		return [
 
-		+ parent::get_controls();
+			self::CONTROL_RECORD => true
+
+		] + parent::get_controls();
 	}
 
 	/**

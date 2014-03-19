@@ -2,22 +2,11 @@
 
 namespace Icybee\Modules\Users;
 
-return array
-(
-	'!admin:manage' => array
-	(
+return [
 
-	),
-
-	'!admin:new' => array
-	(
-
-	),
-
-	'!admin:edit' => array
-	(
-
-	),
+	'!admin:manage' => [],
+	'!admin:new' => [],
+	'!admin:edit' => [],
 
 	'api:logout' => [
 
@@ -30,20 +19,23 @@ return array
 	/**
 	 * A route to the user's profile.
 	 */
-	'admin:profile' => array
-	(
+	'admin:profile' => [
+
 		'pattern' => '/admin/profile',
 		'controller' => __NAMESPACE__ . '\ProfileController',
 		'title' => 'Profile',
 		'block' => 'profile',
 		'visibility' => 'auto'
-	),
 
-	'admin:authenticate' => array
-	(
+	],
+
+	'admin:authenticate' => [
+
 		'pattern' => '/admin/authenticate',
 		'title' => 'Connection',
 		'block' => 'connect',
 		'visibility' => 'auto'
-	)
-);
+
+	]
+
+];

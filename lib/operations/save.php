@@ -37,7 +37,7 @@ class SaveOperation extends \Icybee\Operation\Constructor\Save
 			# model using the params.
 			#
 
-			$roles = array();
+			$roles = [];
 
 			if ($request[User::ROLES])
 			{
@@ -61,7 +61,7 @@ class SaveOperation extends \Icybee\Operation\Constructor\Save
 			# prepare them for the model using the params.
 			#
 
-			$sites = array();
+			$sites = [];
 
 			if ($request[User::RESTRICTED_SITES])
 			{
@@ -170,7 +170,11 @@ class SaveOperation extends \Icybee\Operation\Constructor\Save
 
 			if ($used)
 			{
-				$errors[User::USERNAME] = new FormattedString("L'identifiant %username est déjà utilisé.", array('%username' => $username));
+				$errors[User::USERNAME] = new FormattedString("L'identifiant %username est déjà utilisé.", [
+
+					'%username' => $username
+
+				]);
 			}
 		}
 
@@ -185,7 +189,11 @@ class SaveOperation extends \Icybee\Operation\Constructor\Save
 
 			if ($used)
 			{
-				$errors[User::EMAIL] = new FormattedString("L'adresse email %email est déjà utilisée.", array('%email' => $email));
+				$errors[User::EMAIL] = new FormattedString("L'adresse email %email est déjà utilisée.", [
+
+					'%email' => $email
+
+				]);
 			}
 		}
 
@@ -214,7 +222,7 @@ class SaveOperation extends \Icybee\Operation\Constructor\Save
 		{
 			$record = $this->module->model[$uid];
 
-			$this->response->message = new FormattedString($rc['mode'] == 'update' ? "%name's profile has been updated." : "%name's profile has been created.", array('name' => $record->name));
+			$this->response->message = new FormattedString($rc['mode'] == 'update' ? "%name's profile has been updated." : "%name's profile has been created.", [ 'name' => $record->name ]);
 		}
 
 		return $rc;

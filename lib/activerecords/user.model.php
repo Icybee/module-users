@@ -13,7 +13,7 @@ namespace Icybee\Modules\Users;
 
 class Model extends \Icybee\ActiveRecord\Model\Constructor
 {
-	public function save(array $properties, $key=null, array $options=array())
+	public function save(array $properties, $key=null, array $options=[])
 	{
 		global $core;
 
@@ -55,7 +55,7 @@ class Model extends \Icybee\ActiveRecord\Model\Constructor
 					continue;
 				}
 
-				$has_many_roles->execute('INSERT {self} SET uid = ?, rid = ?', array($rc, $rid));
+				$has_many_roles->execute('INSERT {self} SET uid = ?, rid = ?', [ $rc, $rid ]);
 			}
 		}
 
@@ -74,7 +74,7 @@ class Model extends \Icybee\ActiveRecord\Model\Constructor
 
 			foreach ($properties[User::RESTRICTED_SITES] as $siteid)
 			{
-				$has_many_sites->execute('INSERT {self} SET uid = ?, siteid = ?', array($rc, $siteid));
+				$has_many_sites->execute('INSERT {self} SET uid = ?, siteid = ?', [ $rc, $siteid ]);
 			}
 		}
 

@@ -27,12 +27,11 @@ class LoginOperation extends \ICanBoogie\Operation
 	 */
 	protected function get_controls()
 	{
-		return array
-		(
-			self::CONTROL_FORM => true
-		)
+		return [
 
-		+ parent::get_controls();
+			self::CONTROL_FORM => true
+
+		] + parent::get_controls();
 	}
 
 	/**
@@ -73,11 +72,12 @@ class LoginOperation extends \ICanBoogie\Operation
 				(
 					\ICanBoogie\format("The user account has been locked after multiple failed login attempts.
 					An e-mail has been sent to unlock the account. Login attempts are locked until %time,
-					unless you unlock the account using the email sent.", array
-					(
+					unless you unlock the account using the email sent.", [
+
 						'%count' => $user->metas['failed_login_count'],
 						'%time' => I18n\format_date($login_unlock_time, 'HH:mm')
-					)),
+
+					]),
 
 					403
 				);
@@ -102,26 +102,22 @@ class LoginOperation extends \ICanBoogie\Operation
 
 				$until = I18n\format_date($now + 3600, 'HH:mm');
 
-				$url = $core->site->url . '/api/users/unlock_login?' . http_build_query
-				(
-					array
-					(
-						'username' => $username,
-						'token' => $token,
-						'continue' => $request->uri
-					)
-				);
+				$url = $core->site->url . '/api/users/unlock_login?' . http_build_query([
 
-				$t = new Proxi(array('scope' => array(\ICanBoogie\normalize($user->constructor, '_'), 'connect', 'operation')));
+					'username' => $username,
+					'token' => $token,
+					'continue' => $request->uri
 
-				$mailer = new Mailer
-				(
-					array
-					(
-						Mailer::T_DESTINATION => $user->email,
-						Mailer::T_FROM => 'no-reply@icybee.org', // FIXME-20110803: should be replaced by a configurable value
-						Mailer::T_SUBJECT => "Your account has been locked",
-						Mailer::T_MESSAGE => <<<EOT
+				]);
+
+				$t = new Proxi([ 'scope' => [ \ICanBoogie\normalize($user->constructor, '_'), 'connect', 'operation' ] ]);
+
+				$mailer = new Mailer([
+
+					Mailer::T_DESTINATION => $user->email,
+					Mailer::T_FROM => 'no-reply@icybee.org', // FIXME-20110803: should be replaced by a configurable value
+					Mailer::T_SUBJECT => "Your account has been locked",
+					Mailer::T_MESSAGE => <<<EOT
 You receive this message because your account has been locked.
 
 After multiple failed login attempts your account has been locked until $until. You can use the
@@ -136,8 +132,7 @@ attack attempt on the website. If you think this is the case, please contact its
 
 The remote address of the request was: $request->ip.
 EOT
-					)
-				);
+				]);
 
 				$mailer();
 
@@ -149,7 +144,7 @@ EOT
 
 		if (!$user->is_admin && !$user->is_activated)
 		{
-			$this->response->errors[] = new FormattedString('User %username is not activated', array('%username' => $username));
+			$this->response->errors[] = new FormattedString('User %username is not activated', [ '%username' => $username ]);
 
 			return false;
 		}

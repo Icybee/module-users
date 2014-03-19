@@ -53,24 +53,16 @@ class EditBlock extends \Icybee\EditBlock
 
 	protected function lazy_get_attributes()
 	{
-		return \ICanBoogie\array_merge_recursive
-		(
-			parent::lazy_get_attributes(), array
-			(
-				Element::GROUPS => array
-				(
-					'connection' => array
-					(
-						'title' => 'Connection'
-					),
+		return \ICanBoogie\array_merge_recursive(parent::lazy_get_attributes(), [
 
-					'advanced' => array
-					(
-						'title' => 'Advanced'
-					)
-				)
-			)
-		);
+			Element::GROUPS => [
+
+				'connection' => [ 'title' => 'Connection' ],
+				'advanced' => [ 'title' => 'Advanced' ]
+
+			]
+
+		]);
 	}
 
 	protected function lazy_get_children()
@@ -97,132 +89,110 @@ class EditBlock extends \Icybee\EditBlock
 
 		$administer = $user->has_permission(Module::PERMISSION_MANAGE, $this->module);
 
-		return array_merge
-		(
-			parent::lazy_get_children(), array
-			(
-				#
-				# name group
-				#
+		return array_merge(parent::lazy_get_children(), [
 
-				User::FIRSTNAME => new Text
-				(
-					array
-					(
-						Group::LABEL => 'firstname'
-					)
-				),
+			#
+			# name group
+			#
 
-				User::LASTNAME => new Text
-				(
-					array
-					(
-						Group::LABEL => 'lastname'
-					)
-				),
+			User::FIRSTNAME => new Text([
 
-				User::NICKNAME => new Text
-				(
-					array
-					(
-						Group::LABEL => 'Nickname'
-					)
-				),
+				Group::LABEL => 'firstname'
 
-				User::USERNAME => $administer ? new Text
-				(
-					array
-					(
-						Group::LABEL => 'username',
-						Element::REQUIRED => true
-					)
-				) : null,
+			]),
 
-				User::NAME_AS => $this->create_control_for_name_as(),
+			User::LASTNAME => new Text([
 
-				#
-				# connection group
-				#
+				Group::LABEL => 'lastname'
 
-				User::EMAIL => new Text
-				(
-					array
-					(
-						Group::LABEL => 'email',
-						Element::GROUP => 'connection',
-						Element::REQUIRED => true,
+			]),
 
-						'autocomplete' => 'off'
-					)
-				),
+			User::NICKNAME => new Text([
 
-				User::PASSWORD => new Text
-				(
-					array
-					(
-						Element::LABEL => 'password',
-						Element::LABEL_POSITION => 'above',
-						Element::DESCRIPTION => 'password_' . ($uid ? 'update' : 'new'),
-						Element::GROUP => 'connection',
+				Group::LABEL => 'Nickname'
 
-						'autocomplete' => 'off',
-						'type' => 'password',
-						'value' => ''
-					)
-				),
+			]),
 
-				User::PASSWORD . '-verify' => new Text
-				(
-					array
-					(
-						Element::LABEL => 'password_confirm',
-						Element::LABEL_POSITION => 'above',
-						Element::DESCRIPTION => 'password_confirm',
-						Element::GROUP => 'connection',
+			User::USERNAME => $administer ? new Text([
 
-						'autocomplete' => 'off',
-						'type' => 'password',
-						'value' => ''
-					)
-				),
+				Group::LABEL => 'username',
+				Element::REQUIRED => true
 
-				User::IS_ACTIVATED => ($uid == 1 || !$administer) ? null : new Element
-				(
-					Element::TYPE_CHECKBOX, array
-					(
-						Element::LABEL => 'is_activated',
-						Element::GROUP => 'connection',
-						Element::DESCRIPTION => 'is_activated'
-					)
-				),
+			]) : null,
 
-				User::ROLES => $this->create_control_for_role(),
+			User::NAME_AS => $this->create_control_for_name_as(),
 
-				User::LANGUAGE => new Element
-				(
-					'select', array
-					(
-						Group::LABEL => 'language',
-						Element::GROUP => 'advanced',
-						Element::DESCRIPTION => 'language',
-						Element::OPTIONS => array(null => '') + $languages
-					)
-				),
+			#
+			# connection group
+			#
 
-				'timezone' => new Widget\TimeZone
-				(
-					array
-					(
-						Group::LABEL => 'timezone',
-						Element::GROUP => 'advanced',
-						Element::DESCRIPTION => "Si la zone horaire n'est pas définie celle
-						du site sera utilisée à la place."
-					)
-				),
+			User::EMAIL => new Text([
 
-				User::RESTRICTED_SITES => $this->create_control_for_restricted_sites_ids()
-			)
-		);
+				Group::LABEL => 'email',
+				Element::GROUP => 'connection',
+				Element::REQUIRED => true,
+
+				'autocomplete' => 'off'
+
+			]),
+
+			User::PASSWORD => new Text([
+
+				Element::LABEL => 'password',
+				Element::LABEL_POSITION => 'above',
+				Element::DESCRIPTION => 'password_' . ($uid ? 'update' : 'new'),
+				Element::GROUP => 'connection',
+
+				'autocomplete' => 'off',
+				'type' => 'password',
+				'value' => ''
+
+			]),
+
+			User::PASSWORD . '-verify' => new Text([
+
+				Element::LABEL => 'password_confirm',
+				Element::LABEL_POSITION => 'above',
+				Element::DESCRIPTION => 'password_confirm',
+				Element::GROUP => 'connection',
+
+				'autocomplete' => 'off',
+				'type' => 'password',
+				'value' => ''
+
+			]),
+
+			User::IS_ACTIVATED => ($uid == 1 || !$administer) ? null : new Element(Element::TYPE_CHECKBOX, [
+
+				Element::LABEL => 'is_activated',
+				Element::GROUP => 'connection',
+				Element::DESCRIPTION => 'is_activated'
+
+			]),
+
+			User::ROLES => $this->create_control_for_role(),
+
+			User::LANGUAGE => new Element('select', [
+
+				Group::LABEL => 'language',
+				Element::GROUP => 'advanced',
+				Element::DESCRIPTION => 'language',
+				Element::OPTIONS => array(null => '') + $languages
+
+			]),
+
+			'timezone' => new Widget\TimeZone([
+
+				Group::LABEL => 'timezone',
+				Element::GROUP => 'advanced',
+				Element::DESCRIPTION => "Si la zone horaire n'est pas définie celle
+				du site sera utilisée à la place."
+
+			]),
+
+			User::RESTRICTED_SITES => $this->create_control_for_restricted_sites_ids()
+
+		]);
 	}
 
 	protected function alter_actions(array $actions, array $params)
@@ -254,10 +224,7 @@ class EditBlock extends \Icybee\EditBlock
 			return;
 		}
 
-		$rid = array
-		(
-			2 => true
-		);
+		$rid = [ 2 => true ];
 
 		if ($uid)
 		{
@@ -269,21 +236,25 @@ class EditBlock extends \Icybee\EditBlock
 			}
 		}
 
-		return new Element
-		(
-			Element::TYPE_CHECKBOX_GROUP, array
-			(
-				Form::LABEL => 'roles',
-				Element::GROUP => 'advanced',
-				Element::OPTIONS => $core->models['users.roles']->select('rid, name')->where('rid != 1')->order('rid')->pairs,
-				Element::OPTIONS_DISABLED => array(2 => true),
-				Element::REQUIRED => true,
-				Element::DESCRIPTION => 'roles',
+		$options = $core->models['users.roles']
+		->select('rid, name')
+		->where('rid != 1')
+		->order('rid')
+		->pairs;
 
-				'class' => 'framed inputs-list sortable',
-				'value' => $rid
-			)
-		);
+		return new Element(Element::TYPE_CHECKBOX_GROUP, [
+
+			Form::LABEL => 'roles',
+			Element::GROUP => 'advanced',
+			Element::OPTIONS => $options,
+			Element::OPTIONS_DISABLED => [ 2 => true ],
+			Element::REQUIRED => true,
+			Element::DESCRIPTION => 'roles',
+
+			'class' => 'framed inputs-list sortable',
+			'value' => $rid
+
+		]);
 	}
 
 	/**
@@ -297,10 +268,7 @@ class EditBlock extends \Icybee\EditBlock
 	{
 		$values = $this->values;
 
-		$options = array
-		(
-			'<username>'
-		);
+		$options = [ '<username>' ];
 
 		if ($values[User::USERNAME])
 		{
@@ -334,14 +302,12 @@ class EditBlock extends \Icybee\EditBlock
 			$options[User::NAME_AS_NICKNAME] = $nickname;
 		}
 
-		return new Element
-		(
-			'select', array
-			(
-				Group::LABEL => 'name_as',
-				Element::OPTIONS => $options
-			)
-		);
+		return new Element('select', [
+
+			Group::LABEL => 'name_as',
+			Element::OPTIONS => $options
+
+		]);
 	}
 
 	protected function create_control_for_restricted_sites_ids()
@@ -355,7 +321,7 @@ class EditBlock extends \Icybee\EditBlock
 			return;
 		}
 
-		$value = array();
+		$value = [];
 
 		if ($this->record)
 		{
@@ -374,18 +340,16 @@ class EditBlock extends \Icybee\EditBlock
 			return;
 		}
 
-		return new Element
-		(
-			Element::TYPE_CHECKBOX_GROUP, array
-			(
-				Form::LABEL => 'siteid',
-				Element::OPTIONS => $options,
-				Element::GROUP => 'advanced',
-				Element::DESCRIPTION => 'siteid',
+		return new Element(Element::TYPE_CHECKBOX_GROUP, [
 
-				'class' => 'inputs-list widget-bordered',
-				'value' => $value
-			)
-		);
+			Form::LABEL => 'siteid',
+			Element::OPTIONS => $options,
+			Element::GROUP => 'advanced',
+			Element::DESCRIPTION => 'siteid',
+
+			'class' => 'inputs-list widget-bordered',
+			'value' => $value
+
+		]);
 	}
 }

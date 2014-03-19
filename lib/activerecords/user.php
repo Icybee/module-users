@@ -294,15 +294,16 @@ class User extends \ICanBoogie\ActiveRecord implements \Brickrouge\CSSClassNames
 	 */
 	protected function get_name()
 	{
-		$values = array
-		(
+		$values = [
+
 			self::NAME_AS_USERNAME => $this->username,
 			self::NAME_AS_FIRSTNAME => $this->firstname,
 			self::NAME_AS_LASTNAME => $this->lastname,
 			self::NAME_AS_FIRSTNAME_LASTNAME => $this->firstname . ' ' . $this->lastname,
 			self::NAME_AS_LASTNAME_FIRSTNAME => $this->lastname . ' ' . $this->firstname,
 			self::NAME_AS_NICKNAME => $this->nickname
-		);
+
+		];
 
 		$rc = isset($values[$this->name_as]) ? $values[$this->name_as] : null;
 
@@ -325,7 +326,7 @@ class User extends \ICanBoogie\ActiveRecord implements \Brickrouge\CSSClassNames
 	{
 		global $core;
 
-		$permissions = array();
+		$permissions = [];
 		$name = null;
 
 		foreach ($this->roles as $role)
@@ -364,12 +365,12 @@ class User extends \ICanBoogie\ActiveRecord implements \Brickrouge\CSSClassNames
 		{
 			if (!$this->uid)
 			{
-				return array($core->models['users.roles'][1]);
+				return [ $core->models['users.roles'][1] ];
 			}
 		}
 		catch (\Exception $e)
 		{
-			return array();
+			return [];
 		}
 
 		$rids = $core->models['users/has_many_roles']->select('rid')->filter_by_uid($this->uid)->all(\PDO::FETCH_COLUMN);
@@ -426,7 +427,7 @@ class User extends \ICanBoogie\ActiveRecord implements \Brickrouge\CSSClassNames
 	{
 		global $core;
 
-		return $this->is_admin ? array() : $core->models['users/has_many_sites']->select('siteid')->filter_by_uid($this->uid)->all(\PDO::FETCH_COLUMN);
+		return $this->is_admin ? [] : $core->models['users/has_many_sites']->select('siteid')->filter_by_uid($this->uid)->all(\PDO::FETCH_COLUMN);
 	}
 
 	/**
@@ -582,8 +583,8 @@ class User extends \ICanBoogie\ActiveRecord implements \Brickrouge\CSSClassNames
 	 */
 	protected function get_css_class_names()
 	{
-		return array
-		(
+		return [
+
 			'type' => 'user',
 			'id' => ($this->uid && !$this->is_guest) ? 'user-id-' . $this->uid : null,
 			'username' => ($this->username && !$this->is_guest) ? 'user-' . $this->username : null,
@@ -591,7 +592,8 @@ class User extends \ICanBoogie\ActiveRecord implements \Brickrouge\CSSClassNames
 			'is-admin' => $this->is_admin,
 			'is-guest' => $this->is_guest,
 			'is-logged' => !$this->is_guest
-		);
+
+		];
 	}
 }
 

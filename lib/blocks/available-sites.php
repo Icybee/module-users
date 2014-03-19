@@ -25,7 +25,7 @@ class AvailableSitesBlock extends Element
 		->all;
 
 		$uri = substr($_SERVER['REQUEST_URI'], strlen($core->site->path));
-		$options = array();
+		$options = [];
 
 		foreach ($available as $site)
 		{
@@ -39,37 +39,31 @@ class AvailableSitesBlock extends Element
 			$options[$site->url . $uri] = $title;
 		}
 
-		$form = new Form
-		(
-			array
-			(
-				Form::ACTIONS => new Button
-				(
-					'Change', array
-					(
-						'class' => 'btn-primary',
-						'type' => 'submit'
-					)
-				),
+		$form = new Form([
 
-				Form::RENDERER => 'Simple',
+			Form::ACTIONS => new Button('Change', [
 
-				Element::CHILDREN => array
-				(
-					new Element
-					(
-						'select', array
-						(
-							Element::DESCRIPTION => "Select one of the website available to your profile.",
-							Element::OPTIONS => $options
-						)
-					)
-				),
+				'class' => 'btn-primary',
+				'type' => 'submit'
 
-				'name' => 'change-working-site',
-				'class' => 'form-primary'
-			)
-		);
+			]),
+
+			Form::RENDERER => 'Simple',
+
+			Element::CHILDREN => [
+
+				new Element('select', [
+
+					Element::DESCRIPTION => "Select one of the website available to your profile.",
+					Element::OPTIONS => $options
+
+				])
+			],
+
+			'name' => 'change-working-site',
+			'class' => 'form-primary'
+
+		]);
 
 		return <<<EOT
 <div id="block--site-access-denied" class="block-alert">

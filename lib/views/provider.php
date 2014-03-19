@@ -92,7 +92,7 @@ class ViewProvider extends \Icybee\Modules\Views\ActiveRecordProvider
 	 */
 	protected function alter_query(Query $query, array $conditions)
 	{
-		static $mapping = array('uid', 'constructor', 'username', 'language');
+		static $mapping = [ 'uid', 'constructor', 'username', 'language' ];
 
 		foreach ($mapping as $property)
 		{

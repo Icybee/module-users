@@ -53,7 +53,7 @@ class Hooks
 			return;
 		}
 
-		$event->errors['rid'] = new FormattedString('The role %name is used by :count users.', array('name' => $operation->record->name, ':count' => $count));
+		$event->errors['rid'] = new FormattedString('The role %name is used by :count users.', [ 'name' => $operation->record->name, ':count' => $count ]);
 	}
 
 	/**
@@ -83,13 +83,11 @@ class Hooks
 		$document = new \Icybee\DocumentDecorator(new \Icybee\AdminDecorator($block));
 		$document->body->add_class('page-slug-authenticate');
 
-		$event->response = new Response
-		(
-			(string) $document, $target->getCode(), array
-			(
-				'Content-Type' => 'text/html; charset=utf-8'
-			)
-		);
+		$event->response = new Response((string) $document, $target->getCode(), [
+
+			'Content-Type' => 'text/html; charset=utf-8'
+
+		]);
 
 		$event->stop();
 	}
@@ -108,13 +106,11 @@ class Hooks
 
 		$document = new \Icybee\DocumentDecorator(new \Icybee\AdminDecorator($block));
 
-		$event->response = new Response
-		(
-			(string) $document, $target->getCode(), array
-			(
-				'Content-Type' => 'text/html; charset=utf-8'
-			)
-		);
+		$event->response = new Response((string) $document, $target->getCode(), [
+
+			'Content-Type' => 'text/html; charset=utf-8'
+
+		]);
 
 		$event->stop();
 	}
@@ -194,7 +190,7 @@ class Hooks
 
 		if ($user->has_legacy_password_hash)
 		{
-			\ICanBoogie\log_info('users.login.updated_security', array('!url' => $user->url('profile')));
+			\ICanBoogie\log_info('users.login.updated_security', [ '!url' => $user->url('profile') ]);
 		}
 	}
 

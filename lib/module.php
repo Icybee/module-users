@@ -30,13 +30,13 @@ class Module extends \Icybee\Module
 	const OPERATION_DEACTIVATE = 'deactivate';
 	const OPERATION_IS_UNIQUE = 'is_unique';
 
-	static $config_default = array
-	(
-		'notifies' => array
-		(
+	static $config_default = [
+
+		'notifies' => [
+
 			/*
-			'password' => array
-			(
+			'password' => [
+
 				'subject' => 'Vos paramètres de connexion à Icybee',
 				'from' => 'no-reply@example.com',
 				'template' => 'Bonjour,
@@ -49,17 +49,20 @@ Mot de passe : "#{@password}"
 Une fois connecté vous pourrez modifier votre mot de passe. Pour cela cliquez sur votre nom dans la barre de titre et éditez votre profil.
 
 Cordialement'
-			)
+			]
 			*/
-		)
-	);
+
+		]
+
+	];
 
 	protected function resolve_primary_model_tags($tags)
 	{
-		return parent::resolve_model_tags($tags, 'primary') + array
-		(
+		return parent::resolve_model_tags($tags, 'primary') + [
+
 			Model::T_CONSTRUCTOR => $this->id
-		);
+
+		];
 	}
 
 	protected function block_connect()
@@ -73,28 +76,22 @@ Cordialement'
 
 	protected function block_logout()
 	{
-		return new Form
-		(
-			array
-			(
-				Form::HIDDENS => array
-				(
-					Operation::NAME => self::OPERATION_LOGOUT,
-					Operation::DESTINATION => $this->id
-				),
+		return new Form([
 
-				Element::CHILDREN => array
-				(
-					new Button
-					(
-						'logout', array
-						(
-							'type' => 'submit'
-						)
-					)
-				)
-			)
-		);
+			Form::HIDDENS => [
+
+				Operation::NAME => self::OPERATION_LOGOUT,
+				Operation::DESTINATION => $this->id
+
+			],
+
+			Element::CHILDREN => [
+
+				new Button('logout', [ 'type' => 'submit' ])
+
+			]
+
+		]);
 	}
 
 	protected function block_profile()

@@ -20,14 +20,13 @@ class ActivateOperation extends \ICanBoogie\Operation
 {
 	protected function get_controls()
 	{
-		return array
-		(
+		return [
+
 			self::CONTROL_PERMISSION => Module::PERMISSION_ADMINISTER,
 			self::CONTROL_RECORD => true,
 			self::CONTROL_OWNERSHIP => true
-		)
 
-		+ parent::get_controls();
+		] + parent::get_controls();
 	}
 
 	protected function validate(\ICanboogie\Errors $errors)
@@ -41,7 +40,7 @@ class ActivateOperation extends \ICanBoogie\Operation
 		$record->is_activated = true;
 		$record->save();
 
-		$this->response->message = new FormattedString('!name account is active.', array('!name' => $record->name));
+		$this->response->message = new FormattedString('!name account is active.', [ '!name' => $record->name ]);
 
 		return true;
 	}
