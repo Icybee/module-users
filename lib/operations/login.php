@@ -15,7 +15,6 @@ use ICanBoogie\I18n;
 use ICanBoogie\I18n\FormattedString;
 use ICanBoogie\I18n\Translator\Proxi;
 use ICanBoogie\Exception;
-use ICanBoogie\Mailer;
 
 /**
  * @property-read User $record The logged user.
@@ -112,12 +111,12 @@ class LoginOperation extends \ICanBoogie\Operation
 
 				$t = new Proxi([ 'scope' => [ \ICanBoogie\normalize($user->constructor, '_'), 'connect', 'operation' ] ]);
 
-				$mailer = new Mailer([
+				$core->mail([
 
-					Mailer::T_DESTINATION => $user->email,
-					Mailer::T_FROM => 'no-reply@icybee.org', // FIXME-20110803: should be replaced by a configurable value
-					Mailer::T_SUBJECT => "Your account has been locked",
-					Mailer::T_MESSAGE => <<<EOT
+					'destination' => $user->email,
+					'from' => 'no-reply@icybee.org', // FIXME-20110803: should be replaced by a configurable value
+					'subject' => "Your account has been locked",
+					'body' => <<<EOT
 You receive this message because your account has been locked.
 
 After multiple failed login attempts your account has been locked until $until. You can use the
@@ -133,8 +132,6 @@ attack attempt on the website. If you think this is the case, please contact its
 The remote address of the request was: $request->ip.
 EOT
 				]);
-
-				$mailer();
 
 				unset($errors[User::PASSWORD]);
 

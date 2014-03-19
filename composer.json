@@ -28,6 +28,9 @@
 	"require-dev": {
 		"icanboogie/operation": "2.x"
 	},
+	"suggest": {
+		"icanboogie/mailer": "Mailer is a library for PHP that is designed to handle emails generation and sending."
+	},
 	"repositories": [
 		{
 			"type": "vcs",
