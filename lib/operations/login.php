@@ -14,7 +14,6 @@ namespace Icybee\Modules\Users;
 use ICanBoogie\I18n;
 use ICanBoogie\I18n\FormattedString;
 use ICanBoogie\I18n\Translator\Proxi;
-use ICanBoogie\Exception;
 
 /**
  * @property-read User $record The logged user.
@@ -49,7 +48,10 @@ class LoginOperation extends \ICanBoogie\Operation
 		$username = $request[User::USERNAME];
 		$password = $request[User::PASSWORD];
 
-		$uid = $core->models['users']->select('uid')->where('username = ? OR email = ?', $username, $username)->rc;
+		$uid = $core->models['users']
+		->select('uid')
+		->where('username = ? OR email = ?', $username, $username)
+		->rc;
 
 		if (!$uid)
 		{
@@ -114,7 +116,7 @@ class LoginOperation extends \ICanBoogie\Operation
 				$core->mail([
 
 					'destination' => $user->email,
-					'from' => 'no-reply@icybee.org', // FIXME-20110803: should be replaced by a configurable value
+					'from' => 'no-reply@' . $_SERVER['HTTP_HOST'],
 					'subject' => "Your account has been locked",
 					'body' => <<<EOT
 You receive this message because your account has been locked.
@@ -143,7 +145,7 @@ EOT
 
 		if (!$user->is_admin && !$user->is_activated)
 		{
-			$this->response->errors[] = new FormattedString('User %username is not activated', [ '%username' => $username ]);
+			$errors[] = new FormattedString('User %username is not activated', [ '%username' => $username ]);
 
 			return false;
 		}
