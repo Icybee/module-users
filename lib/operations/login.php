@@ -93,7 +93,7 @@ class LoginOperation extends \ICanBoogie\Operation
 			$user->metas['failed_login_count'] += 1;
 			$user->metas['failed_login_time'] = $now;
 
-			if ($user->metas['failed_login_count'] > 10)
+			if ($user->metas['failed_login_count'] >= 10)
 			{
 				$token = \ICanBoogie\generate_token(40, \ICanBoogie\TOKEN_ALPHA . \ICanBoogie\TOKEN_NUMERIC);
 
@@ -136,7 +136,9 @@ EOT
 
 				$mailer();
 
-				\ICanBoogie\log_error("Your account has been locked, a message has been sent to your e-mail address.");
+				unset($errors[User::PASSWORD]);
+
+				$errors[] = new FormattedString("Your account has been locked, a message has been sent to your e-mail address.");
 			}
 
 			return false;
