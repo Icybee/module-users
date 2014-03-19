@@ -19,6 +19,14 @@ return array
 
 	),
 
+	'api:logout' => [
+
+		'pattern' => '/api/logout',
+		'controller' => __NAMESPACE__ . '\LogoutOperation',
+		'via' => [ 'GET', 'POST' ]
+
+	],
+
 	/**
 	 * A route to the user's profile.
 	 */
