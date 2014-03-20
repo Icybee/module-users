@@ -23,7 +23,7 @@
 		"icanboogie/activerecord": "2.x",
 		"icanboogie/event": "*",
 		"brickrouge/css-class-names": "2.x",
-		"ircmaxell/password-compat": "dev-master#3eabd819bf9e1eb6cdfa0c52c252823c2d0e1a6a"
+		"ircmaxell/password-compat": "1.x"
 	},
 	"require-dev": {
 		"icanboogie/operation": "2.x"
@@ -31,12 +31,6 @@
 	"suggest": {
 		"icanboogie/mailer": "Mailer is a library for PHP that is designed to handle emails generation and sending."
 	},
-	"repositories": [
-		{
-			"type": "vcs",
-			"url": "https://github.com/fritszwegers/password_compat"
-		}
-	],
 	"autoload": {
 		"classmap": [ "lib" ]
 	}
