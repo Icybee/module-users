@@ -272,7 +272,7 @@ class Hooks
 	 */
 	static public function get_user_permission_resolver(Core $core)
 	{
-		return new PermissionResolver(PermissionResolver::autoconfig($core));
+		return new PermissionResolver($core->configs['users_permission_resolver_list']);
 	}
 
 	/**
@@ -284,7 +284,7 @@ class Hooks
 	 */
 	static public function get_user_ownership_resolver(Core $core)
 	{
-		return new OwnershipResolver(OwnershipResolver::autoconfig($core));
+		return new OwnershipResolver($core->configs['users_ownership_resolver_list']);
 	}
 
 	/**

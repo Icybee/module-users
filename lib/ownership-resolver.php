@@ -16,44 +16,40 @@ use ICanBoogie\ActiveRecord;
 class OwnershipResolver implements \ArrayAccess, \IteratorAggregate, OwnershipResolverInterface
 {
 	/**
-	 * Creates the resolved list from the `users` config.
+	 * Synthesizes the `users_ownership_resolver_list` config from `users` fragments.
 	 *
-	 * @param \ICanBoogie\Core $core
+	 * @param array $fragments
 	 *
 	 * @return array
 	 */
-	static public function autoconfig(\ICanBoogie\Core $core)
+	static public function synthesize_config(array $fragments)
 	{
-		return $core->configs->synthesize('users_ownership_resolver_list', function(array $fragments) {
+		$list = [];
+		$weight = [];
 
-			$list = [];
-			$weight = [];
-
-			foreach ($fragments as $fragment)
+		foreach ($fragments as $fragment)
+		{
+			if (empty($fragment['ownership_resolver_list']))
 			{
-				if (empty($fragment['ownership_resolver_list']))
-				{
-					continue;
-				}
-
-				foreach ($fragment['ownership_resolver_list'] as $resolver_id => $resolver)
-				{
-					$resolver = ((array) $resolver) + [ 'weight' => 0 ];
-
-					$list[$resolver_id] = $resolver[0];
-					$weight[$resolver_id] = $resolver['weight'];
-				}
+				continue;
 			}
 
-			\ICanBoogie\stable_sort($list, function($v, $k) use($weight) {
+			foreach ($fragment['ownership_resolver_list'] as $resolver_id => $resolver)
+			{
+				$resolver = ((array) $resolver) + [ 'weight' => 0 ];
 
-				return $weight[$k];
+				$list[$resolver_id] = $resolver[0];
+				$weight[$resolver_id] = $resolver['weight'];
+			}
+		}
 
-			});
+		\ICanBoogie\stable_sort($list, function($v, $k) use($weight) {
 
-			return $list;
+			return $weight[$k];
 
-		}, 'users');
+		});
+
+		return $list;
 	}
 
 	private $list = [];
