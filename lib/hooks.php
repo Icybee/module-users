@@ -280,7 +280,7 @@ class Hooks
 	 *
 	 * @param Core $core
 	 *
-	 * @return PermissionResolver
+	 * @return OwnershipResolver
 	 */
 	static public function get_user_ownership_resolver(Core $core)
 	{
