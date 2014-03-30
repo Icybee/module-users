@@ -564,18 +564,6 @@ class User extends \ICanBoogie\ActiveRecord implements \Brickrouge\CSSClassNames
 		unset($core->session->users['user_id']);
 	}
 
-	public function url($id)
-	{
-		global $core;
-
-		if ($id === 'profile')
-		{
-			return $core->site->path . '/admin/profile';
-		}
-
-		return parent::url($id);
-	}
-
 	/**
 	 * Returns the CSS class names of the node.
 	 *
