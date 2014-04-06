@@ -318,12 +318,14 @@ class Hooks
 	 * @param User $user
 	 * @param ActiveRecord $record
 	 *
-	 * @return boolean|null `true` if the user identifier matches the `uid` property of the record,
-	 * `null` otherwise.
+	 * @return boolean|null `true` if the user identifier is 1, or the `uid` property of
+	 * the record is not empty and it matches the user identifier. `null` otherwise.
 	 */
 	static public function resolve_user_ownership(User $user, ActiveRecord $record)
 	{
-		if (isset($record->uid) && $record->uid == $user->uid)
+		$uid = $user->uid;
+
+		if ($uid == 1 || (!empty($record->uid) && $record->uid == $uid))
 		{
 			return true;
 		}

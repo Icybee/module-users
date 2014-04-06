@@ -23,15 +23,20 @@
 		"icanboogie/activerecord": "2.x",
 		"icanboogie/event": "*",
 		"brickrouge/css-class-names": "2.x",
+		"icybee/core": "2.x",
 		"ircmaxell/password-compat": "1.x"
 	},
 	"require-dev": {
-		"icanboogie/operation": "2.x"
+		"icanboogie/operation": "2.x",
+		"icanboogie/icanboogie": "2.x"
 	},
 	"suggest": {
 		"icanboogie/mailer": "Mailer is a library for PHP that is designed to handle emails generation and sending."
 	},
 	"autoload": {
 		"classmap": [ "lib" ]
+	},
+	"scripts": {
+		"post-autoload-dump": "ICanBoogie\\AutoConfig\\Generator::on_autoload_dump"
 	}
 }

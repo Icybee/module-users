@@ -43,13 +43,11 @@ class OwnershipResolver implements \ArrayAccess, \IteratorAggregate, OwnershipRe
 			}
 		}
 
-		\ICanBoogie\stable_sort($list, function($v, $k) use($weight) {
+		return \ICanBoogie\sort_by_weight($list, function($v, $k) use($weight) {
 
 			return $weight[$k];
 
 		});
-
-		return $list;
 	}
 
 	private $list = [];
