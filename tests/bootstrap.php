@@ -11,6 +11,11 @@
 
 define('ICanBoogie\REPOSITORY', __DIR__ . DIRECTORY_SEPARATOR . 'repository' . DIRECTORY_SEPARATOR);
 
+if (!file_exists(__DIR__ . '/../vendor/icanboogie-modules'))
+{
+	mkdir(__DIR__ . '/../vendor/icanboogie-modules');
+}
+
 require __DIR__ . '/../vendor/autoload.php';
 
 #
