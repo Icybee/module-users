@@ -11,15 +11,25 @@
 
 namespace Icybee\Modules\Users;
 
+use ICanBoogie\DateTime;
+
 class Model extends \Icybee\ActiveRecord\Model\Constructor
 {
 	public function save(array $properties, $key=null, array $options=[])
 	{
 		global $core;
 
-		if (!$key && empty($properties[User::PASSWORD]))
+		if (!$key)
 		{
-			$properties[User::PASSWORD] = md5(uniqid());
+			if (empty($properties[User::PASSWORD]))
+			{
+				$properties[User::PASSWORD] = md5(uniqid());
+			}
+
+			if (empty($properties[User::CREATED_AT]) || DateTime::from($properties[User::CREATED_AT])->is_empty)
+			{
+				$properties[User::CREATED_AT] = DateTime::now();
+			}
 		}
 
 		#

@@ -122,6 +122,40 @@ class UserTest extends \PHPUnit_Framework_TestCase
 		$this->assertArrayHasKey('created_at', $array);
 	}
 
+	public function test_created_at_save_with_record()
+	{
+		$user = User::from([
+
+			'username' => 'person',
+			'email' => 'person@example.tld'
+
+		]);
+
+		$user->save();
+
+		$this->assertTrue(DateTime::now() == $user->created_at);
+
+		$user->delete();
+	}
+
+	public function test_created_at_save_with_model()
+	{
+		$user = User::from([
+
+			'username' => 'person',
+			'email' => 'person@example.tld'
+
+		]);
+
+		$uid = $user->model->save(array_diff_key($user->to_array(), [ 'uid' => true ]));
+		$user = $user->model[$uid];
+
+		$this->assertFalse($user->created_at->is_empty);
+
+		$user->delete();
+	}
+
+
 	public function test_get_name()
 	{
 		$user = new User;

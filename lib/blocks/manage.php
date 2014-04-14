@@ -232,9 +232,25 @@ class IsActivatedColumn extends BooleanColumn
  */
 class UserColumn extends Column
 {
+	/**
+	 * The users associated with the records, indexed by their identifier.
+	 *
+	 * @var array[int]\Icybee\Modules\Users\User
+	 */
 	private $user_cache;
+
+	/**
+	 * The names of the users associated with the records, indexed by their identifier.
+	 *
+	 * @var array[int]string
+	 *
+	 * @see resolved_user_names()
+	 */
 	private $resolved_user_names;
 
+	/**
+	 * Initializes the {@link $resolved_user_names} property.
+	 */
 	public function __construct(\Icybee\ManageBlock $manager, $id, array $options=[])
 	{
 		parent::__construct($manager, $id, $options + [

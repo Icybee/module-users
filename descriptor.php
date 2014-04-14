@@ -7,6 +7,7 @@ use ICanBoogie\Module;
 
 return array
 (
+	Module::T_ID => 'users',
 	Module::T_DESCRIPTION => 'User management',
 	Module::T_CATEGORY => 'users',
 	Module::T_MODELS => array

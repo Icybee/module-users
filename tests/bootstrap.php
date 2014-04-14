@@ -9,7 +9,7 @@
  * file that was distributed with this source code.
  */
 
-define('ICanBoogie\REPOSITORY', __DIR__ . DIRECTORY_SEPARATOR . 'repository' . DIRECTORY_SEPARATOR);
+$_SERVER['DOCUMENT_ROOT'] = __DIR__;
 
 if (!file_exists(__DIR__ . '/../vendor/icanboogie-modules'))
 {
@@ -34,7 +34,7 @@ $core = new \ICanBoogie\Core(\ICanBoogie\array_merge_recursive(\ICanBoogie\get_a
 
 	'module-path' => [
 
-		__DIR__ . '/../'
+		realpath(__DIR__ . '/../')
 
 	]
 

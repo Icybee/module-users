@@ -266,6 +266,23 @@ class User extends \ICanBoogie\ActiveRecord implements \Brickrouge\CSSClassNames
 		return $value;
 	}
 
+	protected function alter_persistent_properties(array $properties, \ICanBoogie\ActiveRecord\Model $model)
+	{
+		if ($this->get_created_at()->is_empty)
+		{
+			$this->set_created_at('now');
+		}
+
+		/*
+		if ($this->get_updated_at()->is_empty)
+		{
+			$this->set_updated_at('now');
+		}
+		*/
+
+		return parent::alter_persistent_properties($properties, $model);
+	}
+
 	/**
 	 * Adds the {@link $logged_at} property.
 	 */
