@@ -11,8 +11,6 @@
 
 namespace Icybee\Modules\Users;
 
-use ICanBoogie\I18n\FormattedString;
-
 /**
  * Create or update a user profile.
  */
@@ -147,12 +145,12 @@ class SaveOperation extends \Icybee\Operation\Constructor\Save
 		{
 			if (!$this->request[User::PASSWORD . '-verify'])
 			{
-				$errors[User::PASSWORD . '-verify'] = new FormattedString('Password verify is empty.');
+				$errors[User::PASSWORD . '-verify'] = $errors->format('Password verify is empty.');
 			}
 
 			if ($properties[User::PASSWORD] != $this->request[User::PASSWORD . '-verify'])
 			{
-				$errors[User::PASSWORD . '-verify'] = new FormattedString("Password and password verify don't match.");
+				$errors[User::PASSWORD . '-verify'] = $errors->format("Password and password verify don't match.");
 			}
 		}
 
@@ -170,7 +168,7 @@ class SaveOperation extends \Icybee\Operation\Constructor\Save
 
 			if ($used)
 			{
-				$errors[User::USERNAME] = new FormattedString("L'identifiant %username est déjà utilisé.", [
+				$errors[User::USERNAME] = $errors->format("L'identifiant %username est déjà utilisé.", [
 
 					'%username' => $username
 
@@ -189,7 +187,7 @@ class SaveOperation extends \Icybee\Operation\Constructor\Save
 
 			if ($used)
 			{
-				$errors[User::EMAIL] = new FormattedString("L'adresse email %email est déjà utilisée.", [
+				$errors[User::EMAIL] = $errors->format("L'adresse email %email est déjà utilisée.", [
 
 					'%email' => $email
 
@@ -212,17 +210,17 @@ class SaveOperation extends \Icybee\Operation\Constructor\Save
 
 		if (!$previous_uid)
 		{
-			$this->response->message = new FormattedString("Your profile has been created.");
+			$this->response->message = $errors->format("Your profile has been created.");
 		}
 		else if ($core->user_id == $uid)
 		{
-			$this->response->message = new FormattedString($rc['mode'] == 'update' ? "Your profile has been updated." : "Your profile has been created.");
+			$this->response->message = $errors->format($rc['mode'] == 'update' ? "Your profile has been updated." : "Your profile has been created.");
 		}
 		else
 		{
 			$record = $this->module->model[$uid];
 
-			$this->response->message = new FormattedString($rc['mode'] == 'update' ? "%name's profile has been updated." : "%name's profile has been created.", [ 'name' => $record->name ]);
+			$this->response->message = $errors->format($rc['mode'] == 'update' ? "%name's profile has been updated." : "%name's profile has been created.", [ 'name' => $record->name ]);
 		}
 
 		return $rc;

@@ -17,7 +17,6 @@ use ICanBoogie\Debug;
 use ICanBoogie\HTTP\RedirectResponse;
 use ICanBoogie\HTTP\Request;
 use ICanBoogie\HTTP\Response;
-use ICanBoogie\I18n\FormattedString;
 use ICanBoogie\Operation;
 use ICanBoogie\Operation\ProcessEvent;
 use ICanBoogie\PermissionRequired;
@@ -53,7 +52,7 @@ class Hooks
 			return;
 		}
 
-		$event->errors['rid'] = new FormattedString('The role %name is used by :count users.', [ 'name' => $operation->record->name, ':count' => $count ]);
+		$event->errors['rid'] = $event->errors->format('The role %name is used by :count users.', [ 'name' => $operation->record->name, ':count' => $count ]);
 	}
 
 	/**

@@ -11,8 +11,6 @@
 
 namespace Icybee\Modules\Users;
 
-use ICanBoogie\I18n\FormattedString;
-
 /**
  * Deletes a user.
  */
@@ -22,7 +20,7 @@ class DeleteOperation extends \ICanBoogie\DeleteOperation
 	{
 		if ($this->key == 1)
 		{
-			$errors['uid'] = new FormattedString("Daddy cannot be deleted.");
+			$errors['uid'] = $errors->format("Daddy cannot be deleted.");
 		}
 
 		return parent::validate($errors);

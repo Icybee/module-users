@@ -12,7 +12,6 @@
 namespace Icybee\Modules\Users;
 
 use ICanBoogie\I18n;
-use ICanBoogie\I18n\FormattedString;
 use ICanBoogie\I18n\Translator\Proxi;
 
 /**
@@ -55,7 +54,7 @@ class LoginOperation extends \ICanBoogie\Operation
 
 		if (!$uid)
 		{
-			$errors[User::PASSWORD] = new FormattedString('Unknown username/password combination.');
+			$errors[User::PASSWORD] = $errors->format('Unknown username/password combination.');
 
 			return false;
 		}
@@ -89,7 +88,7 @@ class LoginOperation extends \ICanBoogie\Operation
 
 		if (!$user->verify_password($password))
 		{
-			$errors[User::PASSWORD] = new FormattedString('Unknown username/password combination.');
+			$errors[User::PASSWORD] = $errors->format('Unknown username/password combination.');
 
 			$user->metas['failed_login_count'] += 1;
 			$user->metas['failed_login_time'] = $now;
@@ -137,7 +136,7 @@ EOT
 
 				unset($errors[User::PASSWORD]);
 
-				$errors[] = new FormattedString("Your account has been locked, a message has been sent to your e-mail address.");
+				$errors[] = $errors->format("Your account has been locked, a message has been sent to your e-mail address.");
 			}
 
 			return false;
@@ -145,7 +144,7 @@ EOT
 
 		if (!$user->is_admin && !$user->is_activated)
 		{
-			$errors[] = new FormattedString('User %username is not activated', [ '%username' => $username ]);
+			$errors[] = $errors->format('User %username is not activated', [ '%username' => $username ]);
 
 			return false;
 		}

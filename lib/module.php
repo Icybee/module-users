@@ -15,7 +15,6 @@ use Icybee\Modules\Views\View;
 
 use ICanBoogie\Exception;
 use ICanBoogie\I18n;
-use ICanBoogie\I18n\FormattedString;
 use ICanBoogie\Operation;
 
 use Brickrouge\Button;
