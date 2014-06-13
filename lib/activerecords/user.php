@@ -623,7 +623,7 @@ trait LoggedAtProperty
 	 */
 	protected function get_logged_at()
 	{
-		return DateTimePropertySupport::datetime_get($this->logged_at);
+		return DateTimePropertySupport::get($this->logged_at);
 	}
 
 	/**
@@ -633,6 +633,6 @@ trait LoggedAtProperty
 	 */
 	protected function set_logged_at($datetime)
 	{
-		DateTimePropertySupport::datetime_set($this->logged_at, $datetime);
+		DateTimePropertySupport::set($this->logged_at, $datetime);
 	}
 }
