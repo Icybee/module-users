@@ -8,7 +8,7 @@ Brickrouge.Widget.Login = new Class({
 		useXHR: true
 	},
 
-	onSuccess: function(response)
+	success: function(response)
 	{
 		var location = response.redirect_to || response.location // response.location is deprecated
 
