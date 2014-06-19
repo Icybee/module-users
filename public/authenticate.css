@@ -26,9 +26,8 @@ body.page-slug-authenticate #contents {
 .widget-login-combo input {
 	height: auto;
 	width: 100%;
-	-moz-box-sizing: border-box;
-	-webkit-box-sizing: border-box;
 	box-sizing: border-box;
+	line-height: 1.5em;
 }
 
 .widget-login-combo .btn {
