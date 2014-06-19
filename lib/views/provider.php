@@ -70,16 +70,6 @@ class ViewProvider extends \Icybee\Modules\Views\ActiveRecordProvider
 	}
 
 	/**
-	 * Returns the conditions unaltered.
-	 *
-	 * @see Icybee\Views.Provider::alter_conditions()
-	 */
-	protected function alter_conditions(array $conditions)
-	{
-		return $conditions;
-	}
-
-	/**
 	 * Alters the query to search for records from the same constructor, a similar site and a
 	 * similar language.
 	 *
@@ -87,8 +77,6 @@ class ViewProvider extends \Icybee\Modules\Views\ActiveRecordProvider
 	 *
 	 * Finaly if the return type is RETURN_MANY the query is altered to search for online nodes
 	 * only.
-	 *
-	 * @see BriskView.ActiveRecordProvider::alter_query()
 	 */
 	protected function alter_query(Query $query, array $conditions)
 	{
@@ -112,16 +100,6 @@ class ViewProvider extends \Icybee\Modules\Views\ActiveRecordProvider
 		}
 
 		return parent::alter_query($query, $conditions)->order('created_at DESC');
-	}
-
-	/**
-	 * Returns the rendering context unaltered.
-	 *
-	 * @see Icybee\Views.Provider::alter_context()
-	 */
-	protected function alter_context(\BlueTihi\Context $context, Query $query, array $conditions)
-	{
-		return $context;
 	}
 
 	/**
