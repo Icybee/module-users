@@ -208,6 +208,8 @@ class SaveOperation extends \Icybee\Operation\Constructor\Save
 
 		$uid = $rc['key'];
 
+		$errors = $this->response->errors;
+
 		if (!$previous_uid)
 		{
 			$this->response->message = $errors->format("Your profile has been created.");
