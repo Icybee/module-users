@@ -38,6 +38,7 @@ return array
 
 		'has_many_roles' => array
 		(
+			Model::ALIAS => 'has_many_roles',
 			Model::ACTIVERECORD_CLASS => 'ICanBoogie\ActiveRecord',
 			Model::CLASSNAME => 'ICanBoogie\ActiveRecord\Model',
 			Model::SCHEMA => array
@@ -52,6 +53,7 @@ return array
 
 		'has_many_sites' => array
 		(
+			Model::ALIAS => 'has_many_sites',
 			Model::ACTIVERECORD_CLASS => 'ICanBoogie\ActiveRecord',
 			Model::CLASSNAME => 'ICanBoogie\ActiveRecord\Model',
 			Model::SCHEMA => array
