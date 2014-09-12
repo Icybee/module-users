@@ -87,6 +87,24 @@ class SaveOperation extends \Icybee\Operation\Constructor\Save
 	}
 
 	/**
+	 * Returns the form from the `edit` block if the getter wasn't able to retrieve the form. This
+	 * is currently used to create records using XHR.
+	 */
+	protected function lazy_get_form()
+	{
+		$form = parent::lazy_get_form();
+
+		if ($form)
+		{
+			return $form;
+		}
+
+		$block = $this->module->getBlock('edit', $this->key);
+
+		return $block->element;
+	}
+
+	/**
 	 * Permission is granted if the user is modifing its own profile, and has permission to.
 	 *
 	 * @see ICanBoogie.Operation::control_permission()
