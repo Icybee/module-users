@@ -13,7 +13,6 @@ namespace Icybee\Modules\Users;
 
 use ICanBoogie\ActiveRecord;
 use ICanBoogie\Core;
-use ICanBoogie\Debug;
 use ICanBoogie\HTTP\RedirectResponse;
 use ICanBoogie\HTTP\Request;
 use ICanBoogie\HTTP\Response;
@@ -22,7 +21,6 @@ use ICanBoogie\Operation;
 use ICanBoogie\Operation\ProcessEvent;
 use ICanBoogie\PermissionRequired;
 use ICanBoogie\PropertyNotDefined;
-use ICanBoogie\Route;
 use ICanBoogie\SecurityException;
 use ICanBoogie\Session;
 
@@ -80,7 +78,7 @@ class Hooks
 
 		$block = $core->modules['users']->getBlock('connect');
 
-		$document = new \Icybee\DocumentDecorator(new \Icybee\AdminDecorator($block));
+		$document = new DocumentDecorator(new AdminDecorator($block));
 		$document->body->add_class('page-slug-authenticate');
 
 		$event->response = new Response((string) $document, $target->getCode(), [
@@ -104,7 +102,7 @@ class Hooks
 
 		$block = $core->modules['users']->getBlock('available-sites');
 
-		$document = new \Icybee\DocumentDecorator(new \Icybee\AdminDecorator($block));
+		$document = new DocumentDecorator(new AdminDecorator($block));
 
 		$event->response = new Response((string) $document, $target->getCode(), [
 
