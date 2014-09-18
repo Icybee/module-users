@@ -13,7 +13,6 @@ namespace Icybee\Modules\Users;
 
 use ICanBoogie\ActiveRecord\Query;
 use ICanBoogie\Event;
-use ICanBoogie\Exception;
 use ICanBoogie\HTTP\HTTPError;
 use ICanBoogie\HTTP\NotFound;
 

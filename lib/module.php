@@ -13,7 +13,6 @@ namespace Icybee\Modules\Users;
 
 use Icybee\Modules\Views\View;
 
-use ICanBoogie\Exception;
 use ICanBoogie\I18n;
 use ICanBoogie\Operation;
 
