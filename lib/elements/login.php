@@ -79,9 +79,7 @@ class LoginForm extends Form
 				User::USERNAME => new Text([
 
 					Form::LABEL => 'username',
-					Element::REQUIRED => true,
-
-					'autofocus' => true
+					Element::REQUIRED => true
 
 				]),
 
