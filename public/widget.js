@@ -1,4 +1,3 @@
-
 Brickrouge.Widget.Login = new Class({
 
 	Extends: Brickrouge.Form,
@@ -6,6 +5,16 @@ Brickrouge.Widget.Login = new Class({
 	options: {
 
 		useXHR: true
+	},
+
+	initialize: function(el, options)
+	{
+		this.parent(el, options)
+
+		if (document.body.hasClass('page-slug-authenticate'))
+		{
+			this.element.elements.username.focus()
+		}
 	},
 
 	success: function(response)
