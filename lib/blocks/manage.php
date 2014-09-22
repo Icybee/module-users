@@ -21,7 +21,6 @@ class ManageBlock extends \Icybee\ManageBlock
 		parent::add_assets($document);
 
 		$document->css->add(DIR . 'public/admin.css');
-		$document->js->add('manage.js');
 	}
 
 	public function __construct($module, array $attributes=[])
