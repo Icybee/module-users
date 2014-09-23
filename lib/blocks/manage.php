@@ -373,7 +373,7 @@ class UserColumn extends Column
 		if (!$user)
 		{
 			return <<<EOT
-<div class="alert alert-error undissmisable">Undefined user: {$uid}</div>
+<div class="alert alert-error undismissable">Undefined user: {$uid}</div>
 EOT;
 		}
 
