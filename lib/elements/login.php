@@ -94,7 +94,7 @@ class LoginForm extends Form
 				])
 			],
 
-			Element::WIDGET_CONSTRUCTOR => 'Login',
+			Element::IS => 'Login',
 
 			'class' => 'widget-login',
 			'name' => 'users/login'
