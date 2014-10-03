@@ -253,15 +253,24 @@ class UserTest extends \PHPUnit_Framework_TestCase
 		$user->has_legacy_password_hash = null;
 	}
 
-	public function testPasswordMustBeExported()
+	/**
+	 * @expectedException ICanBoogie\PropertyNotReadable
+	 */
+	public function test_get_password()
+	{
+		$user = new User;
+		$a = $user->password;
+	}
+
+	public function test_password_hash_must_be_exported()
 	{
 		$user = new User;
 		$user->password = '123';
 
-		$this->assertArrayHasKey('password', $user->to_array());
+		$this->assertArrayHasKey('password_hash', $user->to_array());
 	}
 
-	public function testEmptyPasswordMustNotBeExported()
+	public function test_empty_password_hash_must_not_be_exported()
 	{
 		$user = new User;
 		$user->password = null;
@@ -277,6 +286,14 @@ class UserTest extends \PHPUnit_Framework_TestCase
 		$user->password = 'P4SSW0RD';
 
 		$this->assertTrue($user->verify_password('P4SSW0RD'));
+
+		$uid = $user->save();
+		$this->assertNotEmpty($uid);
+		$record = $user->model[$uid];
+
+		$this->assertTrue($record->verify_password('P4SSW0RD'));
+
+		$user->delete();
 	}
 
 	public function test_css_class()

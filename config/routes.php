@@ -6,9 +6,25 @@ use ICanBoogie\Operation;
 
 return [
 
-	'!admin:manage' => [],
-	'!admin:new' => [],
-	'!admin:edit' => [],
+	'!admin:manage' => [
+
+		'pattern' => '!auto',
+		'controller' => true,
+
+	],
+
+	'!admin:new' => [
+
+		'pattern' => '!auto',
+		'controller' => true
+
+	],
+
+	'!admin:edit' => [
+
+		'pattern' => '!auto',
+		'controller' => true
+	],
 
 	'api:logout' => [
 
@@ -60,6 +76,7 @@ return [
 	'admin:authenticate' => [
 
 		'pattern' => '/admin/authenticate',
+		'controller' => true,
 		'title' => 'Connection',
 		'block' => 'connect',
 		'visibility' => 'auto'

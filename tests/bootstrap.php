@@ -9,6 +9,12 @@
  * file that was distributed with this source code.
  */
 
+namespace Icybee\Modules\Users;
+
+use ICanBoogie\Core;
+
+global $core;
+
 $_SERVER['DOCUMENT_ROOT'] = __DIR__;
 
 if (!file_exists(__DIR__ . '/../vendor/icanboogie-modules'))
@@ -22,13 +28,11 @@ require __DIR__ . '/../vendor/autoload.php';
 # Create the _core_ instance used for the tests.
 #
 
-global $core;
-
-$core = new \ICanBoogie\Core(\ICanBoogie\array_merge_recursive(\ICanBoogie\get_autoconfig(), [
+$core = new Core(\ICanBoogie\array_merge_recursive(\ICanBoogie\get_autoconfig(), [
 
 	'config-path' => [
 
-		__DIR__ . DIRECTORY_SEPARATOR . 'config'
+		__DIR__ . DIRECTORY_SEPARATOR . 'config' => 0
 
 	],
 
@@ -40,24 +44,25 @@ $core = new \ICanBoogie\Core(\ICanBoogie\array_merge_recursive(\ICanBoogie\get_a
 
 ]));
 
-$core();
+$core->boot();
 
 #
 # Install modules
 #
 
-$errors = new \ICanBoogie\Errors();
+$errors = $core->modules->install(new \ICanBoogie\Errors);
 
-foreach (array_keys($core->modules->enabled_modules_descriptors) as $module_id)
+if ($errors->count())
 {
-	#
-	# The index on the `constructor` column of the `nodes` module clashes with SQLite, we don't
-	# care right now, so the exception is discarted.
-	#
-
-	try
+	foreach ($errors as $id => $error)
 	{
-		$core->modules[$module_id]->install($errors);
+		if ($error instanceof \Exception)
+		{
+			$error = $error->getMessage();
+		}
+
+		echo "$id: $error\n";
 	}
-	catch (\Exception $e) {}
+
+	exit(1);
 }

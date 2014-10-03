@@ -35,6 +35,7 @@ use Icybee\Modules\Users\Roles\Role;
 class User extends \ICanBoogie\ActiveRecord implements \Brickrouge\CSSClassNames
 {
 	use \Brickrouge\CSSClassNamesProperty;
+	use PasswordTrait;
 
 	const UID = 'uid';
 	const EMAIL = 'email';
@@ -121,59 +122,6 @@ class User extends \ICanBoogie\ActiveRecord implements \Brickrouge\CSSClassNames
 	 * @var string
 	 */
 	public $email;
-
-	/**
-	 * User password.
-	 *
-	 * The property is only used to update the {@link $password_hash} property when the
-	 * record is saved.
-	 *
-	 * @var string
-	 */
-	protected $password;
-
-	protected function get_password()
-	{
-		return $this->password;
-	}
-
-	protected function set_password($password)
-	{
-		$this->password = $password;
-
-		if ($password)
-		{
-			$this->password_hash = $this->hash_password($password);
-		}
-	}
-
-	/**
-	 * User password hash.
-	 *
-	 * Note: The property MUST NOT be private, otherwise only instances of the class can be
-	 * initialized with a value, for subclasses instances the property would be `null`.
-	 *
-	 * @var string
-	 */
-	protected $password_hash;
-
-	/**
-	 * Checks if the password hash is a legacy hash, and not a hash created by
-	 * the {@link \password_hash()} function.
-	 *
-	 * @return bool|null `true` if the password hash is a legacy hash, `false` if the password
-	 * hash was created by the {@link \password_hash()} function, and `null` if the passsword hash
-	 * is empty.
-	 */
-	protected function get_has_legacy_password_hash()
-	{
-		if (!$this->password_hash)
-		{
-			return;
-		}
-
-		return $this->password_hash[0] != '$';
-	}
 
 	/**
 	 * Username of the user.
@@ -284,15 +232,15 @@ class User extends \ICanBoogie\ActiveRecord implements \Brickrouge\CSSClassNames
 	}
 
 	/**
-	 * Adds the {@link $logged_at} property.
+	 * Adds the {@link $password_hash} property.
 	 */
 	public function to_array()
 	{
 		$array = parent::to_array();
 
-		if ($this->password)
+		if ($this->password_hash)
 		{
-			$array['password'] = $this->password;
+			$array['password_hash'] = $this->password_hash;
 		}
 
 		return $array;
@@ -483,47 +431,6 @@ class User extends \ICanBoogie\ActiveRecord implements \Brickrouge\CSSClassNames
 		global $core;
 
 		return $core->check_user_ownership($this, $record);
-	}
-
-	/**
-	 * Hashes a password.
-	 *
-	 * @param string $password
-	 *
-	 * @return string
-	 */
-	static public function hash_password($password)
-	{
-		return \password_hash($password, \PASSWORD_BCRYPT);
-	}
-
-	/**
-	 * Compares a password to the user's password hash.
-	 *
-	 * @param string $password
-	 *
-	 * @return bool `true` if the hashed password matches the user's password hash,
-	 * `false` otherwise.
-	 */
-	public function verify_password($password)
-	{
-		if (\password_verify($password, $this->password_hash))
-		{
-			return true;
-		}
-
-		#
-		# Trying old hashing
-		#
-
-		$config = \ICanBoogie\Core::get()->configs['user'];
-
-		if (empty($config['password_salt']))
-		{
-			return false;
-		}
-
-		return sha1(\ICanBoogie\pbkdf2($password, $config['password_salt'])) == $this->password_hash;
 	}
 
 	/**

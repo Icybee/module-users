@@ -21,9 +21,9 @@ class Model extends \Icybee\ActiveRecord\Model\Constructor
 
 		if (!$key)
 		{
-			if (empty($properties[User::PASSWORD]))
+			if (empty($properties[User::PASSWORD_HASH]))
 			{
-				$properties[User::PASSWORD] = md5(uniqid());
+				$properties[User::PASSWORD_HASH] = User::hash_password(uniqid(true));
 			}
 
 			if (empty($properties[User::CREATED_AT]) || DateTime::from($properties[User::CREATED_AT])->is_empty)
@@ -35,8 +35,6 @@ class Model extends \Icybee\ActiveRecord\Model\Constructor
 		#
 		# If defined, the password is encrypted before we pass it to our super class.
 		#
-
-		unset($properties[User::PASSWORD_HASH]);
 
 		if (!empty($properties[User::PASSWORD]))
 		{

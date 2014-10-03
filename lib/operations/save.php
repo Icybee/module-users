@@ -23,9 +23,15 @@ class SaveOperation extends \Icybee\Operation\Constructor\Save
 		$properties = parent::lazy_get_properties();
 		$request = $this->request;
 
+		#
+		# password
+		#
+
+		unset($properties[User::PASSWORD_HASH]);
+
 		if ($request[User::PASSWORD])
 		{
-			$properties[User::PASSWORD] = $request[User::PASSWORD];
+			$properties[User::PASSWORD_HASH] = User::hash_password($request[User::PASSWORD]);
 		}
 
 		if ($core->user->has_permission(Module::PERMISSION_ADMINISTER, $this->module))
