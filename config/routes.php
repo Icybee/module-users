@@ -26,6 +26,14 @@ return [
 		'controller' => true
 	],
 
+	'api:login' => [
+
+		'pattern' => '/api/login',
+		'controller' => __NAMESPACE__ . '\LoginOperation',
+		'via' => 'POST'
+
+	],
+
 	'api:logout' => [
 
 		'pattern' => '/api/logout',
