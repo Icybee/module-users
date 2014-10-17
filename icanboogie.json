@@ -1,8 +1,0 @@
-{
-	"config-constructor": {
-
-		"user": "merge",
-		"users_ownership_resolver_list": "Icybee\\Modules\\Users\\OwnershipResolver::synthesize_config#users",
-		"users_permission_resolver_list": "Icybee\\Modules\\Users\\PermissionResolver::synthesize_config#users"
-	}
-}

@@ -38,5 +38,18 @@
 	},
 	"scripts": {
 		"post-autoload-dump": "ICanBoogie\\AutoConfig\\Generator::on_autoload_dump"
+	},
+
+	"extra": {
+
+		"icanboogie": {
+
+			"config-constructor": {
+
+				"user": "merge",
+				"users_ownership_resolver_list": "Icybee\\Modules\\Users\\OwnershipResolver::synthesize_config#users",
+				"users_permission_resolver_list": "Icybee\\Modules\\Users\\PermissionResolver::synthesize_config#users"
+			}
+		}
 	}
 }
