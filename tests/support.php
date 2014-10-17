@@ -13,7 +13,7 @@ namespace Icybee\Modules\Users\Test;
 
 use ICanBoogie\ActiveRecord\Model;
 use ICanBoogie\ActiveRecord\Connection;
-use ICanBoogie\Module;
+use ICanBoogie\Module\Descriptor;
 
 // require_once 'dependencies.php';
 
@@ -50,7 +50,7 @@ function get_model()
 
 	$model = new \Icybee\Modules\Users\Model
 	(
-		$descriptor[Module::T_MODELS]['primary'] + array
+		$descriptor[Descriptor::MODELS]['primary'] + array
 		(
 			Model::NAME => 'users',
 			Model::CONNECTION => get_connection(),

@@ -3,14 +3,14 @@
 namespace Icybee\Modules\Users;
 
 use ICanBoogie\ActiveRecord\Model;
-use ICanBoogie\Module;
+use ICanBoogie\Module\Descriptor;
 
 return array
 (
-	Module::T_ID => 'users',
-	Module::T_DESCRIPTION => 'User management',
-	Module::T_CATEGORY => 'users',
-	Module::T_MODELS => array
+	Descriptor::ID => 'users',
+	Descriptor::DESCRIPTION => 'User management',
+	Descriptor::CATEGORY => 'users',
+	Descriptor::MODELS => array
 	(
 		'primary' => array
 		(
@@ -67,18 +67,18 @@ return array
 		)
 	),
 
-	Module::T_NAMESPACE => __NAMESPACE__,
-	Module::T_PERMISSIONS => array
+	Descriptor::NS => __NAMESPACE__,
+	Descriptor::PERMISSIONS => array
 	(
 		'modify own profile'
 	),
 
-	Module::T_REQUIRED => true,
-	Module::T_REQUIRES => array
+	Descriptor::REQUIRED => true,
+	Descriptor::REQUIRES => array
 	(
 		'users.roles' => '1.0'
 	),
 
-	Module::T_TITLE => 'Users',
-	Module::T_VERSION => '2.0-dev'
+	Descriptor::TITLE => 'Users',
+	Descriptor::VERSION => '2.0-dev'
 );
