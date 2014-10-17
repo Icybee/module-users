@@ -7,18 +7,14 @@ MODULE_NAME = "Icybee/Modules/Users"
 usage:
 	@echo "test:  Runs the test suite.\ndoc:   Creates the documentation.\nclean: Removes the documentation, the dependencies and the Composer files."
 
-vendor: composer.phar
-	@php composer.phar install --prefer-source --dev
-
-composer.phar:
-	@echo "Installing composer..."
-	@curl -s https://getcomposer.org/installer | php
+vendor:
+	@composer install --prefer-source --dev
 
 update:
-	@php composer.phar update --prefer-source --dev
+	@composer update --prefer-source --dev
 
-autoload:
-	@php composer.phar dump-autoload
+autoload: vendor
+	@composer dump-autoload
 
 test: vendor
 	@phpunit
