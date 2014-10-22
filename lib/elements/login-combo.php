@@ -16,7 +16,7 @@ use ICanBoogie\I18n;
 use Brickrouge\A;
 use Brickrouge\Element;
 
-use Icybee\Modules\Users\NonceLogin\NonceRequestForm;
+use Icybee\Modules\Users\NonceLogin\NonceLoginRequestForm;
 
 class LoginComboElement extends Element
 {
@@ -25,7 +25,7 @@ class LoginComboElement extends Element
 	public function __construct(array $attributes=[])
 	{
 		$login = new LoginForm;
-		$password = new NonceRequestForm();
+		$password = new NonceLoginRequestForm;
 
 		$password->children['email'][Element::DESCRIPTION] = new A(I18n\t('Cancel', [], [ 'scope' => 'button' ]));
 
