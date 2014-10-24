@@ -20,8 +20,8 @@
 	"require": {
 		"php": ">=5.4",
 		"icanboogie/module-installer": "*",
-		"icanboogie/activerecord": "2.x",
-		"icanboogie/event": "*",
+		"icanboogie/activerecord": "~2.1",
+		"icanboogie/event": "~1.2",
 		"brickrouge/css-class-names": "2.x",
 		"icybee/core": "2.x",
 		"ircmaxell/password-compat": "1.x"
