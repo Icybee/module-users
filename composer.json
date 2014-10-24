@@ -27,8 +27,8 @@
 		"ircmaxell/password-compat": "1.x"
 	},
 	"require-dev": {
-		"icanboogie/operation": "2.x",
-		"icanboogie/icanboogie": "2.x"
+		"icanboogie/operation": "~2.0",
+		"icanboogie/icanboogie": "~2.0"
 	},
 	"suggest": {
 		"icanboogie/mailer": "Mailer is a library for PHP that is designed to handle emails generation and sending."
@@ -37,7 +37,7 @@
 		"classmap": [ "lib" ]
 	},
 	"scripts": {
-		"post-autoload-dump": "ICanBoogie\\AutoConfig\\Generator::on_autoload_dump"
+		"post-autoload-dump": "ICanBoogie\\AutoConfig\\Hooks::on_autoload_dump"
 	},
 
 	"extra": {
