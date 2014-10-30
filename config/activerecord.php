@@ -11,7 +11,5 @@ return [
 			'username' => __NAMESPACE__ . '\UsernameCriterion'
 
 		]
-
 	]
-
 ];

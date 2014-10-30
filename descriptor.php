@@ -5,80 +5,86 @@ namespace Icybee\Modules\Users;
 use ICanBoogie\ActiveRecord\Model;
 use ICanBoogie\Module\Descriptor;
 
-return array
-(
+return [
+
 	Descriptor::ID => 'users',
 	Descriptor::DESCRIPTION => 'User management',
 	Descriptor::CATEGORY => 'users',
-	Descriptor::MODELS => array
-	(
-		'primary' => array
-		(
-			Model::T_SCHEMA => array
-			(
-				'fields' => array
-				(
-					'uid' => 'serial',
-					'constructor' => array('varchar', 64, 'indexed' => true),
-					'email' => array('varchar', 64, 'unique' => true),
-					'password_hash' => array('varchar', 255, 'charset' => 'ascii/bin'),
-					'username' => array('varchar', 32, 'unique' => true),
-					'firstname' => array('varchar', 32),
-					'lastname' => array('varchar', 32),
-					'nickname' => array('varchar', 32),
-					'name_as' => array('integer', 'tiny'),
-					'language' => array('varchar', 8),
-					'timezone' => array('varchar', 32),
-					'logged_at' => 'datetime',
-					'created_at' => array('timestamp', 'default' => 'CURRENT_TIMESTAMP'),
-					'is_activated' => array('boolean', 'indexed' => true)
-				)
-			)
-		),
+	Descriptor::MODELS => [
 
-		'has_many_roles' => array
-		(
+		'primary' => [
+
+			Model::T_SCHEMA => [
+
+				'fields' => [
+
+					'uid' => 'serial',
+					'constructor' => [ 'varchar', 64, 'indexed' => true ],
+					'email' => [ 'varchar', 64, 'unique' => true ],
+					'password_hash' => [ 'varchar', 255, 'charset' => 'ascii/bin' ],
+					'username' => [ 'varchar', 32, 'unique' => true ],
+					'firstname' => [ 'varchar', 32 ],
+					'lastname' => [ 'varchar', 32 ],
+					'nickname' => [ 'varchar', 32 ],
+					'name_as' => [ 'integer', 'tiny' ],
+					'language' => [ 'varchar', 8 ],
+					'timezone' => [ 'varchar', 32 ],
+					'logged_at' => 'datetime',
+					'created_at' => [ 'timestamp', 'default' => 'CURRENT_TIMESTAMP' ],
+					'is_activated' => [ 'boolean', 'indexed' => true ]
+
+				]
+			]
+		],
+
+		'has_many_roles' => [
+
 			Model::ALIAS => 'has_many_roles',
 			Model::ACTIVERECORD_CLASS => 'ICanBoogie\ActiveRecord',
 			Model::CLASSNAME => 'ICanBoogie\ActiveRecord\Model',
-			Model::SCHEMA => array
-			(
-				'fields' => array
-				(
-					'uid' => array('foreign', 'primary' => true),
-					'rid' => array('foreign', 'primary' => true)
-				)
-			)
-		),
+			Model::SCHEMA => [
 
-		'has_many_sites' => array
-		(
+				'fields' => [
+
+					'uid' => [ 'foreign', 'primary' => true ],
+					'rid' => [ 'foreign', 'primary' => true ]
+
+				]
+			]
+		],
+
+		'has_many_sites' => [
+
 			Model::ALIAS => 'has_many_sites',
 			Model::ACTIVERECORD_CLASS => 'ICanBoogie\ActiveRecord',
 			Model::CLASSNAME => 'ICanBoogie\ActiveRecord\Model',
-			Model::SCHEMA => array
-			(
-				'fields' => array
-				(
-					'uid' => array('foreign', 'primary' => true),
-					'siteid' => array('foreign', 'primary' => true)
-				)
-			)
-		)
-	),
+			Model::SCHEMA => [
+
+				'fields' => [
+
+					'uid' => [ 'foreign', 'primary' => true ],
+					'siteid' => [ 'foreign', 'primary' => true ]
+
+				]
+			]
+		]
+	],
 
 	Descriptor::NS => __NAMESPACE__,
-	Descriptor::PERMISSIONS => array
-	(
+	Descriptor::PERMISSIONS => [
+
 		'modify own profile'
-	),
+
+	],
 
 	Descriptor::REQUIRED => true,
-	Descriptor::REQUIRES => array
-	(
+	Descriptor::REQUIRES => [
+
 		'users.roles' => '1.0'
-	),
+
+	],
 
 	Descriptor::TITLE => 'Users',
 	Descriptor::VERSION => '2.0-dev'
-);
+
+];

@@ -90,5 +90,4 @@ return [
 		'visibility' => 'auto'
 
 	]
-
 ];

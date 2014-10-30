@@ -119,7 +119,7 @@ class OwnershipResolver implements \ArrayAccess, \IteratorAggregate, OwnershipRe
 interface OwnershipResolverInterface
 {
 	/**
-	 * Resolves the owneship of a user.
+	 * Resolves the ownership of a user.
 	 *
 	 * @param User $user A user record.
 	 * @param ActiveRecord $record A record.

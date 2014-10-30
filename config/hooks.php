@@ -34,5 +34,4 @@ return [
 		'users:form:login' => [ $hooks . 'markup_form_login' ]
 
 	]
-
 ];

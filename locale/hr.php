@@ -1,10 +1,11 @@
 <?php
 
-return array
-(
-	'label' => array
-	(
+return [
+
+	'label' => [
+
 		'Firstname' => 'Ime',
 		'Lastname' => 'Prezime'
-	)
-);
+
+	]
+];

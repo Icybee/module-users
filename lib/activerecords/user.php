@@ -16,7 +16,10 @@ use ICanBoogie\ActiveRecord\DateTimePropertySupport;
 use ICanBoogie\ActiveRecord\RecordNotFound;
 use ICanBoogie\DateTime;
 
+use Brickrouge\CSSClassNamesProperty;
+
 use Icybee\Modules\Users\Roles\Role;
+use ICanBoogie\ActiveRecord;
 
 /**
  * A user.
@@ -34,7 +37,7 @@ use Icybee\Modules\Users\Roles\Role;
  */
 class User extends \ICanBoogie\ActiveRecord implements \Brickrouge\CSSClassNames
 {
-	use \Brickrouge\CSSClassNamesProperty;
+	use CSSClassNamesProperty;
 	use PasswordTrait;
 
 	const UID = 'uid';
@@ -154,7 +157,7 @@ class User extends \ICanBoogie\ActiveRecord implements \Brickrouge\CSSClassNames
 	public $nickname = '';
 
 	/**
-	 * Prefered format to create the value of the {@link $name} property.
+	 * Preferred format to create the value of the {@link $name} property.
 	 *
 	 * @var string
 	 */
@@ -164,14 +167,14 @@ class User extends \ICanBoogie\ActiveRecord implements \Brickrouge\CSSClassNames
 	use LoggedAtProperty;
 
 	/**
-	 * Prefered language of the user.
+	 * Preferred language of the user.
 	 *
 	 * @var string
 	 */
 	public $language = '';
 
 	/**
-	 * Prefered timezone of the user.
+	 * Preferred timezone of the user.
 	 *
 	 * @var string
 	 */
@@ -214,21 +217,14 @@ class User extends \ICanBoogie\ActiveRecord implements \Brickrouge\CSSClassNames
 		return $value;
 	}
 
-	protected function alter_persistent_properties(array $properties, \ICanBoogie\ActiveRecord\Model $model)
+	public function save()
 	{
 		if ($this->get_created_at()->is_empty)
 		{
 			$this->set_created_at('now');
 		}
 
-		/*
-		if ($this->get_updated_at()->is_empty)
-		{
-			$this->set_updated_at('now');
-		}
-		*/
-
-		return parent::alter_persistent_properties($properties, $model);
+		return parent::save();
 	}
 
 	/**
@@ -324,13 +320,11 @@ class User extends \ICanBoogie\ActiveRecord implements \Brickrouge\CSSClassNames
 	 */
 	protected function lazy_get_roles()
 	{
-		global $core;
-
 		try
 		{
 			if (!$this->uid)
 			{
-				return [ $core->models['users.roles'][1] ];
+				return [ ActiveRecord\get_model('users.roles')[1] ];
 			}
 		}
 		catch (\Exception $e)
@@ -338,7 +332,10 @@ class User extends \ICanBoogie\ActiveRecord implements \Brickrouge\CSSClassNames
 			return [];
 		}
 
-		$rids = $core->models['users/has_many_roles']->select('rid')->filter_by_uid($this->uid)->all(\PDO::FETCH_COLUMN);
+		$rids = ActiveRecord\get_model('users/has_many_roles')
+		->select('rid')
+		->filter_by_uid($this->uid)
+		->all(\PDO::FETCH_COLUMN);
 
 		if (!in_array(2, $rids))
 		{
@@ -347,7 +344,7 @@ class User extends \ICanBoogie\ActiveRecord implements \Brickrouge\CSSClassNames
 
 		try
 		{
-			return $core->models['users.roles']->find($rids);
+			return ActiveRecord\get_model('users.roles')->find($rids);
 		}
 		catch (RecordNotFound $e)
 		{
@@ -390,9 +387,15 @@ class User extends \ICanBoogie\ActiveRecord implements \Brickrouge\CSSClassNames
 	 */
 	protected function lazy_get_restricted_sites_ids()
 	{
-		global $core;
+		if ($this->is_admin)
+		{
+			return [];
+		}
 
-		return $this->is_admin ? [] : $core->models['users/has_many_sites']->select('siteid')->filter_by_uid($this->uid)->all(\PDO::FETCH_COLUMN);
+		return ActiveRecord\get_model('users/has_many_sites')
+		->select('siteid')
+		->filter_by_uid($this->uid)
+		->all(\PDO::FETCH_COLUMN);
 	}
 
 	/**
@@ -405,14 +408,12 @@ class User extends \ICanBoogie\ActiveRecord implements \Brickrouge\CSSClassNames
 	 */
 	public function has_permission($permission, $target=null)
 	{
-		global $core;
-
 		if ($this->is_admin)
 		{
 			return Module::PERMISSION_ADMINISTER;
 		}
 
-		return $core->check_user_permission($this, $permission, $target);
+		return $this->app->check_user_permission($this, $permission, $target);
 	}
 
 	/**
@@ -428,9 +429,7 @@ class User extends \ICanBoogie\ActiveRecord implements \Brickrouge\CSSClassNames
 	 */
 	public function has_ownership($module, $record)
 	{
-		global $core;
-
-		return $core->check_user_ownership($this, $record);
+		return $this->app->check_user_ownership($this, $record);
 	}
 
 	/**
@@ -454,18 +453,17 @@ class User extends \ICanBoogie\ActiveRecord implements \Brickrouge\CSSClassNames
 	 */
 	public function login()
 	{
-		global $core;
-
 		if (!$this->uid)
 		{
 			throw new \Exception('Guest users cannot login.');
 		}
 
-		$core->user = $this;
-		$core->user_id = $this->uid;
-		$core->session->regenerate_id(true);
-		$core->session->regenerate_token();
-		$core->session->users['user_id'] = $this->uid;
+		$app = $this->app;
+		$app->user = $this;
+		$app->user_id = $this->uid;
+		$app->session->regenerate_id(true);
+		$app->session->regenerate_token();
+		$app->session->users['user_id'] = $this->uid;
 
 		return true;
 	}
@@ -481,11 +479,11 @@ class User extends \ICanBoogie\ActiveRecord implements \Brickrouge\CSSClassNames
 	 */
 	public function logout()
 	{
-		global $core;
+		$app = $this->app;
 
-		unset($core->user);
-		unset($core->user_id);
-		unset($core->session->users['user_id']);
+		unset($app->user);
+		unset($app->user_id);
+		unset($app->session->users['user_id']);
 	}
 
 	/**

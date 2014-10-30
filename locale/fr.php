@@ -1,32 +1,35 @@
 <?php
 
-return array
-(
-	'button' => array
-	(
+return [
+
+	'button' => [
+
 		'Connect' => 'Connexion'
-	),
+
+	],
 
 	'module_title.users' => 'Utilisateurs',
 
-	'users' => array
-	(
-		'count' => array
-		(
+	'users' => [
+
+		'count' => [
+
 			'none' => 'Aucun utilisateur',
 			'one' => 'Un utilisateur',
 			'other' => ':count utilisateurs'
-		),
 
-		'name' => array
-		(
+		],
+
+		'name' => [
+
 			'one' => 'Utilisateur',
 			'other' => 'Utilisateurs'
-		)
-	),
 
-	'description' => array
-	(
+		]
+	],
+
+	'description' => [
+
 		'is_activated' => "Seuls les utilisateurs dont le compte est activé peuvent se connecter.",
 
 		'password_confirm' => "Si vous avez saisi un mot de passe, veuillez le confirmer.",
@@ -40,18 +43,20 @@ return array
 
 		'roles' => "Parce que vous en avec la permission, vous pouvez choisir le ou les rôles de
 		l'utilisateur."
-	),
 
-	'users.edit.element' => array
-	(
+	],
+
+	'users.edit.element' => [
+
 		'label.siteid' => "Restriction d'accès aux sites",
 		'description.siteid' => "Permet de restraindre l'accès de l'utilisateur aux
 		sites sélectionnés. Si aucun site n'est sélectionné, tous les sites lui sont accessibles.",
 		'description.language' => "Il s'agit de la langue à utiliser pour l'interface."
-	),
 
-	'label' => array
-	(
+	],
+
+	'label' => [
+
 		'logout' => 'Déconnexion',
 		'name_as' => 'Nom comme',
 		'email' => 'E-mail',
@@ -76,14 +81,16 @@ return array
 		'username' => 'Identifiant',
 		'Username' => 'Identifiant',
 		'your_email' => 'Votre adresse e-mail'
-	),
+
+	],
 
 	'module_category.users' => 'Utilisateurs',
 
-	'group.title' => array
-	(
+	'group.title' => [
+
 		'connection' => 'Connexion'
-	),
+
+	],
 
 	'users.manager.label.logged_at' => 'Connecté le',
 
@@ -125,4 +132,5 @@ return array
 	# operation/activate
 
 	"!name account is active." => "Le compte de !name est actif."
-);
+
+];

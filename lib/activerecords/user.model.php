@@ -12,13 +12,12 @@
 namespace Icybee\Modules\Users;
 
 use ICanBoogie\DateTime;
+use ICanBoogie\ActiveRecord;
 
 class Model extends \Icybee\ActiveRecord\Model\Constructor
 {
 	public function save(array $properties, $key=null, array $options=[])
 	{
-		global $core;
-
 		if (!$key)
 		{
 			if (empty($properties[User::PASSWORD_HASH]))
@@ -49,7 +48,7 @@ class Model extends \Icybee\ActiveRecord\Model\Constructor
 
 		if (isset($properties[User::ROLES]))
 		{
-			$has_many_roles = $core->models['users/has_many_roles'];
+			$has_many_roles = ActiveRecord\get_model('users/has_many_roles');
 
 			if ($key)
 			{
@@ -73,7 +72,7 @@ class Model extends \Icybee\ActiveRecord\Model\Constructor
 
 		if (isset($properties[User::RESTRICTED_SITES]))
 		{
-			$has_many_sites = $core->models['users/has_many_sites'];
+			$has_many_sites = ActiveRecord\get_model('users/has_many_sites');
 
 			if ($key)
 			{

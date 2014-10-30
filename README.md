@@ -24,7 +24,7 @@ The method `has_permission()` determines if a user has a specific permission. Th
 be relative to a target, a module for instance.
 
 The following example demonstrates how to verify is a user has the permission to update his own
-profile, or if he has the permission to administrate the module Users.
+profile, or if he has the permission to administer the module Users.
 
 ```php
 <?php
@@ -229,7 +229,7 @@ return [
 ### Calling resolvers
 
 To determine if a user has a specific permission, the resolvers are invoked one by one, in order
-to modify the permission value, which is initialy set to `false`. The value is modified if the
+to modify the permission value, which is initially set to `false`. The value is modified if the
 resolver returns something else than `null`. Resolver generally only return `true` if they
 grant the permission, and `null` otherwise. Indeed, a resolver returns `false` only if it wants
 to overwrite the response of a previous resolver.
@@ -284,17 +284,10 @@ The package requires PHP 5.4 or later.
 
 ## Installation
 
-The recommended way to install this package is through [Composer](http://getcomposer.org/).
-Create a `composer.json` file and run `php composer.phar install` command to install it:
+The recommended way to install this package is through [Composer](http://getcomposer.org/):
 
-```json
-{
-	"minimum-stability": "dev",
-	"require":
-	{
-		"icybee/module-users": "2.x"
-	}
-}
+```
+$ composer require icybee/module-users:~2.0
 ```
 
 This module is part of the modules required by [Icybee](http://icybee.org).
@@ -308,7 +301,7 @@ This module is part of the modules required by [Icybee](http://icybee.org).
 The package is [available on GitHub](https://github.com/Icybee/module-users), its repository can be
 cloned with the following command line:
 
-	$ git clone git://github.com/Icybee/module-users.git users
+	$ git clone https://github.com/Icybee/module-users.git users
 
 
 

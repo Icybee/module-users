@@ -11,5 +11,4 @@ return [
 		'users' => $hooks . 'resolve_user_ownership'
 
 	]
-
 ];

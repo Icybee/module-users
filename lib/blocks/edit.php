@@ -35,9 +35,7 @@ class EditBlock extends \Icybee\EditBlock
 
 	protected function get_permission()
 	{
-		global $core;
-
-		$user = $core->user;
+		$user = $this->app->user;
 
 		if ($user->has_permission(Module::PERMISSION_MANAGE, $this->module))
 		{

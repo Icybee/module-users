@@ -92,7 +92,7 @@ trait PasswordTrait
 	 * the {@link \password_hash()} function.
 	 *
 	 * @return bool|null `true` if the password hash is a legacy hash, `false` if the password
-	 * hash was created by the {@link \password_hash()} function, and `null` if the passsword hash
+	 * hash was created by the {@link \password_hash()} function, and `null` if the password hash
 	 * is empty.
 	 */
 	protected function get_has_legacy_password_hash()
