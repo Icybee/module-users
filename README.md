@@ -1,4 +1,4 @@
-# Users [![Build Status](https://travis-ci.org/Icybee/module-users.png?branch=2.0)](https://travis-ci.org/Icybee/module-users)
+# Users [![Build Status](https://travis-ci.org/Icybee/module-users.svg?branch=2.0)](https://travis-ci.org/Icybee/module-users)
 
 Manages users of the CMS Icybee.
 
@@ -327,7 +327,7 @@ directory can later be cleaned with the `make clean` command.
 
 The package is continuously tested by [Travis CI](http://about.travis-ci.org/).
 
-[![Build Status](https://travis-ci.org/Icybee/module-users.png?branch=2.0)](https://travis-ci.org/Icybee/module-users)
+[![Build Status](https://travis-ci.org/Icybee/module-users.svg?branch=2.0)](https://travis-ci.org/Icybee/module-users)
 
 
 
