@@ -16,15 +16,14 @@
 		"issues": "https://github.com/Icybee/module-users/issues",
 		"source": "https://github.com/Icybee/module-users"
 	},
-	"minimum-stability": "dev",
 	"require": {
 		"php": ">=5.4",
-		"icanboogie/module-installer": "*",
+		"icanboogie/module-installer": "~1.2",
 		"icanboogie/activerecord": "~2.1",
 		"icanboogie/event": "~1.2",
-		"brickrouge/css-class-names": "2.x",
+		"brickrouge/css-class-names": "~2.0",
 		"icybee/core": "2.x",
-		"ircmaxell/password-compat": "1.x"
+		"ircmaxell/password-compat": "~1.0"
 	},
 	"require-dev": {
 		"icanboogie/operation": "~2.0",
