@@ -16,7 +16,6 @@ class QueryOperationOperation extends \Icybee\Operation\Module\QueryOperation
 	protected function query_activate()
 	{
 		$keys = $this->request['keys'];
-		$count = count($keys);
 
 		return [
 
@@ -32,7 +31,6 @@ class QueryOperationOperation extends \Icybee\Operation\Module\QueryOperation
 	protected function query_deactivate()
 	{
 		$keys = $this->request['keys'];
-		$count = count($keys);
 
 		return [
 

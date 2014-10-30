@@ -285,8 +285,6 @@ class User extends \ICanBoogie\ActiveRecord implements \Brickrouge\CSSClassNames
 	 */
 	protected function lazy_get_role()
 	{
-		global $core;
-
 		$permissions = [];
 		$name = null;
 

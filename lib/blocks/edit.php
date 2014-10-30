@@ -65,23 +65,10 @@ class EditBlock extends \Icybee\EditBlock
 
 	protected function lazy_get_children()
 	{
-		global $core;
-
 		$values = $this->values;
-
-		#
-		# permissions
-		#
-
-		$user = $core->user;
-		$permission = $this->permission;
+		$user = $this->app->user;
 		$uid = $values[User::UID];
-
-		#
-		# languages
-		#
-
-		$languages = $core->locale['languages'];
+		$languages = $this->app->locale['languages'];
 
 		uasort($languages, 'ICanBoogie\unaccent_compare_ci');
 

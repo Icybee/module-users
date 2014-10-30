@@ -95,7 +95,6 @@ use Brickrouge\Element;
 use Icybee\ManageBlock\BooleanColumn;
 use Icybee\ManageBlock\Column;
 use Icybee\ManageBlock\DateTimeColumn;
-use Icybee\ManageBlock\EditDecorator;
 use Icybee\ManageBlock\FilterDecorator;
 
 /**

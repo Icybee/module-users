@@ -13,8 +13,6 @@ namespace Icybee\Modules\Users;
 
 use ICanBoogie\ActiveRecord;
 use ICanBoogie\Core;
-use ICanBoogie\HTTP\RedirectResponse;
-use ICanBoogie\HTTP\Request;
 use ICanBoogie\HTTP\Response;
 use ICanBoogie\Operation;
 use ICanBoogie\Operation\ProcessEvent;
