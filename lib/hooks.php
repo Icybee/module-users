@@ -16,7 +16,6 @@ use ICanBoogie\Core;
 use ICanBoogie\HTTP\RedirectResponse;
 use ICanBoogie\HTTP\Request;
 use ICanBoogie\HTTP\Response;
-use ICanBoogie\I18n\FormattedString;
 use ICanBoogie\Operation;
 use ICanBoogie\Operation\ProcessEvent;
 use ICanBoogie\PermissionRequired;
@@ -188,7 +187,11 @@ class Hooks
 
 		if ($user->has_legacy_password_hash)
 		{
-			\ICanBoogie\log_info(new FormattedString('users.login.updated_security', [ '!url' => $user->url('profile') ]));
+			\ICanBoogie\log_info($target->format('users.login.updated_security', [
+
+				'!url' => $user->url('profile')
+
+			]));
 		}
 	}
 
