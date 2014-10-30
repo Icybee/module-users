@@ -27,9 +27,7 @@ class LogoutOperation extends \ICanBoogie\Operation
 	 */
 	protected function lazy_get_record()
 	{
-		global $core;
-
-		return $core->user;
+		return $this->app->user;
 	}
 
 	/**

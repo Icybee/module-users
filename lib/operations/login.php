@@ -41,13 +41,11 @@ class LoginOperation extends \ICanBoogie\Operation
 
 	protected function validate(\ICanboogie\Errors $errors)
 	{
-		global $core;
-
 		$request = $this->request;
 		$username = $request[User::USERNAME];
 		$password = $request[User::PASSWORD];
 
-		$uid = $core->models['users']
+		$uid = $this->app->models['users']
 		->select('uid')
 		->where('username = ? OR email = ?', $username, $username)
 		->rc;
@@ -59,7 +57,7 @@ class LoginOperation extends \ICanBoogie\Operation
 			return false;
 		}
 
-		$user = $core->models['users'][$uid];
+		$user = $this->app->models['users'][$uid];
 
 		$now = time();
 		$login_unlock_time = $user->metas['login_unlock_time'];
@@ -102,7 +100,7 @@ class LoginOperation extends \ICanBoogie\Operation
 
 				$until = I18n\format_date($now + 3600, 'HH:mm');
 
-				$url = $core->site->url . '/api/users/unlock_login?' . http_build_query([
+				$url = $this->app->site->url . '/api/users/unlock_login?' . http_build_query([
 
 					'username' => $username,
 					'token' => $token,
@@ -112,7 +110,7 @@ class LoginOperation extends \ICanBoogie\Operation
 
 				$t = new Proxi([ 'scope' => [ \ICanBoogie\normalize($user->constructor, '_'), 'connect', 'operation' ] ]);
 
-				$core->mail([
+				$this->app->mail([
 
 					'destination' => $user->email,
 					'from' => 'no-reply@' . $_SERVER['HTTP_HOST'],

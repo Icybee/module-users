@@ -18,8 +18,6 @@ class SaveOperation extends \Icybee\Operation\Constructor\Save
 {
 	protected function lazy_get_properties()
 	{
-		global $core;
-
 		$properties = parent::lazy_get_properties();
 		$request = $this->request;
 
@@ -34,7 +32,7 @@ class SaveOperation extends \Icybee\Operation\Constructor\Save
 			$properties[User::PASSWORD_HASH] = User::hash_password($request[User::PASSWORD]);
 		}
 
-		if ($core->user->has_permission(Module::PERMISSION_ADMINISTER, $this->module))
+		if ($this->app->user->has_permission(Module::PERMISSION_ADMINISTER, $this->module))
 		{
 			#
 			# roles - because roles are not in the properties we need to prepare them for the
@@ -117,9 +115,7 @@ class SaveOperation extends \Icybee\Operation\Constructor\Save
 	 */
 	protected function control_permission($permission=Module::PERMISSION_CREATE)
 	{
-		global $core;
-
-		$user = $core->user;
+		$user = $this->app->user;
 
 		if ($user->uid == $this->key && $user->has_permission('modify own profile'))
 		{
@@ -131,9 +127,7 @@ class SaveOperation extends \Icybee\Operation\Constructor\Save
 
 	protected function control_ownership()
 	{
-		global $core;
-
-		$user = $core->user;
+		$user = $this->app->user;
 
 		if ($user->uid == $this->key && $user->has_permission('modify own profile'))
 		{
@@ -161,8 +155,6 @@ class SaveOperation extends \Icybee\Operation\Constructor\Save
 
 	protected function validate(\ICanboogie\Errors $errors)
 	{
-		global $core;
-
 		$properties = $this->properties;
 
 		if (!empty($properties[User::PASSWORD]))
@@ -179,7 +171,7 @@ class SaveOperation extends \Icybee\Operation\Constructor\Save
 		}
 
 		$uid = $this->key ? $this->key : 0;
-		$model = $core->models['users'];
+		$model = $this->app->models['users'];
 
 		#
 		# unique username
@@ -224,9 +216,7 @@ class SaveOperation extends \Icybee\Operation\Constructor\Save
 
 	protected function process()
 	{
-		global $core;
-
-		$previous_uid = $core->user_id;
+		$previous_uid = $this->app->user_id;
 
 		$rc = parent::process();
 
@@ -238,7 +228,7 @@ class SaveOperation extends \Icybee\Operation\Constructor\Save
 		{
 			$this->response->message = $errors->format("Your profile has been created.");
 		}
-		else if ($core->user_id == $uid)
+		else if ($previous_uid == $uid)
 		{
 			$this->response->message = $errors->format($rc['mode'] == 'update' ? "Your profile has been updated." : "Your profile has been created.");
 		}

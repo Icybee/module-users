@@ -29,8 +29,6 @@ class UnlockLoginOperation extends \ICanBoogie\Operation
 
 	protected function validate(\ICanboogie\Errors $errors)
 	{
-		global $core;
-
 		$token = $this->request['token'];
 
 		if (!$this->request['username'] || !$token)
@@ -55,8 +53,6 @@ class UnlockLoginOperation extends \ICanBoogie\Operation
 
 	protected function process()
 	{
-		global $core;
-
 		$user = $this->record;
 
 		$user->metas['login_unlock_token'] = null;
