@@ -11,7 +11,7 @@
 
 namespace Icybee\Modules\Users;
 
-use ICanBoogie\HTTP\HTTPError;
+use ICanBoogie\AuthenticationRequired;
 
 class View extends \Icybee\Modules\Views\View
 {
@@ -34,7 +34,7 @@ class View extends \Icybee\Modules\Views\View
 		{
 			if (!$core->user->has_permission(\ICanBoogie\Module::PERMISSION_ACCESS, $rc->constructor))
 			{
-				throw new HTTPError('The requested record requires authentication.', 401);
+				throw new AuthenticationRequired;
 			}
 		}
 
