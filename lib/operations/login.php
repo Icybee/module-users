@@ -153,9 +153,9 @@ EOT
 	}
 
 	/**
-	 * Saves the user id in the session, sets the `user` property of the core object, updates the
-	 * user's last connection date and finaly changes the operation location to the same request
-	 * uri.
+	 * Logs the user with {@link User::login()} and updates its logged date.
+	 *
+	 * If the user uses as legacy password, its password is updated.
 	 *
 	 * @return bool `true` if the user is logged.
 	 */
@@ -164,9 +164,15 @@ EOT
 		$user = $this->record;
 		$user->metas['failed_login_count'] = null;
 		$user->metas['failed_login_time'] = null;
-		$user->login();
 		$user->logged_at = 'now';
+
+		if ($user->has_legacy_password_hash)
+		{
+			$user->password = $this->request['password'];
+		}
+
 		$user->save();
+		$user->login();
 
 		$redirect_to = ($this->request['redirect_to'] ?: $this->request['continue']) ?: null;
 

@@ -12,8 +12,7 @@ return [
 		'ICanBoogie\PermissionRequired::rescue' => $hooks . 'on_security_exception_rescue',
 		'ICanBoogie\Routing\Dispatcher::dispatch:before' => $hooks . 'before_routing_dispatcher_dispatch',
 		'Icybee\Modules\Users\Roles\DeleteOperation::process:before' => $hooks . 'before_roles_delete',
-		'Icybee\Modules\Users\WebsiteAdminNotAccessible::rescue' => $hooks . 'on_website_admin_not_accessible_rescue',
-		'Icybee\Modules\Users\LoginOperation::process' => $hooks . 'on_login'
+		'Icybee\Modules\Users\WebsiteAdminNotAccessible::rescue' => $hooks . 'on_website_admin_not_accessible_rescue'
 
 	],
 

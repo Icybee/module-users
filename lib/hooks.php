@@ -172,27 +172,6 @@ class Hooks
 		throw new WebsiteAdminNotAccessible();
 	}
 
-	/**
-	 * Adds an info alert informing the user that the security was improved and he could benefit
-	 * from it by entering its password again.
-	 *
-	 * @param ProcessEvent $event
-	 * @param LoginOperation $target
-	 */
-	static public function on_login(ProcessEvent $event, LoginOperation $target)
-	{
-		$user = $target->record;
-
-		if ($user->has_legacy_password_hash)
-		{
-			\ICanBoogie\log_info($target->format('users.login.updated_security', [
-
-				'!url' => $user->url('profile')
-
-			]));
-		}
-	}
-
 	/*
 	 * Prototype methods
 	 */
