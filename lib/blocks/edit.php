@@ -170,8 +170,7 @@ class EditBlock extends \Icybee\EditBlock
 
 				Group::LABEL => 'timezone',
 				Element::GROUP => 'advanced',
-				Element::DESCRIPTION => "Si la zone horaire n'est pas définie celle
-				du site sera utilisée à la place."
+				Element::DESCRIPTION =>'timezone'
 
 			]),
 
@@ -182,11 +181,9 @@ class EditBlock extends \Icybee\EditBlock
 
 	protected function alter_actions(array $actions, array $params)
 	{
-		global $core;
-
 		$actions = parent::alter_actions($actions, $params);
 
-		$user = $core->user;
+		$user = $this->app->user;
 		$record = $this->record;
 
 		if ($record && $record->uid == $user->uid && !$user->has_permission(Module::PERMISSION_ADMINISTER, $this->module))
@@ -199,9 +196,8 @@ class EditBlock extends \Icybee\EditBlock
 
 	protected function create_control_for_role()
 	{
-		global $core;
-
-		$user = $core->user;
+		$app = $this->app;
+		$user = $app->user;
 		$uid = $this->values[User::UID];
 
 		if ($uid == 1 || !$user->has_permission(Module::PERMISSION_ADMINISTER, $this->module))
@@ -221,7 +217,7 @@ class EditBlock extends \Icybee\EditBlock
 			}
 		}
 
-		$options = $core->models['users.roles']
+		$options = $app->models['users.roles']
 		->select('rid, name')
 		->where('rid != 1')
 		->order('rid')
@@ -244,8 +240,6 @@ class EditBlock extends \Icybee\EditBlock
 
 	/**
 	 * Returns the control element for the `name_as` param.
-	 *
-	 * @param array $values
 	 *
 	 * @return Element
 	 */
@@ -297,9 +291,8 @@ class EditBlock extends \Icybee\EditBlock
 
 	protected function create_control_for_restricted_sites_ids()
 	{
-		global $core;
-
-		$user = $core->user;
+		$app = $this->app;
+		$user = $app->user;
 
 		if (!$user->has_permission(Module::PERMISSION_ADMINISTER, $this->module))
 		{
@@ -318,7 +311,11 @@ class EditBlock extends \Icybee\EditBlock
 			}
 		}
 
-		$options = $core->models['sites']->select('siteid, IF(admin_title != "", admin_title, concat(title, ":", language))')->order('admin_title, title')->pairs;
+		$options = $app
+			->models['sites']
+			->select('siteid, IF(admin_title != "", admin_title, concat(title, ":", language))')
+			->order('admin_title, title')
+			->pairs;
 
 		if (!$options)
 		{

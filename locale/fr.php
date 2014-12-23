@@ -46,6 +46,13 @@ return [
 
 	],
 
+	'users.edit_block.element.description' => [
+
+		'language' => "Si la langue n'est pas défini celle du site est utilisée.",
+		'timezone' => "Si le fuseau horaire n'est pas défini celui du site est utilisé."
+
+	],
+
 	'users.edit.element' => [
 
 		'label.siteid' => "Restriction d'accès aux sites",

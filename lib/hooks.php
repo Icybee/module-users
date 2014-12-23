@@ -38,10 +38,8 @@ class Hooks
 	 */
 	static public function before_roles_delete(Operation\BeforeProcessEvent $event, \Icybee\Modules\Users\Roles\DeleteOperation $operation)
 	{
-		global $core;
-
 		$rid = $operation->key;
-		$count = $core->models['users/has_many_roles']->filter_by_rid($rid)->count;
+		$count = \ICanBoogie\app()->models['users/has_many_roles']->filter_by_rid($rid)->count;
 
 		if (!$count)
 		{
@@ -59,8 +57,6 @@ class Hooks
 	 */
 	static public function on_security_exception_rescue(\ICanBoogie\Exception\RescueEvent $event, SecurityException $target)
 	{
-		global $core;
-
 		$request = $event->request;
 
 		if ($request->context->dispatcher instanceof \ICanBoogie\Operation\Dispatcher && $request->is_xhr)
@@ -73,7 +69,7 @@ class Hooks
 			\ICanBoogie\log_error($target->getMessage());
 		}
 
-		$block = $core->modules['users']->getBlock('connect');
+		$block = \ICanBoogie\app()->modules['users']->getBlock('connect');
 
 		$document = new DocumentDecorator(new AdminDecorator($block));
 		$document->body->add_class('page-slug-authenticate');
@@ -95,9 +91,7 @@ class Hooks
 	 */
 	static public function on_website_admin_not_accessible_rescue(\ICanboogie\Exception\RescueEvent $event, WebsiteAdminNotAccessible $target)
 	{
-		global $core;
-
-		$block = $core->modules['users']->getBlock('available-sites');
+		$block = \ICanBoogie\app()->modules['users']->getBlock('available-sites');
 
 		$document = new DocumentDecorator(new AdminDecorator($block));
 
@@ -126,8 +120,6 @@ class Hooks
 	 */
 	static public function before_routing_dispatcher_dispatch(\ICanBoogie\Routing\Dispatcher\BeforeDispatchEvent $event, \ICanBoogie\Routing\Dispatcher $target)
 	{
-		global $core;
-
 		$path = $event->request->decontextualized_path;
 
 		if (strpos($path, '/admin/') !== 0)
@@ -135,7 +127,8 @@ class Hooks
 			return;
 		}
 
-		$user = $core->user;
+		$app = \ICanBoogie\app();
+		$user = $app->user;
 
 		if ($user->is_guest || $user instanceof \Icybee\Modules\Members\Member)
 		{
@@ -144,7 +137,7 @@ class Hooks
 
 		if ($user->language)
 		{
-			$core->locale = $user->language;
+			$app->locale = $user->language;
 		}
 
 		if (strpos($path, '/admin/profile/sites') === 0)
@@ -164,7 +157,7 @@ class Hooks
 		}
 		catch (\Exception $e) { }
 
-		if (!$restricted_sites || in_array($core->site_id, $restricted_sites))
+		if (!$restricted_sites || in_array($app->site_id, $restricted_sites))
 		{
 			return;
 		}
@@ -181,20 +174,20 @@ class Hooks
 	 *
 	 * This is the getter for the `$core->user_id` property.
 	 *
-	 * @param Core $core
+	 * @param Core $app
 	 *
 	 * @return int|null Returns the identifier of the user or null if the user is a guest.
 	 *
 	 * @see \Icybee\Modules\Users\User::login()
 	 */
-	static public function get_user_id(Core $core)
+	static public function get_user_id(Core $app)
 	{
 		if (!Session::exists())
 		{
 			return;
 		}
 
-		$session = $core->session;
+		$session = $app->session;
 
 		return isset($session->users['user_id']) ? $session->users['user_id'] : null;
 	}
@@ -209,15 +202,15 @@ class Hooks
 	 *
 	 * This is the getter for the `$core->user` property.
 	 *
-	 * @param Core $core
+	 * @param Core $app
 	 *
 	 * @return User The user object, or guest user object.
 	 */
-	static public function get_user(Core $core)
+	static public function get_user(Core $app)
 	{
 		$user = null;
-		$uid = $core->user_id;
-		$model = $core->models['users'];
+		$uid = $app->user_id;
+		$model = $app->models['users'];
 
 		try
 		{
@@ -232,7 +225,7 @@ class Hooks
 		{
 			if (Session::exists())
 			{
-				unset($core->session->users['user_id']);
+				unset($app->session->users['user_id']);
 			}
 
 			$user = new User($model);
@@ -244,50 +237,50 @@ class Hooks
 	/**
 	 * Returns a user permission resolver configurer with the `users` config.
 	 *
-	 * @param Core $core
+	 * @param Core $app
 	 *
 	 * @return PermissionResolver
 	 */
-	static public function get_user_permission_resolver(Core $core)
+	static public function get_user_permission_resolver(Core $app)
 	{
-		return new PermissionResolver($core->configs['users_permission_resolver_list']);
+		return new PermissionResolver($app->configs['users_permission_resolver_list']);
 	}
 
 	/**
 	 * Returns a user permission resolver configurer with the `users` config.
 	 *
-	 * @param Core $core
+	 * @param Core $app
 	 *
 	 * @return OwnershipResolver
 	 */
-	static public function get_user_ownership_resolver(Core $core)
+	static public function get_user_ownership_resolver(Core $app)
 	{
-		return new OwnershipResolver($core->configs['users_ownership_resolver_list']);
+		return new OwnershipResolver($app->configs['users_ownership_resolver_list']);
 	}
 
 	/**
 	 * Checks if a user has a given permission.
 	 *
-	 * @param Core $core
+	 * @param Core $app
 	 * @param User $user
 	 * @param string $permission
 	 * @param string $target
 	 */
-	static public function check_user_permission(Core $core, User $user, $permission, $target=null)
+	static public function check_user_permission(Core $app, User $user, $permission, $target=null)
 	{
-		return $core->user_permission_resolver->__invoke($user, $permission, $target);
+		return $app->user_permission_resolver->__invoke($user, $permission, $target);
 	}
 
 	/**
 	 * Checks if a user has the ownership of a record.
 	 *
-	 * @param Core $core
+	 * @param Core $app
 	 * @param User $user
 	 * @param ActiveRecord $record
 	 */
-	static public function check_user_ownership(Core $core, User $user, ActiveRecord $record)
+	static public function check_user_ownership(Core $app, User $user, ActiveRecord $record)
 	{
-		return $core->user_ownership_resolver->__invoke($user, $record);
+		return $app->user_ownership_resolver->__invoke($user, $record);
 	}
 
 	/**
@@ -335,8 +328,6 @@ class Hooks
 	 */
 	static public function markup_user(array $args, $engine, $template)
 	{
-		global $core;
-
-		return $engine($template, $core->user);
+		return $engine($template, \ICanBoogie\app()->user);
 	}
 }

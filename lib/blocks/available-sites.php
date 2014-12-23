@@ -10,21 +10,21 @@ class AvailableSitesBlock extends Element
 {
 	public function render()
 	{
-		global $core;
-
-		$document = $core->document;
+		$app = $this->app;
+		$document = $app->document;
 		$document->js->add('available-sites.js');
 		$document->page_title = 'Select a website';
 
-		$ws_title = \ICanBoogie\escape($core->site->admin_title ? $core->site->admin_title : $core->site->title .':' . $core->site->language);
-		$site_model = $core->models['sites'];
+		/* @var $site \Icybee\Modules\Sites\Site */
+		$site = $app->site;
+		$ws_title = \ICanBoogie\escape($site->admin_title ? $site->admin_title : $site->title .':' . $site->language);
 
-		$available = $site_model
-		->where('siteid IN(' . implode(',', $core->user->restricted_sites_ids) . ')')
+		$available = $site->model
+		->where('siteid IN(' . implode(',', $app->user->restricted_sites_ids) . ')')
 		->order('admin_title, title')
 		->all;
 
-		$uri = substr($_SERVER['REQUEST_URI'], strlen($core->site->path));
+		$uri = substr($_SERVER['REQUEST_URI'], strlen($app->site->path));
 		$options = [];
 
 		foreach ($available as $site)

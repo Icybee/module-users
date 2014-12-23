@@ -14,7 +14,7 @@ namespace Icybee\Modules\Users;
 /**
  * A block to config users.
  */
-class ConfigBlock extends \Icybee\EditBlock
+class ConfigBlock extends \Icybee\ConfigBlock
 {
 
 }

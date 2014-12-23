@@ -13,8 +13,6 @@ namespace Icybee\Modules\Users;
 
 use ICanBoogie\DateTime;
 
-// require_once 'support.php';
-
 class UserTest extends \PHPUnit_Framework_TestCase
 {
 	public function test_get_is_admin()
@@ -28,7 +26,7 @@ class UserTest extends \PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * @expectedException ICanBoogie\PropertyNotWritable
+	 * @expectedException \ICanBoogie\PropertyNotWritable
 	 */
 	public function test_set_is_admin()
 	{
@@ -48,7 +46,7 @@ class UserTest extends \PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * @expectedException ICanBoogie\PropertyNotWritable
+	 * @expectedException \ICanBoogie\PropertyNotWritable
 	 */
 	public function test_set_is_guest()
 	{
@@ -211,7 +209,7 @@ class UserTest extends \PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * @expectedException ICanBoogie\PropertyNotWritable
+	 * @expectedException \ICanBoogie\PropertyNotWritable
 	 */
 	public function test_set_name()
 	{
@@ -220,7 +218,7 @@ class UserTest extends \PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * @expectedException ICanBoogie\PropertyNotReadable
+	 * @expectedException \ICanBoogie\PropertyNotReadable
 	 */
 	public function test_get_password_hash()
 	{
@@ -229,7 +227,7 @@ class UserTest extends \PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * @expectedException ICanBoogie\PropertyNotWritable
+	 * @expectedException \ICanBoogie\PropertyNotWritable
 	 */
 	public function test_set_password_hash()
 	{
@@ -245,7 +243,7 @@ class UserTest extends \PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * @expectedException ICanBoogie\PropertyNotWritable
+	 * @expectedException \ICanBoogie\PropertyNotWritable
 	 */
 	public function test_set_has_legacy_password_hash()
 	{
@@ -254,7 +252,7 @@ class UserTest extends \PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * @expectedException ICanBoogie\PropertyNotReadable
+	 * @expectedException \ICanBoogie\PropertyNotReadable
 	 */
 	public function test_get_password()
 	{

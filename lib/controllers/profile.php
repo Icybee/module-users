@@ -11,13 +11,18 @@
 
 namespace Icybee\Modules\Users;
 
+/**
+ * Class ProfileController
+ *
+ * @package Icybee\Modules\Users
+ *
+ * @property-read User $user
+ */
 class ProfileController extends \Icybee\BlockController
 {
 	protected function control_permission($permission)
 	{
-		global $core;
-
-		$user = $core->user;
+		$user = $this->user;
 
 		if ($user->is_guest)
 		{

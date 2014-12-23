@@ -263,8 +263,6 @@ class UserColumn extends Column
 
 	private function resolve_user_names(Model $model)
 	{
-		global $core;
-
 		$query = $model->select("DISTINCT `{$this->id}`");
 
 		if ($model->has_scope('own'))
@@ -284,11 +282,12 @@ class UserColumn extends Column
 			return;
 		}
 
-		return $core->models['users']
-		->select('uid, IF((firstname != "" AND lastname != ""), CONCAT_WS(" ", firstname, lastname), username) name')
-		->filter_by_uid($users_keys)
-		->order('name')
-		->pairs;
+		return \ICanBoogie\app()
+			->models['users']
+			->select('uid, IF((firstname != "" AND lastname != ""), CONCAT_WS(" ", firstname, lastname), username) name')
+			->filter_by_uid($users_keys)
+			->order('name')
+			->pairs;
 	}
 
 	public function alter_query_with_filter(Query $query, $filter_value)
@@ -317,11 +316,11 @@ class UserColumn extends Column
 
 	/**
 	 * Includes the users associated with the records.
+	 *
+	 * @inheritdoc
 	 */
 	public function alter_records(array $records)
 	{
-		global $core;
-
 		$records = parent::alter_records($records);
 		$keys = [];
 
@@ -336,7 +335,7 @@ class UserColumn extends Column
 
 			try
 			{
-				$this->user_cache = $core->models['users']->find($keys);
+				$this->user_cache = \ICanBoogie\app()->models['users']->find($keys);
 			}
 			catch (RecordNotFound $e)
 			{

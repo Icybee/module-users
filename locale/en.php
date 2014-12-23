@@ -18,9 +18,10 @@ return [
 
 	],
 
-	'users.edit.element' => [
+	'users.edit_block.element.description' => [
 
-		'description.language' => "This is the language to be used for the interface."
+		'language' => "If not defined the language of the website is used.",
+		'timezone' => "If not defined the time zone of the website if used."
 
 	],
 

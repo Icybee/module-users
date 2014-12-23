@@ -42,7 +42,7 @@ class LoginForm extends Form
 
 	public function __construct(array $attributes=[])
 	{
-		global $core;
+		$app = $this->app;
 
 		$this->lost_password = new A(I18n\t('lost_password', [], [ 'scope' => 'users.label', 'default' => 'I forgot my password' ]), "#lost-password", [
 
@@ -69,8 +69,7 @@ class LoginForm extends Form
 
 				Operation::DESTINATION => 'users',
 				Operation::NAME => Module::OPERATION_LOGIN,
-				Operation::SESSION_TOKEN => $core->session->token,
-				'redirect_to' => $core->request['redirect_to']
+				'redirect_to' => $app->request['redirect_to']
 
 			],
 

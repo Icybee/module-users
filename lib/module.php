@@ -63,9 +63,7 @@ Cordialement'
 
 	protected function block_connect()
 	{
-		global $core;
-
-		$core->document->css->add(DIR . 'public/authenticate.css');
+		$this->app->document->css->add(DIR . 'public/authenticate.css');
 
 		return new \Icybee\Modules\Users\LoginComboElement;
 	}
@@ -92,17 +90,16 @@ Cordialement'
 
 	protected function block_profile()
 	{
-		global $core;
-
-		$core->document->page_title = I18n\t('My profile');
+		$app = $this->app;
+		$app->document->page_title = I18n\t('My profile');
 
 		$module = $this;
-		$user = $core->user;
+		$user = $app->user;
 		$constructor = $user->constructor;
 
 		if ($constructor != $this->id)
 		{
-			$module = $core->modules[$user->constructor];
+			$module = $app->modules[$user->constructor];
 		}
 
 		return $module->getBlock('edit', $user->uid);

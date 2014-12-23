@@ -13,15 +13,13 @@ namespace Icybee\Modules\Users;
 
 class HooksTest extends \PHPUnit_Framework_TestCase
 {
-	static private $core;
+	static private $app;
 
 	static public function setupBeforeClass()
 	{
-		global $core;
+		self::$app = $app = \ICanBoogie\app();
 
-		self::$core = $core;
-
-		$core->models['users']->truncate();
+		$app->models['users']->truncate();
 
 		User::from([
 
@@ -40,18 +38,18 @@ class HooksTest extends \PHPUnit_Framework_TestCase
 
 	public function test_get_user()
 	{
-		self::$core->user_id = 1;
-		$this->assertInstanceOf(__NAMESPACE__ . '\User', self::$core->user);
-		$this->assertTrue(self::$core->user->is_admin);
+		self::$app->user_id = 1;
+		$this->assertInstanceOf(__NAMESPACE__ . '\User', self::$app->user);
+		$this->assertTrue(self::$app->user->is_admin);
 	}
 
 	public function test_get_user_permission_resolver()
 	{
-		$this->assertInstanceOf(__NAMESPACE__ . '\PermissionResolver', self::$core->user_permission_resolver);
+		$this->assertInstanceOf(__NAMESPACE__ . '\PermissionResolver', self::$app->user_permission_resolver);
 	}
 
 	public function test_get_user_ownership_resolver()
 	{
-		$this->assertInstanceOf(__NAMESPACE__ . '\OwnershipResolver', self::$core->user_ownership_resolver);
+		$this->assertInstanceOf(__NAMESPACE__ . '\OwnershipResolver', self::$app->user_ownership_resolver);
 	}
 }

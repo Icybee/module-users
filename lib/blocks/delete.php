@@ -11,6 +11,11 @@
 
 namespace Icybee\Modules\Users;
 
+/**
+ * @inheritdoc
+ *
+ * @property-read User $record
+ */
 class DeleteBlock extends \Icybee\DeleteBlock
 {
 	protected function get_record_name()
