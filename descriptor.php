@@ -14,7 +14,7 @@ return [
 
 		'primary' => [
 
-			Model::T_SCHEMA => [
+			Model::SCHEMA => [
 
 				'fields' => [
 

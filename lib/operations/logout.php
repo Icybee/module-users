@@ -16,7 +16,7 @@ namespace Icybee\Modules\Users;
  *
  * @property-read User $record The active record representing the user that was logged out. This
  * property is still available after the user was logged out, unlike the {@link $user} property of
- * the `$core` object.
+ * `ICanBoogie/Core` instances.
  */
 class LogoutOperation extends \ICanBoogie\Operation
 {

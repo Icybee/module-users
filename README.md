@@ -32,7 +32,7 @@ profile, or if he has the permission to administer the module Users.
 use ICanBoogie\Module;
 
 if ($user->has_permission('update own profile')
-|| $user->has_permission(Module::PERMISSION_ADMINISTER, $core->modules['users']))
+|| $user->has_permission(Module::PERMISSION_ADMINISTER, $app->modules['users']))
 {
 	// …
 }
@@ -53,7 +53,7 @@ The following example demonstrates how to verify if a user is the owner of a nod
 ```php
 <?php
 
-$node = $core->models['nodes']->one;
+$node = $app->models['nodes']->one;
 
 if ($user->has_ownership($node))
 {

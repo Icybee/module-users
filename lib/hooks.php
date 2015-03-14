@@ -172,7 +172,7 @@ class Hooks
 	/**
 	 * Returns the user's identifier.
 	 *
-	 * This is the getter for the `$core->user_id` property.
+	 * This is the getter for the `$app->user_id` property.
 	 *
 	 * @param Core $app
 	 *
@@ -200,7 +200,7 @@ class Hooks
 	 *
 	 * If no user could be found, a guest user object is returned.
 	 *
-	 * This is the getter for the `$core->user` property.
+	 * This is the getter for the `$app->user` property.
 	 *
 	 * @param Core $app
 	 *

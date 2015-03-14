@@ -439,8 +439,8 @@ class User extends \ICanBoogie\ActiveRecord implements \Brickrouge\CSSClassNames
 	 *
 	 * The following things happen when the user is logged in:
 	 *
-	 * - The `$core->user` property is set to the user.
-	 * - The `$core->user_id` property is set to the user id.
+	 * - The `$app->user` property is set to the user.
+	 * - The `$app->user_id` property is set to the user id.
 	 * - The session id is regenerated and the user id, ip and user agent are stored in the session.
 	 *
 	 * @return boolean true if the login is successful.
@@ -471,9 +471,9 @@ class User extends \ICanBoogie\ActiveRecord implements \Brickrouge\CSSClassNames
 	 *
 	 * The following things happen when the user is logged out:
 	 *
-	 * - The `$core->user` property is unset.
-	 * - The `$core->user_id` property is unset.
-	 * - The `$core->session->users['user_id']` property is unset.
+	 * - The `$app->user` property is unset.
+	 * - The `$app->user_id` property is unset.
+	 * - The `$app->session->users['user_id']` property is unset.
 	 */
 	public function logout()
 	{

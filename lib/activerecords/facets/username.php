@@ -11,7 +11,7 @@
 
 namespace Icybee\Modules\Users;
 
-use ICanBoogie\ActiveRecord\Criterion;
+use ICanBoogie\Facets\Criterion;
 
 class UsernameCriterion extends Criterion
 {

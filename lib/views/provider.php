@@ -11,7 +11,7 @@
 
 namespace Icybee\Modules\Users;
 
-class ViewProvider extends \ICanBoogie\ActiveRecord\Fetcher
+class ViewProvider extends \ICanBoogie\Facets\Fetcher
 {
 
 }
