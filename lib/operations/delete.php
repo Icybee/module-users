@@ -11,12 +11,15 @@
 
 namespace Icybee\Modules\Users;
 
+use ICanBoogie\DeleteOperation as Super;
+use ICanBoogie\Errors;
+
 /**
  * Deletes a user.
  */
-class DeleteOperation extends \ICanBoogie\DeleteOperation
+class DeleteOperation extends Super
 {
-	protected function validate(\ICanBoogie\Errors $errors)
+	protected function validate(Errors $errors)
 	{
 		if ($this->key == 1)
 		{

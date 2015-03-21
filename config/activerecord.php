@@ -8,7 +8,7 @@ return [
 
 		'users' => [
 
-			'username' => __NAMESPACE__ . '\UsernameCriterion'
+			'username' => UsernameCriterion::class
 
 		]
 	]

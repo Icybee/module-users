@@ -58,7 +58,7 @@ class OwnershipResolver implements \ArrayAccess, \IteratorAggregate, OwnershipRe
 	 * @param array $resolver_list A ownership resolver list, such as one created by
 	 * {@link autoconfig()}.
 	 */
-	public function __construct(array $resolver_list=[])
+	public function __construct(array $resolver_list = [])
 	{
 		foreach ($resolver_list as $resolver_id => $resolver)
 		{

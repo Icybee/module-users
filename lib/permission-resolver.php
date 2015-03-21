@@ -56,7 +56,7 @@ class PermissionResolver implements \ArrayAccess, \IteratorAggregate, Permission
 	 * @param array $resolver_list A permission resolver list, such as one created by
 	 * {@link autoconfig()}.
 	 */
-	public function __construct(array $resolver_list=[])
+	public function __construct(array $resolver_list = [])
 	{
 		foreach ($resolver_list as $resolver_id => $resolver)
 		{
@@ -64,7 +64,7 @@ class PermissionResolver implements \ArrayAccess, \IteratorAggregate, Permission
 		}
 	}
 
-	public function __invoke(User $user, $permission, $target=null)
+	public function __invoke(User $user, $permission, $target = null)
 	{
 		$granted = false;
 
@@ -125,5 +125,5 @@ interface PermissionResolverInterface
 	 *
 	 * @return boolean `true` if the user has the specified permission.
 	 */
-	public function __invoke(User $user, $permission, $target=null);
+	public function __invoke(User $user, $permission, $target = null);
 }

@@ -11,12 +11,11 @@
 
 namespace Icybee\Modules\Users;
 
-use ICanBoogie\I18n;
 use ICanBoogie\Operation;
 
-use Brickrouge;
 use Brickrouge\A;
 use Brickrouge\Button;
+use Brickrouge\Document;
 use Brickrouge\Element;
 use Brickrouge\Form;
 use Brickrouge\Text;
@@ -30,9 +29,9 @@ class LoginForm extends Form
 	/**
 	 * Adds the "widget.css" and "widget.js" assets.
 	 *
-	 * @param Brickrouge\Document $document
+	 * @inheritdoc
 	 */
-	static protected function add_assets(\Brickrouge\Document $document)
+	static protected function add_assets(Document $document)
 	{
 		$document->css->add(DIR . 'public/widget.css');
 		$document->js->add(DIR . 'public/widget.js');
@@ -40,11 +39,11 @@ class LoginForm extends Form
 		parent::add_assets($document);
 	}
 
-	public function __construct(array $attributes=[])
+	public function __construct(array $attributes = [])
 	{
 		$app = $this->app;
 
-		$this->lost_password = new A(I18n\t('lost_password', [], [ 'scope' => 'users.label', 'default' => 'I forgot my password' ]), "#lost-password", [
+		$this->lost_password = new A($this->t('lost_password', [], [ 'scope' => 'users.label', 'default' => 'I forgot my password' ]), "#lost-password", [
 
 			'rel' => 'nonce-request'
 

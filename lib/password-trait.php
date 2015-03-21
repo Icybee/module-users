@@ -99,7 +99,7 @@ trait PasswordTrait
 	{
 		if (!$this->password_hash)
 		{
-			return;
+			return null;
 		}
 
 		return $this->password_hash[0] != '$';

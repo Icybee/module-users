@@ -11,10 +11,13 @@
 
 namespace Icybee\Modules\Users;
 
+use ICanBoogie\Errors;
+use ICanBoogie\Operation;
+
 /**
  * Checks whether the specified email or username is unique, as in _not already used_.
  */
-class IsUniqueOperation extends \ICanBoogie\Operation
+class IsUniqueOperation extends Operation
 {
 	protected function get_controls()
 	{
@@ -25,7 +28,7 @@ class IsUniqueOperation extends \ICanBoogie\Operation
 		] + parent::get_controls();
 	}
 
-	protected function validate(\ICanboogie\Errors $errors)
+	protected function validate(Errors $errors)
 	{
 		$request = $this->request;
 		$username = $request[User::USERNAME];

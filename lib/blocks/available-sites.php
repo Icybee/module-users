@@ -24,7 +24,7 @@ class AvailableSitesBlock extends Element
 		->order('admin_title, title')
 		->all;
 
-		$uri = substr($_SERVER['REQUEST_URI'], strlen($app->site->path));
+		$uri = substr($_SERVER['REQUEST_URI'], strlen($site->path));
 		$options = [];
 
 		foreach ($available as $site)

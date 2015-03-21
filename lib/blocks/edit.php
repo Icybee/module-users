@@ -23,6 +23,9 @@ use Brickrouge\Widget;
 
 /**
  * A block to edit users.
+ *
+ * @property User $record
+ * @property User $user
  */
 class EditBlock extends \Icybee\EditBlock
 {
@@ -35,7 +38,7 @@ class EditBlock extends \Icybee\EditBlock
 
 	protected function get_permission()
 	{
-		$user = $this->app->user;
+		$user = $this->user;
 
 		if ($user->has_permission(Module::PERMISSION_MANAGE, $this->module))
 		{
@@ -47,6 +50,11 @@ class EditBlock extends \Icybee\EditBlock
 		}
 
 		return parent::get_permission();
+	}
+
+	protected function get_user()
+	{
+		return $this->app->user;
 	}
 
 	protected function lazy_get_attributes()
@@ -66,7 +74,7 @@ class EditBlock extends \Icybee\EditBlock
 	protected function lazy_get_children()
 	{
 		$values = $this->values;
-		$user = $this->app->user;
+		$user = $this->user;
 		$uid = $values[User::UID];
 		$languages = $this->app->locale['languages'];
 
@@ -162,7 +170,7 @@ class EditBlock extends \Icybee\EditBlock
 				Group::LABEL => 'language',
 				Element::GROUP => 'advanced',
 				Element::DESCRIPTION => 'language',
-				Element::OPTIONS => array(null => '') + $languages
+				Element::OPTIONS => [ null => '' ] + $languages
 
 			]),
 
@@ -183,7 +191,7 @@ class EditBlock extends \Icybee\EditBlock
 	{
 		$actions = parent::alter_actions($actions, $params);
 
-		$user = $this->app->user;
+		$user = $this->user;
 		$record = $this->record;
 
 		if ($record && $record->uid == $user->uid && !$user->has_permission(Module::PERMISSION_ADMINISTER, $this->module))
@@ -196,28 +204,26 @@ class EditBlock extends \Icybee\EditBlock
 
 	protected function create_control_for_role()
 	{
-		$app = $this->app;
-		$user = $app->user;
+		$user = $this->user;
 		$uid = $this->values[User::UID];
 
 		if ($uid == 1 || !$user->has_permission(Module::PERMISSION_ADMINISTER, $this->module))
 		{
-			return;
+			return null;
 		}
 
 		$rid = [ 2 => true ];
 
 		if ($uid)
 		{
-			$record = $this->module->model[$uid];
-
-			foreach ($record->roles as $role)
+			foreach ($this->record->roles as $role)
 			{
 				$rid[$role->rid] = true;
 			}
 		}
 
-		$options = $app->models['users.roles']
+		$options = $this->app
+		->models['users.roles']
 		->select('rid, name')
 		->where('rid != 1')
 		->order('rid')
@@ -291,12 +297,11 @@ class EditBlock extends \Icybee\EditBlock
 
 	protected function create_control_for_restricted_sites_ids()
 	{
-		$app = $this->app;
-		$user = $app->user;
+		$user = $this->user;
 
 		if (!$user->has_permission(Module::PERMISSION_ADMINISTER, $this->module))
 		{
-			return;
+			return null;
 		}
 
 		$value = [];
@@ -311,15 +316,15 @@ class EditBlock extends \Icybee\EditBlock
 			}
 		}
 
-		$options = $app
-			->models['sites']
-			->select('siteid, IF(admin_title != "", admin_title, concat(title, ":", language))')
-			->order('admin_title, title')
-			->pairs;
+		$options = $this->app
+		->models['sites']
+		->select('siteid, IF(admin_title != "", admin_title, concat(title, ":", language))')
+		->order('admin_title, title')
+		->pairs;
 
 		if (!$options)
 		{
-			return;
+			return null;
 		}
 
 		return new Element(Element::TYPE_CHECKBOX_GROUP, [

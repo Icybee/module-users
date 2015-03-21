@@ -29,7 +29,7 @@ return [
 	'api:login' => [
 
 		'pattern' => '/api/login',
-		'controller' => __NAMESPACE__ . '\LoginOperation',
+		'controller' => LoginOperation::class,
 		'via' => 'POST'
 
 	],
@@ -37,7 +37,7 @@ return [
 	'api:logout' => [
 
 		'pattern' => '/api/logout',
-		'controller' => __NAMESPACE__ . '\LogoutOperation',
+		'controller' => LogoutOperation::class,
 		'via' => [ 'GET', 'POST' ]
 
 	],
@@ -45,7 +45,7 @@ return [
 	'api:users/is_activated::set' => [
 
 		'pattern' => '/api/users/<uid:\d+>/is_activated',
-		'controller' => __NAMESPACE__ . '\ActivateOperation',
+		'controller' => ActivateOperation::class,
 		'via' => 'PUT',
 		'param_translation_list' => [
 
@@ -58,7 +58,7 @@ return [
 	'api:users/is_activated::unset' => [
 
 		'pattern' => '/api/users/<uid:\d+>/is_activated',
-		'controller' => __NAMESPACE__ . '\DeactivateOperation',
+		'controller' => DeactivateOperation::class,
 		'via' => 'DELETE',
 		'param_translation_list' => [
 
@@ -74,7 +74,7 @@ return [
 	'admin:profile' => [
 
 		'pattern' => '/admin/profile',
-		'controller' => __NAMESPACE__ . '\ProfileController',
+		'controller' => ProfileController::class,
 		'title' => 'Profile',
 		'block' => 'profile',
 		'visibility' => 'auto'

@@ -67,7 +67,7 @@ class SaveOperation extends \Icybee\Operation\Constructor\Save
 
 			if ($request[User::RESTRICTED_SITES])
 			{
-				foreach ($request[User::RESTRICTED_SITES] as $siteid => $value)
+				foreach ($request[User::RESTRICTED_SITES] as $site_id => $value)
 				{
 					$value = filter_var($value, FILTER_VALIDATE_BOOLEAN);
 
@@ -76,7 +76,7 @@ class SaveOperation extends \Icybee\Operation\Constructor\Save
 						continue;
 					}
 
-					$sites[] = (int) $siteid;
+					$sites[] = (int) $site_id;
 				}
 			}
 
@@ -109,11 +109,11 @@ class SaveOperation extends \Icybee\Operation\Constructor\Save
 	}
 
 	/**
-	 * Permission is granted if the user is modifing its own profile, and has permission to.
+	 * Permission is granted if the user is modifying its own profile, and has permission to.
 	 *
-	 * @see ICanBoogie.Operation::control_permission()
+	 * @inheritdoc
 	 */
-	protected function control_permission($permission=Module::PERMISSION_CREATE)
+	protected function control_permission($permission = Module::PERMISSION_CREATE)
 	{
 		$user = $this->app->user;
 
@@ -184,7 +184,7 @@ class SaveOperation extends \Icybee\Operation\Constructor\Save
 
 			if ($used)
 			{
-				$errors[User::USERNAME] = $errors->format("L'identifiant %username est déjà utilisé.", [
+				$errors[User::USERNAME] = $errors->format("The user name %username is already used.", [
 
 					'%username' => $username
 
@@ -203,7 +203,7 @@ class SaveOperation extends \Icybee\Operation\Constructor\Save
 
 			if ($used)
 			{
-				$errors[User::EMAIL] = $errors->format("L'adresse email %email est déjà utilisée.", [
+				$errors[User::EMAIL] = $errors->format("The email address %email est already used.", [
 
 					'%email' => $email
 
@@ -234,6 +234,8 @@ class SaveOperation extends \Icybee\Operation\Constructor\Save
 		}
 		else
 		{
+			/* @var $record User */
+
 			$record = $this->module->model[$uid];
 
 			$this->response->message = $errors->format($rc['mode'] == 'update' ? "%name's profile has been updated." : "%name's profile has been created.", [ 'name' => $record->name ]);

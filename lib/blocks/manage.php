@@ -12,23 +12,24 @@
 namespace Icybee\Modules\Users;
 
 use ICanBoogie\ActiveRecord\Query;
-use ICanBoogie\I18n;
+use Brickrouge\Document;
+use Icybee\ManageBlock\DateTimeColumn;
 
 class ManageBlock extends \Icybee\ManageBlock
 {
-	static protected function add_assets(\Brickrouge\Document $document)
+	static protected function add_assets(Document $document)
 	{
 		parent::add_assets($document);
 
 		$document->css->add(DIR . 'public/admin.css');
 	}
 
-	public function __construct($module, array $attributes=[])
+	public function __construct($module, array $attributes = [])
 	{
 		parent::__construct($module, $attributes + [
 
-			self::T_COLUMNS_ORDER => array(User::USERNAME, User::IS_ACTIVATED, User::EMAIL, 'roles', User::CREATED_AT, User::LOGGED_AT),
-			self::T_ORDER_BY => array('created_at', 'desc')
+			self::T_COLUMNS_ORDER => [ User::USERNAME, User::IS_ACTIVATED, User::EMAIL, 'roles', User::CREATED_AT, User::LOGGED_AT ],
+			self::T_ORDER_BY => [ 'created_at', 'desc' ]
 
 		]);
 	}
@@ -42,23 +43,27 @@ class ManageBlock extends \Icybee\ManageBlock
 	 * - `created_at`: An instance of {@link \Icybee\ManageBlock\DateTimeColumn}.
 	 * - `logged_at`: An instance of {@link ManageBlock\LoggedAtColumn}.
 	 * - `is_activated`: An instance of {@link ManageBlock\IsActivatedColumn}.
+	 *
+	 * @inheritdoc
 	 */
 	protected function get_available_columns()
 	{
 		return array_merge(parent::get_available_columns(), [
 
-			User::USERNAME => __CLASS__ . '\UsernameColumn',
-			User::EMAIL => __CLASS__ . '\EmailColumn',
-			'roles' => __CLASS__ . '\RolesColumn',
-			User::CREATED_AT => 'Icybee\ManageBlock\DateTimeColumn',
-			User::LOGGED_AT => __CLASS__ . '\LoggedAtColumn',
-			User::IS_ACTIVATED => __CLASS__ . '\IsActivatedColumn'
+			User::USERNAME => ManageBlock::class . '\UsernameColumn',
+			User::EMAIL => ManageBlock::class . '\EmailColumn',
+			'roles' => ManageBlock::class . '\RolesColumn',
+			User::CREATED_AT => DateTimeColumn::class,
+			User::LOGGED_AT => ManageBlock::class . '\LoggedAtColumn',
+			User::IS_ACTIVATED => ManageBlock::class . '\IsActivatedColumn'
 
 		]);
 	}
 
 	/**
 	 * Filters records according to the constructor (the module that created the record).
+	 *
+	 * @inheritdoc
 	 */
 	protected function alter_query(Query $query, array $filters)
 	{
@@ -71,13 +76,15 @@ class ManageBlock extends \Icybee\ManageBlock
 	 *
 	 * - `activate`: Activate the selected records.
 	 * - `deactivate`: Deactivate the selected records.
+	 *
+	 * @inheritdoc
 	 */
 	protected function get_available_jobs()
 	{
 		return array_merge(parent::get_available_jobs(), [
 
-			Module::OPERATION_ACTIVATE => I18n\t('activate.operation.title'),
-			Module::OPERATION_DEACTIVATE => I18n\t('deactivate.operation.title')
+			Module::OPERATION_ACTIVATE => $this->t('activate.operation.title'),
+			Module::OPERATION_DEACTIVATE => $this->t('deactivate.operation.title')
 
 		]);
 	}
@@ -88,20 +95,26 @@ namespace Icybee\Modules\Users\ManageBlock;
 use ICanBoogie\ActiveRecord\Model;
 use ICanBoogie\ActiveRecord\Query;
 use ICanBoogie\ActiveRecord\RecordNotFound;
-use ICanBoogie\I18n;
 
 use Brickrouge\Element;
 
+use Icybee\ManageBlock;
 use Icybee\ManageBlock\BooleanColumn;
 use Icybee\ManageBlock\Column;
 use Icybee\ManageBlock\DateTimeColumn;
 use Icybee\ManageBlock\FilterDecorator;
+use Icybee\Modules\Users\User;
 
 /**
  * Representation of the `username` column.
  */
 class UsernameColumn extends Column
 {
+	/**
+	 * @param User $record
+	 *
+	 * @inheritdoc
+	 */
 	public function render_cell($record)
 	{
 		$label = $record->username;
@@ -118,7 +131,7 @@ class UsernameColumn extends Column
 
 			'class' => 'edit',
 			'href' => \ICanBoogie\Routing\contextualize("/admin/{$record->constructor}/{$record->uid}/edit"),
-			'title' => I18n\t('manage.edit')
+			'title' => $this->t('manage.edit')
 
 		]);
 	}
@@ -129,6 +142,11 @@ class UsernameColumn extends Column
  */
 class EmailColumn extends Column
 {
+	/**
+	 * @param User $record
+	 *
+	 * @inheritdoc
+	 */
 	public function render_cell($record)
 	{
 		$email = $record->email;
@@ -142,30 +160,36 @@ class EmailColumn extends Column
  */
 class RolesColumn extends Column
 {
+	/**
+	 * @param User $record
+	 *
+	 * @inheritdoc
+	 */
 	public function render_cell($record)
 	{
 		if ($record->uid == 1)
 		{
 			return '<em>Admin</em>';
 		}
-		else if ($record->roles)
+
+		if (!$record->roles)
 		{
-			$label = '';
-
-			foreach ($record->roles as $role)
-			{
-				if ($role->rid == 2)
-				{
-					continue;
-				}
-
-				$label .= ', ' . $role->name;
-			}
-
-			$label = substr($label, 2);
+			return null;
 		}
 
-		return $label;
+		$label = '';
+
+		foreach ($record->roles as $role)
+		{
+			if ($role->rid == 2)
+			{
+				continue;
+			}
+
+			$label .= ', ' . $role->name;
+		}
+
+		return substr($label, 2);
 	}
 }
 
@@ -174,6 +198,11 @@ class RolesColumn extends Column
  */
 class LoggedAtColumn extends DateTimeColumn
 {
+	/**
+	 * @param User $record
+	 *
+	 * @inheritdoc
+	 */
 	public function render_cell($record)
 	{
 		$logged_at = $record->logged_at;
@@ -192,7 +221,7 @@ class LoggedAtColumn extends DateTimeColumn
  */
 class IsActivatedColumn extends BooleanColumn
 {
-	public function __construct(\Icybee\ManageBlock $manager, $id, array $options=[])
+	public function __construct(ManageBlock $manager, $id, array $options = [])
 	{
 		parent::__construct($manager, $id, $options + [
 
@@ -212,11 +241,16 @@ class IsActivatedColumn extends BooleanColumn
 		]);
 	}
 
+	/**
+	 * @param User $record
+	 *
+	 * @inheritdoc
+	 */
 	public function render_cell($record)
 	{
 		if ($record->is_admin)
 		{
-			return;
+			return null;
 		}
 
 		return parent::render_cell($record);
@@ -233,14 +267,14 @@ class UserColumn extends Column
 	/**
 	 * The users associated with the records, indexed by their identifier.
 	 *
-	 * @var array[int]\Icybee\Modules\Users\User
+	 * @var User[]
 	 */
 	private $user_cache;
 
 	/**
 	 * The names of the users associated with the records, indexed by their identifier.
 	 *
-	 * @var array[int]string
+	 * @var array
 	 *
 	 * @see resolved_user_names()
 	 */
@@ -248,8 +282,10 @@ class UserColumn extends Column
 
 	/**
 	 * Initializes the {@link $resolved_user_names} property.
+	 *
+	 * @inheritdoc
 	 */
-	public function __construct(\Icybee\ManageBlock $manager, $id, array $options=[])
+	public function __construct(ManageBlock $manager, $id, array $options = [])
 	{
 		parent::__construct($manager, $id, $options + [
 
@@ -279,7 +315,7 @@ class UserColumn extends Column
 
 		if (count($users_keys) < 2)
 		{
-			return;
+			return null;
 		}
 
 		return \ICanBoogie\app()
@@ -317,6 +353,8 @@ class UserColumn extends Column
 	/**
 	 * Includes the users associated with the records.
 	 *
+	 * @param User[] $records
+	 *
 	 * @inheritdoc
 	 */
 	public function alter_records(array $records)
@@ -350,7 +388,7 @@ class UserColumn extends Column
 	{
 		if (!$this->resolved_user_names)
 		{
-			return;
+			return null;
 		}
 
 		$options = [];
@@ -363,6 +401,11 @@ class UserColumn extends Column
 		return $options;
 	}
 
+	/**
+	 * @param User $record
+	 *
+	 * @inheritdoc
+	 */
 	public function render_cell($record)
 	{
 		$uid = $record->{ $this->id };

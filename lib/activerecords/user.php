@@ -11,34 +11,39 @@
 
 namespace Icybee\Modules\Users;
 
+use Brickrouge\AlterCSSClassNamesEvent;
+use ICanBoogie\ActiveRecord;
 use ICanBoogie\ActiveRecord\CreatedAtProperty;
-use ICanBoogie\ActiveRecord\DateTimePropertySupport;
 use ICanBoogie\ActiveRecord\RecordNotFound;
-use ICanBoogie\DateTime;
 
+use Brickrouge\CSSClassNames;
 use Brickrouge\CSSClassNamesProperty;
 
 use Icybee\Modules\Users\Roles\Role;
-use ICanBoogie\ActiveRecord;
 
 /**
  * A user.
  *
+ * @property-read \ICanBoogie\Core $app
  * @property-read string $name The formatted name of the user.
  * @property-read boolean $is_admin true if the user is admin, false otherwise.
  * @property-read boolean $is_guest true if the user is a guest, false otherwise.
- * @property-read \Icybee\Modules\Users\Users\Role $role
+ * @property-read Role $role
+ * @property Role[] $roles
+ * @property \Icybee\Modules\Registry\MetasHandler $metas
  *
  * @property-read string $password_hash The password hash.
  * @property-read bool|null $has_legacy_password_hash Whether the password hash is a legacy hash.
  * {@link User::get_has_legacy_password_hash()}.
- *
- * @property \ICanBoogie\DateTime $logged_at The date and time at which the user was logged.
  */
-class User extends \ICanBoogie\ActiveRecord implements \Brickrouge\CSSClassNames
+class User extends ActiveRecord implements CSSClassNames
 {
+	use CreatedAtProperty;
+	use LoggedAtProperty;
 	use CSSClassNamesProperty;
 	use PasswordTrait;
+
+	const MODEL_ID = 'users';
 
 	const UID = 'uid';
 	const EMAIL = 'email';
@@ -163,9 +168,6 @@ class User extends \ICanBoogie\ActiveRecord implements \Brickrouge\CSSClassNames
 	 */
 	public $name_as = self::NAME_AS_USERNAME;
 
-	use CreatedAtProperty;
-	use LoggedAtProperty;
-
 	/**
 	 * Preferred language of the user.
 	 *
@@ -188,14 +190,14 @@ class User extends \ICanBoogie\ActiveRecord implements \Brickrouge\CSSClassNames
 	public $is_activated = false;
 
 	/**
-	 * Defaults `$model` to "users".
+	 * Defaults `$model` to {@link MODEL_ID}.
 	 *
 	 * Initializes the {@link $constructor} property with the model identifier if it is not
 	 * defined.
 	 *
 	 * @param string|\ICanBoogie\ActiveRecord\Model $model
 	 */
-	public function __construct($model='users')
+	public function __construct($model = self::MODEL_ID)
 	{
 		parent::__construct($model);
 
@@ -211,7 +213,7 @@ class User extends \ICanBoogie\ActiveRecord implements \Brickrouge\CSSClassNames
 
 		if ($property === 'css_class_names')
 		{
-			new \Brickrouge\AlterCSSClassNamesEvent($this, $value);
+			new AlterCSSClassNamesEvent($this, $value);
 		}
 
 		return $value;
@@ -281,7 +283,7 @@ class User extends \ICanBoogie\ActiveRecord implements \Brickrouge\CSSClassNames
 	 *
 	 * This is the getter for the {@link $role} magic property.
 	 *
-	 * @return \Icybee\Modules\Users\Users\Role
+	 * @return Role
 	 */
 	protected function lazy_get_role()
 	{
@@ -298,7 +300,7 @@ class User extends \ICanBoogie\ActiveRecord implements \Brickrouge\CSSClassNames
 			}
 		}
 
-		$role = new Role();
+		$role = new Role;
 		$role->perms = $permissions;
 
 		if ($name)
@@ -318,11 +320,13 @@ class User extends \ICanBoogie\ActiveRecord implements \Brickrouge\CSSClassNames
 	 */
 	protected function lazy_get_roles()
 	{
+		$models = $this->model->models;
+
 		try
 		{
 			if (!$this->uid)
 			{
-				return [ ActiveRecord\get_model('users.roles')[1] ];
+				return [ $models['users.roles'][1] ];
 			}
 		}
 		catch (\Exception $e)
@@ -330,7 +334,7 @@ class User extends \ICanBoogie\ActiveRecord implements \Brickrouge\CSSClassNames
 			return [];
 		}
 
-		$rids = ActiveRecord\get_model('users/has_many_roles')
+		$rids = $models['users/has_many_roles']
 		->select('rid')
 		->filter_by_uid($this->uid)
 		->all(\PDO::FETCH_COLUMN);
@@ -342,7 +346,7 @@ class User extends \ICanBoogie\ActiveRecord implements \Brickrouge\CSSClassNames
 
 		try
 		{
-			return ActiveRecord\get_model('users.roles')->find($rids);
+			return $models['users.roles']->find($rids);
 		}
 		catch (RecordNotFound $e)
 		{
@@ -390,7 +394,7 @@ class User extends \ICanBoogie\ActiveRecord implements \Brickrouge\CSSClassNames
 			return [];
 		}
 
-		return ActiveRecord\get_model('users/has_many_sites')
+		return $this->model->models['users/has_many_sites']
 		->select('siteid')
 		->filter_by_uid($this->uid)
 		->all(\PDO::FETCH_COLUMN);
@@ -404,7 +408,7 @@ class User extends \ICanBoogie\ActiveRecord implements \Brickrouge\CSSClassNames
 	 *
 	 * @return mixed
 	 */
-	public function has_permission($permission, $target=null)
+	public function has_permission($permission, $target = null)
 	{
 		if ($this->is_admin)
 		{
@@ -420,8 +424,8 @@ class User extends \ICanBoogie\ActiveRecord implements \Brickrouge\CSSClassNames
 	 * If the ownership information is missing from the entry (the 'uid' property is null), the user
 	 * must have the ADMINISTER level to be considered the owner.
 	 *
-	 * @param $module
-	 * @param $record
+	 * @param mixed $module
+	 * @param ActiveRecord $record
 	 *
 	 * @return boolean
 	 */
@@ -502,40 +506,5 @@ class User extends \ICanBoogie\ActiveRecord implements \Brickrouge\CSSClassNames
 			'is-logged' => !$this->is_guest
 
 		];
-	}
-}
-
-/**
- * Implements the`logged_at` property.
- *
- * @property \ICanBoogie\DateTime $logged_at The date and time at which the user was logged.
- */
-trait LoggedAtProperty
-{
-	/**
-	 * The date and time at which the user was logged.
-	 *
-	 * @var mixed
-	 */
-	private $logged_at;
-
-	/**
-	 * Returns the date and time at which the user was logged.
-	 *
-	 * @return \ICanBoogie\DateTime
-	 */
-	protected function get_logged_at()
-	{
-		return DateTimePropertySupport::get($this->logged_at);
-	}
-
-	/**
-	 * Sets the date and time at which the user was logged.
-	 *
-	 * @param mixed $datetime
-	 */
-	protected function set_logged_at($datetime)
-	{
-		DateTimePropertySupport::set($this->logged_at, $datetime);
 	}
 }

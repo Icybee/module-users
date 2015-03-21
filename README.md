@@ -1,4 +1,11 @@
-# Users [![Build Status](https://travis-ci.org/Icybee/module-users.svg?branch=2.0)](https://travis-ci.org/Icybee/module-users)
+# Users
+
+[![Release](https://img.shields.io/packagist/v/icybee/module-users.svg)](https://github.com/Icybee/module-users/releases)
+[![Build Status](https://img.shields.io/travis/Icybee/module-users/master.svg)](http://travis-ci.org/Icybee/module-users)
+[![HHVM](https://img.shields.io/hhvm/icybee/module-users.svg)](http://hhvm.h4cc.de/package/icybee/module-users)
+[![Code Quality](https://img.shields.io/scrutinizer/g/Icybee/module-users/master.svg)](https://scrutinizer-ci.com/g/Icybee/module-users)
+[![Code Coverage](https://img.shields.io/coveralls/Icybee/module-users/master.svg)](https://coveralls.io/r/Icybee/module-users)
+[![Packagist](https://img.shields.io/packagist/dt/icybee/module-users.svg)](https://packagist.org/packages/icybee/module-users)
 
 Manages users of the CMS Icybee.
 
@@ -276,7 +283,7 @@ to unlock its account.
 
 ## Requirement
 
-The package requires PHP 5.4 or later.
+The package requires PHP 5.5 or later.
 
 
 
@@ -287,7 +294,7 @@ The package requires PHP 5.4 or later.
 The recommended way to install this package is through [Composer](http://getcomposer.org/):
 
 ```
-$ composer require icybee/module-users:~2.0
+$ composer require icybee/module-users
 ```
 
 This module is part of the modules required by [Icybee](http://icybee.org).
@@ -321,13 +328,13 @@ cleaned with the `make clean` command.
 
 ## Testing
 
-The test suite is ran with the `make test` command. [Composer](http://getcomposer.org/) is
-automatically installed as well as all the dependencies required to run the suite. The package
-directory can later be cleaned with the `make clean` command.
+The test suite is ran with the `make test` command. [PHPUnit](https://phpunit.de/) and [Composer](http://getcomposer.org/) need to be globally available to run the suite. The command installs dependencies as required. The `make test-coverage` command runs test suite and also creates an HTML coverage report in "build/coverage". The directory can later be cleaned with the `make clean` command.
 
 The package is continuously tested by [Travis CI](http://about.travis-ci.org/).
 
-[![Build Status](https://travis-ci.org/Icybee/module-users.svg?branch=2.0)](https://travis-ci.org/Icybee/module-users)
+[![Build Status](https://img.shields.io/travis/Icybee/module-users/master.svg)](https://travis-ci.org/Icybee/module-users)
+[![Code Coverage](https://img.shields.io/coveralls/Icybee/module-users/master.svg)](https://coveralls.io/r/Icybee/module-users)
+
 
 
 
@@ -336,7 +343,7 @@ The package is continuously tested by [Travis CI](http://about.travis-ci.org/).
 
 ## License
 
-The module is licensed under the New BSD License - See the [LICENSE](LICENSE) file for details.
+**icybee/module-users** is licensed under the New BSD License - See the [LICENSE](LICENSE) file for details.
 
 
 

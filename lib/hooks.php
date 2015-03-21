@@ -33,7 +33,7 @@ class Hooks
 	/**
 	 * Checks if the role to be deleted is used or not.
 	 *
-	 * @param BeforeProcessEvent $event
+	 * @param Operation\BeforeProcessEvent $event
 	 * @param \Icybee\Modules\Users\Roles\DeleteOperation $operation
 	 */
 	static public function before_roles_delete(Operation\BeforeProcessEvent $event, \Icybee\Modules\Users\Roles\DeleteOperation $operation)
@@ -86,7 +86,7 @@ class Hooks
 	/**
 	 * Displays an _available websites_ form on {@link WebsiteAdminNotAccessible}.
 	 *
-	 * @param \ICanboogie\Exception\RescueEvent $event
+	 * @param \ICanBoogie\Exception\RescueEvent $event
 	 * @param WebsiteAdminNotAccessible $target
 	 */
 	static public function on_website_admin_not_accessible_rescue(\ICanboogie\Exception\RescueEvent $event, WebsiteAdminNotAccessible $target)
@@ -108,11 +108,11 @@ class Hooks
 	 * The {@link PermissionRequired} exception is thrown if a member attempts to enter the admin.
 	 *
 	 * Authenticated users who don't have access to the admin of a website are redirected to the
-	 * `/admin/pofile/sites` URL, in which case the `response` property of the event is altered
+	 * `/admin/profile/sites` URL, in which case the `response` property of the event is altered
 	 * with a {@link RedirectResponse}.
 	 *
-	 * @param \ICanBoogie\HTTP\Dispatcher\BeforeDispatchEvent $event
-	 * @param \ICanBoogie\HTTP\Dispatcher $target
+	 * @param \ICanBoogie\Routing\Dispatcher\BeforeDispatchEvent $event
+	 * @param \ICanBoogie\Routing\Dispatcher $target
 	 *
 	 * @throws PermissionRequired if a member attempt to enter the admin.
 	 * @throws WebsiteAdminNotAccessible if a user attempts to access the admin of a website he
@@ -184,7 +184,7 @@ class Hooks
 	{
 		if (!Session::exists())
 		{
-			return;
+			return null;
 		}
 
 		$session = $app->session;

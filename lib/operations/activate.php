@@ -11,10 +11,15 @@
 
 namespace Icybee\Modules\Users;
 
+use ICanBoogie\Errors;
+use ICanBoogie\Operation;
+
 /**
  * Enables a user account.
+ *
+ * @property User $record
  */
-class ActivateOperation extends \ICanBoogie\Operation
+class ActivateOperation extends Operation
 {
 	protected function get_controls()
 	{
@@ -27,7 +32,7 @@ class ActivateOperation extends \ICanBoogie\Operation
 		] + parent::get_controls();
 	}
 
-	protected function validate(\ICanboogie\Errors $errors)
+	protected function validate(Errors $errors)
 	{
 		return true;
 	}

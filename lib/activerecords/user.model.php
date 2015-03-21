@@ -14,9 +14,11 @@ namespace Icybee\Modules\Users;
 use ICanBoogie\DateTime;
 use ICanBoogie\ActiveRecord;
 
-class Model extends \Icybee\ActiveRecord\Model\Constructor
+use Icybee\ConstructorModel;
+
+class Model extends ConstructorModel
 {
-	public function save(array $properties, $key=null, array $options=[])
+	public function save(array $properties, $key = null, array $options = [])
 	{
 		if (!$key)
 		{
@@ -42,49 +44,51 @@ class Model extends \Icybee\ActiveRecord\Model\Constructor
 
 		$rc = parent::save($properties, $key, $options);
 
-		#
-		# roles
-		#
-
-		if (isset($properties[User::ROLES]))
+		if (array_key_exists(User::ROLES, $properties))
 		{
-			$has_many_roles = ActiveRecord\get_model('users/has_many_roles');
-
-			if ($key)
-			{
-				$has_many_roles->filter_by_uid($key)->delete();
-			}
-
-			foreach ($properties[User::ROLES] as $rid)
-			{
-				if ($rid == 2)
-				{
-					continue;
-				}
-
-				$has_many_roles->execute('INSERT {self} SET uid = ?, rid = ?', [ $rc, $rid ]);
-			}
+			$this->save_roles($key, $rc, $properties[User::ROLES]);
 		}
 
-		#
-		# sites
-		#
-
-		if (isset($properties[User::RESTRICTED_SITES]))
+		if (array_key_exists(User::RESTRICTED_SITES, $properties))
 		{
-			$has_many_sites = ActiveRecord\get_model('users/has_many_sites');
-
-			if ($key)
-			{
-				$has_many_sites->filter_by_uid($key)->delete();
-			}
-
-			foreach ($properties[User::RESTRICTED_SITES] as $siteid)
-			{
-				$has_many_sites->execute('INSERT {self} SET uid = ?, siteid = ?', [ $rc, $siteid ]);
-			}
+			$this->save_restricted_sites($key, $rc, $properties[User::RESTRICTED_SITES]);
 		}
 
 		return $rc;
+	}
+
+	protected function save_roles($key, $rc, $roles)
+	{
+		$has_many_roles = $this->models['users/has_many_roles'];
+
+		if ($key)
+		{
+			$has_many_roles->filter_by_uid($key)->delete();
+		}
+
+		foreach ($roles as $rid)
+		{
+			if ($rid == 2)
+			{
+				continue;
+			}
+
+			$has_many_roles->execute('INSERT {self} SET uid = ?, rid = ?', [ $rc, $rid ]);
+		}
+	}
+
+	protected function save_restricted_sites($key, $rc, $restricted_sites)
+	{
+		$has_many_sites = $this->models['users/has_many_sites'];
+
+		if ($key)
+		{
+			$has_many_sites->filter_by_uid($key)->delete();
+		}
+
+		foreach ($restricted_sites as $site_id)
+		{
+			$has_many_sites->execute('INSERT {self} SET uid = ?, siteid = ?', [ $rc, $site_id ]);
+		}
 	}
 }

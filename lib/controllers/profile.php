@@ -11,6 +11,8 @@
 
 namespace Icybee\Modules\Users;
 
+use Icybee\BlockController;
+
 /**
  * Class ProfileController
  *
@@ -18,7 +20,7 @@ namespace Icybee\Modules\Users;
  *
  * @property-read User $user
  */
-class ProfileController extends \Icybee\BlockController
+class ProfileController extends BlockController
 {
 	protected function control_permission($permission)
 	{

@@ -12,14 +12,21 @@
 namespace Icybee\Modules\Users;
 
 use ICanBoogie\AuthenticationRequired;
-
 use Icybee\Modules\Views\ViewOptions;
 
+/**
+ * @property-read User $user
+ */
 class View extends \Icybee\Modules\Views\View
 {
+	protected function get_user()
+	{
+		return $this->app->user;
+	}
+
 	/**
-	 * @throws HTTPError with code 401 if the record is offline and the user don't have access
-	 * permission to the module.
+	 * @throws AuthenticationRequired with code 401 if the record is offline and the user don't
+	 * have access permission to the module.
 	 *
 	 * @inheritdoc
 	 */
@@ -34,7 +41,7 @@ class View extends \Icybee\Modules\Views\View
 
 		if ($rc instanceof User && !$rc->is_activated)
 		{
-			if (!\ICanBoogie\app()->user->has_permission(\ICanBoogie\Module::PERMISSION_ACCESS, $rc->constructor))
+			if (!$this->user->has_permission(Module::PERMISSION_ACCESS, $rc->constructor))
 			{
 				throw new AuthenticationRequired;
 			}

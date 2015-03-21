@@ -13,6 +13,7 @@ namespace Icybee\Modules\Users;
 
 use ICanBoogie\I18n;
 use ICanBoogie\I18n\Translator\Proxi;
+use Icybee\Modules\Registry\MetasHandler;
 
 /**
  * @property-read User $record The logged user.
@@ -57,22 +58,26 @@ class LoginOperation extends \ICanBoogie\Operation
 			return false;
 		}
 
+		/* @var $user User */
+		/* @var $metas MetasHandler */
+
 		$user = $this->app->models['users'][$uid];
+		$metas = $user->metas;
 
 		$now = time();
-		$login_unlock_time = $user->metas['login_unlock_time'];
+		$login_unlock_time = $metas['login_unlock_time'];
 
 		if ($login_unlock_time)
 		{
 			if ($login_unlock_time > $now)
 			{
-				throw new \ICanBoogie\HTTP\HTTPError
+				throw new \Exception
 				(
 					\ICanBoogie\format("The user account has been locked after multiple failed login attempts.
 					An e-mail has been sent to unlock the account. Login attempts are locked until %time,
 					unless you unlock the account using the email sent.", [
 
-						'%count' => $user->metas['failed_login_count'],
+						'%count' => $metas['failed_login_count'],
 						'%time' => I18n\format_date($login_unlock_time, 'HH:mm')
 
 					]),
@@ -81,22 +86,22 @@ class LoginOperation extends \ICanBoogie\Operation
 				);
 			}
 
-			$user->metas['login_unlock_time'] = null;
+			$metas['login_unlock_time'] = null;
 		}
 
 		if (!$user->verify_password($password))
 		{
 			$errors[User::PASSWORD] = $errors->format('Unknown username/password combination.');
 
-			$user->metas['failed_login_count'] += 1;
-			$user->metas['failed_login_time'] = $now;
+			$metas['failed_login_count'] += 1;
+			$metas['failed_login_time'] = $now;
 
-			if ($user->metas['failed_login_count'] >= 10)
+			if ($metas['failed_login_count'] >= 10)
 			{
 				$token = \ICanBoogie\generate_token(40, \ICanBoogie\TOKEN_ALPHA . \ICanBoogie\TOKEN_NUMERIC);
 
-				$user->metas['login_unlock_token'] = $token;
-				$user->metas['login_unlock_time'] = $now + 3600;
+				$metas['login_unlock_token'] = $token;
+				$metas['login_unlock_time'] = $now + 3600;
 
 				$until = I18n\format_date($now + 3600, 'HH:mm');
 
