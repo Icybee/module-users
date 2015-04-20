@@ -2,13 +2,62 @@
 
 namespace Icybee\Modules\Users;
 
+use ICanBoogie\Updater\AssertionFailed;
+use ICanBoogie\Updater\Update;
+
+/**
+ * - Rename table `user_users` as `users`.
+ *
+ * @module users
+ */
+class Update20120101 extends Update
+{
+	public function update_table_users()
+	{
+		$db = $this->app->db;
+
+		if (!$db->table_exists('user_users'))
+		{
+			throw new AssertionFailed('assert_table_exists', 'user_users');
+		}
+
+		if ($db->table_exists('users'))
+		{
+			throw new AssertionFailed('assert_not_table_exists', 'users');
+		}
+
+		$db("RENAME TABLE `user_users` TO `users`");
+	}
+
+	public function update_constructor_type()
+	{
+		$db = $this->app->db;
+		$db("UPDATE users SET constructor = 'users' WHERE constructor = 'user.users'");
+	}
+}
+
+/**
+ * - Rename `password` column as `password_hash`.
+ *
+ * @module users
+ */
+class Update20130101 extends Update
+{
+	public function update_column_password_hash()
+	{
+		$this->module->model
+		->assert_has_column('password')
+		->rename_column('password', 'password_hash');
+	}
+}
+
 /**
  * - Alter the column `password_hash` to suit the requirements of the Password API.
  * - Rename the column `created` as `created_at`.
  *
  * @module users
  */
-class Update20131021 extends \ICanBoogie\Updater\Update
+class Update20131021 extends Update
 {
 	public function update_column_password_hash()
 	{
@@ -29,7 +78,7 @@ class Update20131021 extends \ICanBoogie\Updater\Update
 /**
  * @module users
  */
-class Update20131022 extends \ICanBoogie\Updater\Update
+class Update20131022 extends Update
 {
 	/**
 	 * Rename the column `display` as `name_as`.
