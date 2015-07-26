@@ -2,29 +2,12 @@
 
 namespace Icybee\Modules\Users;
 
+use ICanBoogie\HTTP\Request;
 use ICanBoogie\Operation;
 
+use Icybee\Routing\RouteMaker as Make;
+
 return [
-
-	'!admin:manage' => [
-
-		'pattern' => '!auto',
-		'controller' => true,
-
-	],
-
-	'!admin:new' => [
-
-		'pattern' => '!auto',
-		'controller' => true
-
-	],
-
-	'!admin:edit' => [
-
-		'pattern' => '!auto',
-		'controller' => true
-	],
 
 	'api:login' => [
 
@@ -66,28 +49,24 @@ return [
 
 		]
 
-	],
+	]
 
-	/**
-	 * A route to the user's profile.
-	 */
-	'admin:profile' => [
+] + Make::admin('users', Routing\UsersAdminController::class, [
 
-		'pattern' => '/admin/profile',
-		'controller' => ProfileController::class,
-		'title' => 'Profile',
-		'block' => 'profile',
-		'visibility' => 'auto'
+	'only' => [ 'index', 'create', 'edit', 'profile', 'authenticate' ],
+	'actions' => [
 
-	],
+		'profile' => [
 
-	'admin:authenticate' => [
+			'/profile', Request::METHOD_ANY, [
 
-		'pattern' => '/admin/authenticate',
-		'controller' => true,
-		'title' => 'Connection',
-		'block' => 'connect',
-		'visibility' => 'auto'
+				'permission' => 'modify own profile',
+				'navigation_excluded' => true
+
+			]
+
+		]
 
 	]
-];
+
+]);
