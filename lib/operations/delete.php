@@ -19,6 +19,9 @@ use ICanBoogie\Errors;
  */
 class DeleteOperation extends Super
 {
+	/**
+	 * @inheritdoc
+	 */
 	protected function validate(Errors $errors)
 	{
 		if ($this->key == 1)

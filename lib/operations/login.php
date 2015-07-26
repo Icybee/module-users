@@ -11,12 +11,13 @@
 
 namespace Icybee\Modules\Users;
 
+use ICanBoogie\HTTP\Request;
 use ICanBoogie\I18n;
 use ICanBoogie\I18n\Translator\Proxi;
 use Icybee\Modules\Registry\MetasHandler;
 
 /**
- * @property-read User $record The logged user.
+ * @property User $record The logged user.
  */
 class LoginOperation extends \ICanBoogie\Operation
 {

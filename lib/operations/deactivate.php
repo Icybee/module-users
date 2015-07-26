@@ -11,11 +11,41 @@
 
 namespace Icybee\Modules\Users;
 
+use ICanBoogie\Errors;
+use ICanBoogie\Operation;
+
 /**
  * Disables a user account.
+ *
+ * @property User $record
  */
-class DeactivateOperation extends ActivateOperation
+class DeactivateOperation extends Operation
 {
+	/**
+	 * @inheritdoc
+	 */
+	protected function get_controls()
+	{
+		return [
+
+			self::CONTROL_PERMISSION => Module::PERMISSION_ADMINISTER,
+			self::CONTROL_RECORD => true,
+			self::CONTROL_OWNERSHIP => true
+
+		] + parent::get_controls();
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	protected function validate(Errors $errors)
+	{
+		return true;
+	}
+
+	/**
+	 * @inheritdoc
+	 */
 	protected function process()
 	{
 		$record = $this->record;

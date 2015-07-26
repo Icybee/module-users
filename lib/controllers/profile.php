@@ -11,7 +11,7 @@
 
 namespace Icybee\Modules\Users;
 
-use Icybee\BlockController;
+use Icybee\Controller\BlockController;
 
 /**
  * Class ProfileController

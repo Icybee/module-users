@@ -4,13 +4,15 @@ namespace Icybee\Modules\Users;
 
 $hooks = Hooks::class . '::';
 
+use ICanBoogie\Routing\RouteDispatcher;
+
 return [
 
 	'events' => [
 
 		'ICanBoogie\AuthenticationRequired::rescue' => $hooks . 'on_security_exception_rescue',
 		'ICanBoogie\PermissionRequired::rescue' => $hooks . 'on_security_exception_rescue',
-		'ICanBoogie\Routing\Dispatcher::dispatch:before' => $hooks . 'before_routing_dispatcher_dispatch',
+		RouteDispatcher::class . '::dispatch:before' => $hooks . 'before_routing_dispatcher_dispatch',
 		'Icybee\Modules\Users\Roles\DeleteOperation::process:before' => $hooks . 'before_roles_delete',
 		'Icybee\Modules\Users\WebsiteAdminNotAccessible::rescue' => $hooks . 'on_website_admin_not_accessible_rescue'
 
@@ -33,4 +35,5 @@ return [
 		'users:form:login' => [ $hooks . 'markup_form_login' ]
 
 	]
+
 ];

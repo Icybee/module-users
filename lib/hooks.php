@@ -14,10 +14,11 @@ namespace Icybee\Modules\Users;
 use ICanBoogie\ActiveRecord;
 use ICanBoogie\Core;
 use ICanBoogie\HTTP\Response;
+use ICanBoogie\HTTP\RequestDispatcher;
 use ICanBoogie\Operation;
-use ICanBoogie\Operation\ProcessEvent;
 use ICanBoogie\PermissionRequired;
 use ICanBoogie\PropertyNotDefined;
+use ICanBoogie\Routing\RouteDispatcher;
 use ICanBoogie\SecurityException;
 use ICanBoogie\Session;
 
@@ -59,7 +60,7 @@ class Hooks
 	{
 		$request = $event->request;
 
-		if ($request->context->dispatcher instanceof \ICanBoogie\Operation\Dispatcher && $request->is_xhr)
+		if ($request->context->dispatcher instanceof OperationDispatcher && $request->is_xhr)
 		{
 			return;
 		}
@@ -111,14 +112,14 @@ class Hooks
 	 * `/admin/profile/sites` URL, in which case the `response` property of the event is altered
 	 * with a {@link RedirectResponse}.
 	 *
-	 * @param \ICanBoogie\Routing\Dispatcher\BeforeDispatchEvent $event
-	 * @param \ICanBoogie\Routing\Dispatcher $target
+	 * @param RouteDispatcher\BeforeDispatchEvent $event
+	 * @param RouteDispatcher $target
 	 *
 	 * @throws PermissionRequired if a member attempt to enter the admin.
 	 * @throws WebsiteAdminNotAccessible if a user attempts to access the admin of a website he
 	 * doesn't have access to.
 	 */
-	static public function before_routing_dispatcher_dispatch(\ICanBoogie\Routing\Dispatcher\BeforeDispatchEvent $event, \ICanBoogie\Routing\Dispatcher $target)
+	static public function before_routing_dispatcher_dispatch(RouteDispatcher\BeforeDispatchEvent $event, RouteDispatcher $target)
 	{
 		$path = $event->request->decontextualized_path;
 

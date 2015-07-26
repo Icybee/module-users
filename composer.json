@@ -16,16 +16,22 @@
 		"issues": "https://github.com/Icybee/module-users/issues",
 		"source": "https://github.com/Icybee/module-users"
 	},
+
+	"minimum-stability": "dev",
+
 	"require": {
 		"php": ">=5.5.0",
-		"icanboogie/module-installer": "~1.2.3",
-		"icanboogie/bind-activerecord": "~0.2.1",
+		"icanboogie/module-installer": "^1.2.3",
+		"icanboogie/activerecord": "^2.3.0",
+		"icanboogie/event": "^1.4.0",
 		"brickrouge/css-class-names": "~2.0",
-		"icybee/core": "2.1.x-dev",
-		"icybee/module-registry": "~2.0.0"
+		"icybee/core": "^2.1.0",
+		"icybee/module-registry": "^2.1.0"
 	},
 	"require-dev": {
-		"icanboogie/icanboogie": "~2.3.1"
+		"icanboogie/operation": "^2.2.0",
+		"icanboogie/bind-activerecord": "^0.3.0",
+		"icanboogie/bind-facets": "^0.2.0"
 	},
 	"suggest": {
 		"icanboogie/mailer": "Mailer is a library for PHP that is designed to handle emails generation and sending."
@@ -33,6 +39,7 @@
 	"autoload": {
 		"classmap": [ "lib" ]
 	},
+
 	"scripts": {
 		"post-autoload-dump": "ICanBoogie\\Autoconfig\\Hooks::on_autoload_dump"
 	},

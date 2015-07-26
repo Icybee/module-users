@@ -19,6 +19,9 @@ use ICanBoogie\Operation;
  */
 class IsUniqueOperation extends Operation
 {
+	/**
+	 * @inheritdoc
+	 */
 	protected function get_controls()
 	{
 		return [
@@ -28,6 +31,9 @@ class IsUniqueOperation extends Operation
 		] + parent::get_controls();
 	}
 
+	/**
+	 * @inheritdoc
+	 */
 	protected function validate(Errors $errors)
 	{
 		$request = $this->request;
@@ -62,6 +68,9 @@ class IsUniqueOperation extends Operation
 		return count($errors) == 0;
 	}
 
+	/**
+	 * @inheritdoc
+	 */
 	protected function process()
 	{
 		return true;

@@ -9,7 +9,7 @@
  * file that was distributed with this source code.
  */
 
-namespace Icybee\Modules\Users;
+namespace ICanBoogie;
 
 $_SERVER['DOCUMENT_ROOT'] = __DIR__;
 
@@ -20,15 +20,13 @@ if (!file_exists(__DIR__ . '/../vendor/icanboogie-modules'))
 
 require __DIR__ . '/../vendor/autoload.php';
 
-#
-# Create the _core_ instance used for the tests.
-#
+/* @var $app Core|Module\CoreBindings */
 
-$app = new \ICanBoogie\Core(\ICanBoogie\array_merge_recursive(\ICanBoogie\get_autoconfig(), [
+$app = new Core(array_merge_recursive(get_autoconfig(), [
 
 	'config-path' => [
 
-		__DIR__ . DIRECTORY_SEPARATOR . 'config' => 0
+		__DIR__ . DIRECTORY_SEPARATOR . 'config' => Autoconfig\Config::CONFIG_WEIGHT_MODULE
 
 	],
 

@@ -21,6 +21,9 @@ use ICanBoogie\Operation;
  */
 class ActivateOperation extends Operation
 {
+	/**
+	 * @inheritdoc
+	 */
 	protected function get_controls()
 	{
 		return [
@@ -32,11 +35,17 @@ class ActivateOperation extends Operation
 		] + parent::get_controls();
 	}
 
+	/**
+	 * @inheritdoc
+	 */
 	protected function validate(Errors $errors)
 	{
 		return true;
 	}
 
+	/**
+	 * @inheritdoc
+	 */
 	protected function process()
 	{
 		$record = $this->record;

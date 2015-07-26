@@ -25,15 +25,6 @@ class UserTest extends \PHPUnit_Framework_TestCase
 		$this->assertObjectNotHasAttribute('is_admin', $user);
 	}
 
-	/**
-	 * @expectedException \ICanBoogie\PropertyNotWritable
-	 */
-	public function test_set_is_admin()
-	{
-		$user = new User;
-		$user->is_admin = null;
-	}
-
 	public function test_get_is_guest()
 	{
 		$user = new User;
@@ -43,15 +34,6 @@ class UserTest extends \PHPUnit_Framework_TestCase
 		$user->uid = 2;
 		$this->assertFalse($user->is_guest);
 		$this->assertObjectNotHasAttribute('is_guest', $user);
-	}
-
-	/**
-	 * @expectedException \ICanBoogie\PropertyNotWritable
-	 */
-	public function test_set_is_guest()
-	{
-		$user = new User;
-		$user->is_guest = null;
 	}
 
 	public function test_logged_at()
@@ -153,7 +135,6 @@ class UserTest extends \PHPUnit_Framework_TestCase
 		$user->delete();
 	}
 
-
 	public function test_get_name()
 	{
 		$user = new User;
@@ -208,56 +189,11 @@ class UserTest extends \PHPUnit_Framework_TestCase
 		$this->assertObjectNotHasAttribute('name', $user);
 	}
 
-	/**
-	 * @expectedException \ICanBoogie\PropertyNotWritable
-	 */
-	public function test_set_name()
-	{
-		$user = new User;
-		$user->name = null;
-	}
-
-	/**
-	 * @expectedException \ICanBoogie\PropertyNotReadable
-	 */
-	public function test_get_password_hash()
-	{
-		$user = new User;
-		$user->password_hash;
-	}
-
-	/**
-	 * @expectedException \ICanBoogie\PropertyNotWritable
-	 */
-	public function test_set_password_hash()
-	{
-		$user = new User;
-		$user->password_hash = null;
-	}
-
 	public function test_get_has_legacy_password_hash()
 	{
 		$this->assertNull(User::from()->has_legacy_password_hash);
 		$this->assertTrue(User::from([ 'password_hash' => sha1('password') ])->has_legacy_password_hash);
 		$this->assertFalse(User::from([ 'password_hash' => User::hash_password('password') ])->has_legacy_password_hash);
-	}
-
-	/**
-	 * @expectedException \ICanBoogie\PropertyNotWritable
-	 */
-	public function test_set_has_legacy_password_hash()
-	{
-		$user = new User;
-		$user->has_legacy_password_hash = null;
-	}
-
-	/**
-	 * @expectedException \ICanBoogie\PropertyNotReadable
-	 */
-	public function test_get_password()
-	{
-		$user = new User;
-		$a = $user->password;
 	}
 
 	public function test_password_hash_must_be_exported()

@@ -107,6 +107,29 @@ class User extends ActiveRecord implements CSSClassNames
 	const NAME_AS_NICKNAME = 5;
 
 	/**
+	 * @inheritdoc
+	 *
+	 * The method takes care of setting the {@link password_hash} property which is not
+	 * settable otherwise.
+	 *
+	 * @return User
+	 */
+	static public function from($properties = null, array $construct_args = [], $class_name = null)
+	{
+		if (is_array($properties) && array_key_exists('password_hash', $properties))
+		{
+			$password_hash = $properties['password_hash'];
+			unset($properties['password_hash']);
+			$instance = parent::from($properties, $construct_args);
+			$instance->password_hash = $password_hash;
+
+			return $instance;
+		}
+
+		return parent::from($properties, $construct_args, $class_name);
+	}
+
+	/**
 	 * User identifier.
 	 *
 	 * @var string
@@ -207,6 +230,9 @@ class User extends ActiveRecord implements CSSClassNames
 		}
 	}
 
+	/**
+	 * @inheritdoc
+	 */
 	public function __get($property)
 	{
 		$value = parent::__get($property);
@@ -219,6 +245,9 @@ class User extends ActiveRecord implements CSSClassNames
 		return $value;
 	}
 
+	/**
+	 * @inheritdoc
+	 */
 	public function save()
 	{
 		if ($this->get_created_at()->is_empty)
@@ -489,9 +518,7 @@ class User extends ActiveRecord implements CSSClassNames
 	}
 
 	/**
-	 * Returns the CSS class names of the node.
-	 *
-	 * @return array[string]mixed
+	 * @inheritdoc
 	 */
 	protected function get_css_class_names()
 	{

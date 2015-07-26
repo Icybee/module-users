@@ -80,9 +80,6 @@ trait PasswordTrait
 	/**
 	 * User password hash.
 	 *
-	 * Note: The property MUST NOT be private, otherwise only instances of the class can be
-	 * initialized with a value, for subclasses instances the property would be `null`.
-	 *
 	 * @var string
 	 */
 	private $password_hash;
@@ -114,7 +111,7 @@ trait PasswordTrait
 	 */
 	static public function hash_password($password)
 	{
-		return \password_hash($password, \PASSWORD_BCRYPT);
+		return password_hash($password, \PASSWORD_BCRYPT);
 	}
 
 	/**
@@ -127,7 +124,7 @@ trait PasswordTrait
 	 */
 	public function verify_password($password)
 	{
-		if (\password_verify($password, $this->password_hash))
+		if (password_verify($password, $this->password_hash))
 		{
 			return true;
 		}
@@ -143,6 +140,6 @@ trait PasswordTrait
 			return false;
 		}
 
-		return sha1(\ICanBoogie\pbkdf2($password, $config['password_salt'])) == $this->password_hash;
+		return sha1(hash_pbkdf2('sha1', $password, $config['password_salt'], 1000)) == $this->password_hash;
 	}
 }

@@ -1,6 +1,6 @@
 # customization
 
-PACKAGE_NAME = Icybee/module-users
+PACKAGE_NAME = icybee/module-users
 PACKAGE_VERSION = 2.1.0
 
 # do not edit the following lines
@@ -30,8 +30,7 @@ doc: vendor
 	--source lib \
 	--destination build/docs/ \
 	--title "$(PACKAGE_NAME) v$(PACKAGE_VERSION)" \
-	--template-theme "bootstrap" \
-	--debug
+	--template-theme "bootstrap"
 
 clean:
 	@rm -fR build
