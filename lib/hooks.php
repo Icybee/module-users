@@ -24,6 +24,7 @@ use ICanBoogie\Session;
 
 use Icybee\AdminDecorator;
 use Icybee\DocumentDecorator;
+use Icybee\Modules\Users\Binding\CoreBindings;
 
 class Hooks
 {
@@ -203,7 +204,7 @@ class Hooks
 	 *
 	 * This is the getter for the `$app->user` property.
 	 *
-	 * @param Core $app
+	 * @param Core|CoreBindings $app
 	 *
 	 * @return User The user object, or guest user object.
 	 */
@@ -236,7 +237,7 @@ class Hooks
 	}
 
 	/**
-	 * Returns a user permission resolver configurer with the `users` config.
+	 * Returns a user permission resolver configured with the `users` config.
 	 *
 	 * @param Core $app
 	 *
@@ -248,7 +249,7 @@ class Hooks
 	}
 
 	/**
-	 * Returns a user permission resolver configurer with the `users` config.
+	 * Returns a user permission resolver configured with the `users` config.
 	 *
 	 * @param Core $app
 	 *
@@ -262,26 +263,34 @@ class Hooks
 	/**
 	 * Checks if a user has a given permission.
 	 *
-	 * @param Core $app
+	 * @param Core|CoreBindings $app
 	 * @param User $user
 	 * @param string $permission
 	 * @param string $target
+	 *
+	 * @return bool
 	 */
-	static public function check_user_permission(Core $app, User $user, $permission, $target=null)
+	static public function check_user_permission(Core $app, User $user, $permission, $target = null)
 	{
-		return $app->user_permission_resolver->__invoke($user, $permission, $target);
+		$user_permission_resolver = $app->user_permission_resolver;
+
+		return $user_permission_resolver($user, $permission, $target);
 	}
 
 	/**
 	 * Checks if a user has the ownership of a record.
 	 *
-	 * @param Core $app
+	 * @param Core|CoreBindings $app
 	 * @param User $user
 	 * @param ActiveRecord $record
+	 *
+	 * @return bool
 	 */
 	static public function check_user_ownership(Core $app, User $user, ActiveRecord $record)
 	{
-		return $app->user_ownership_resolver->__invoke($user, $record);
+		$user_ownership_resolver = $app->user_ownership_resolver;
+
+		return $user_ownership_resolver($user, $record);
 	}
 
 	/**
