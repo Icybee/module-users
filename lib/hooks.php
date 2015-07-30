@@ -13,17 +13,19 @@ namespace Icybee\Modules\Users;
 
 use ICanBoogie\ActiveRecord;
 use ICanBoogie\Core;
+use ICanBoogie\HTTP\PermissionRequired;
 use ICanBoogie\HTTP\Response;
 use ICanBoogie\HTTP\RequestDispatcher;
+use ICanBoogie\HTTP\SecurityError;
 use ICanBoogie\Operation;
-use ICanBoogie\PermissionRequired;
+use ICanBoogie\Operation\OperationDispatcher;
 use ICanBoogie\PropertyNotDefined;
 use ICanBoogie\Routing\RouteDispatcher;
-use ICanBoogie\SecurityException;
 use ICanBoogie\Session;
 
 use Icybee\AdminDecorator;
 use Icybee\DocumentDecorator;
+use Icybee\Modules\Members\Member;
 use Icybee\Modules\Users\Binding\CoreBindings;
 
 class Hooks
@@ -41,7 +43,7 @@ class Hooks
 	static public function before_roles_delete(Operation\BeforeProcessEvent $event, \Icybee\Modules\Users\Roles\DeleteOperation $operation)
 	{
 		$rid = $operation->key;
-		$count = \ICanBoogie\app()->models['users/has_many_roles']->filter_by_rid($rid)->count;
+		$count = self::app()->models['users/has_many_roles']->filter_by_rid($rid)->count;
 
 		if (!$count)
 		{
@@ -52,12 +54,12 @@ class Hooks
 	}
 
 	/**
-	 * Displays a login form on {@link SecurityException}.
+	 * Displays a login form on {@link SecurityError}.
 	 *
 	 * @param \ICanBoogie\Exception\RescueEvent $event
-	 * @param SecurityException $target
+	 * @param SecurityError $target
 	 */
-	static public function on_security_exception_rescue(\ICanBoogie\Exception\RescueEvent $event, SecurityException $target)
+	static public function on_security_exception_rescue(\ICanBoogie\Exception\RescueEvent $event, SecurityError $target)
 	{
 		$request = $event->request;
 
@@ -71,7 +73,7 @@ class Hooks
 			\ICanBoogie\log_error($target->getMessage());
 		}
 
-		$block = \ICanBoogie\app()->modules['users']->getBlock('connect');
+		$block = self::app()->modules['users']->getBlock('connect');
 
 		$document = new DocumentDecorator(new AdminDecorator($block));
 		$document->body->add_class('page-slug-authenticate');
@@ -93,7 +95,7 @@ class Hooks
 	 */
 	static public function on_website_admin_not_accessible_rescue(\ICanboogie\Exception\RescueEvent $event, WebsiteAdminNotAccessible $target)
 	{
-		$block = \ICanBoogie\app()->modules['users']->getBlock('available-sites');
+		$block = self::app()->modules['users']->getBlock('available-sites');
 
 		$document = new DocumentDecorator(new AdminDecorator($block));
 
@@ -122,17 +124,17 @@ class Hooks
 	 */
 	static public function before_routing_dispatcher_dispatch(RouteDispatcher\BeforeDispatchEvent $event, RouteDispatcher $target)
 	{
-		$path = $event->request->decontextualized_path;
+		$path = \ICanBoogie\normalize_url_path($event->request->decontextualized_path);
 
 		if (strpos($path, '/admin/') !== 0)
 		{
 			return;
 		}
 
-		$app = \ICanBoogie\app();
+		$app = self::app();
 		$user = $app->user;
 
-		if ($user->is_guest || $user instanceof \Icybee\Modules\Members\Member)
+		if ($user->is_guest || $user instanceof Member)
 		{
 			throw new PermissionRequired();
 		}
@@ -142,7 +144,7 @@ class Hooks
 			$app->locale = $user->language;
 		}
 
-		if (strpos($path, '/admin/profile/sites') === 0)
+		if (strpos($path, '/admin/profile/sites/') === 0)
 		{
 			return;
 		}
@@ -180,7 +182,7 @@ class Hooks
 	 *
 	 * @return int|null Returns the identifier of the user or null if the user is a guest.
 	 *
-	 * @see \Icybee\Modules\Users\User::login()
+	 * @see User::login()
 	 */
 	static public function get_user_id(Core $app)
 	{
@@ -191,7 +193,7 @@ class Hooks
 
 		$session = $app->session;
 
-		return isset($session->users['user_id']) ? $session->users['user_id'] : null;
+		return isset($session['user_id']) ? $session['user_id'] : null;
 	}
 
 	/**
@@ -204,7 +206,7 @@ class Hooks
 	 *
 	 * This is the getter for the `$app->user` property.
 	 *
-	 * @param Core|CoreBindings $app
+	 * @param Core|CoreBindings|\ICanBoogie\Binding\ActiveRecord\CoreBindings $app
 	 *
 	 * @return User The user object, or guest user object.
 	 */
@@ -227,7 +229,7 @@ class Hooks
 		{
 			if (Session::exists())
 			{
-				unset($app->session->users['user_id']);
+				unset($app->session['user_id']);
 			}
 
 			$user = new User($model);
@@ -338,6 +340,18 @@ class Hooks
 	 */
 	static public function markup_user(array $args, $engine, $template)
 	{
-		return $engine($template, \ICanBoogie\app()->user);
+		return $engine($template, self::app()->user);
+	}
+
+	/*
+	 * Support
+	 */
+
+	/**
+	 * @return Core|\Icybee\Binding\CoreBindings
+	 */
+	static private function app()
+	{
+		return \ICanBoogie\app();
 	}
 }

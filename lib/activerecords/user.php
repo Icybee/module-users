@@ -494,7 +494,7 @@ class User extends ActiveRecord implements CSSClassNames
 		$app->user_id = $this->uid;
 		$app->session->regenerate_id(true);
 		$app->session->regenerate_token();
-		$app->session->users['user_id'] = $this->uid;
+		$app->session['user_id'] = $this->uid;
 
 		return true;
 	}
@@ -506,7 +506,7 @@ class User extends ActiveRecord implements CSSClassNames
 	 *
 	 * - The `$app->user` property is unset.
 	 * - The `$app->user_id` property is unset.
-	 * - The `$app->session->users['user_id']` property is unset.
+	 * - The `$app->session['user_id']` property is unset.
 	 */
 	public function logout()
 	{
@@ -514,7 +514,7 @@ class User extends ActiveRecord implements CSSClassNames
 
 		unset($app->user);
 		unset($app->user_id);
-		unset($app->session->users['user_id']);
+		unset($app->session['user_id']);
 	}
 
 	/**

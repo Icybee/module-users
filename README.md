@@ -49,7 +49,7 @@ if ($user->has_permission('update own profile')
 
 
 
-### Determine a user's ownership
+### Determine a user ownership
 
 The method `has_ownership()` determines if a user is the owner of a record. Beware, _ownership_
 doesn't mean _permission_ ! A user can be the owner of a record without having the permission
@@ -183,13 +183,13 @@ return [
 
 	'permission_resolver_list' => [
 
-		'roles' => [ __NAMESPACE__ . '\PermissionResolver', 'weight' => 0 ]
+		'roles' => [ PermissionResolver::class, 'weight' => 0 ]
 
 	],
 
 	'ownership_resolver_list' => [
 
-		'roles' => [ __NAMESPACE__ . '\OwnershipResolver', 'weight' => 10 ]
+		'roles' => [ OwnershipResolver::class, 'weight' => 10 ]
 
 	]
 
@@ -210,19 +210,19 @@ by "mymodule" to be positioned before the one defined by "roles". With the relat
 
 // mymodule/config/users.php
 
-namespace Website\MyModule;
+namespace App\Modules\MyModule;
 
 return [
 
 	'permission_resolver_list' => [
 
-		'mymodule' => [ __NAMESPACE__ . '\PermissionResolver', 'weight' => -10 ]
+		'mymodule' => [ PermissionResolver::class, 'weight' => -10 ]
 
 	],
 
 	'ownership_resolver_list' => [
 
-		'mymodule' => [ __NAMESPACE__ . '\OwnershipResolver', 'weight' => 'before:roles' ]
+		'mymodule' => [ OwnershipResolver::class, 'weight' => 'before:roles' ]
 
 	]
 

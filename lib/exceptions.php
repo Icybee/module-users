@@ -11,7 +11,7 @@
 
 namespace Icybee\Modules\Users;
 
-use ICanBoogie\PermissionRequired;
+use ICanBoogie\HTTP\PermissionRequired;
 
 /**
  * Exception thrown when a guest or a member tries to access the admin interface.

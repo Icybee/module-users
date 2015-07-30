@@ -10,8 +10,8 @@ return [
 
 	'events' => [
 
-		'ICanBoogie\AuthenticationRequired::rescue' => $hooks . 'on_security_exception_rescue',
-		'ICanBoogie\PermissionRequired::rescue' => $hooks . 'on_security_exception_rescue',
+		'ICanBoogie\HTTP\AuthenticationRequired::rescue' => $hooks . 'on_security_exception_rescue',
+		'ICanBoogie\HTTP\PermissionRequired::rescue' => $hooks . 'on_security_exception_rescue',
 		RouteDispatcher::class . '::dispatch:before' => $hooks . 'before_routing_dispatcher_dispatch',
 		'Icybee\Modules\Users\Roles\DeleteOperation::process:before' => $hooks . 'before_roles_delete',
 		'Icybee\Modules\Users\WebsiteAdminNotAccessible::rescue' => $hooks . 'on_website_admin_not_accessible_rescue'
