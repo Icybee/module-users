@@ -11,6 +11,11 @@
 
 namespace Icybee\Modules\Users;
 
+use ICanBoogie\Errors;
+use ICanBoogie\Operation;
+
+use Icybee\Binding\ObjectBindings;
+
 /**
  * Log the user out of the system.
  *
@@ -18,8 +23,10 @@ namespace Icybee\Modules\Users;
  * property is still available after the user was logged out, unlike the {@link $user} property of
  * `ICanBoogie/Core` instances.
  */
-class LogoutOperation extends \ICanBoogie\Operation
+class LogoutOperation extends Operation
 {
+	use ObjectBindings;
+
 	/**
 	 * Returns the record of the user to logout.
 	 *
@@ -44,8 +51,10 @@ class LogoutOperation extends \ICanBoogie\Operation
 
 	/**
 	 * Always returns `true`.
+	 *
+	 * @inheritdoc
 	 */
-	protected function validate(\ICanboogie\Errors $errors)
+	protected function validate(Errors $errors)
 	{
 		return true;
 	}

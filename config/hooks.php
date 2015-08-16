@@ -2,30 +2,31 @@
 
 namespace Icybee\Modules\Users;
 
-$hooks = Hooks::class . '::';
+use ICanBoogie;
+use Icybee;
 
-use ICanBoogie\Routing\RouteDispatcher;
+$hooks = Hooks::class . '::';
 
 return [
 
 	'events' => [
 
-		'ICanBoogie\HTTP\AuthenticationRequired::rescue' => $hooks . 'on_security_exception_rescue',
-		'ICanBoogie\HTTP\PermissionRequired::rescue' => $hooks . 'on_security_exception_rescue',
-		RouteDispatcher::class . '::dispatch:before' => $hooks . 'before_routing_dispatcher_dispatch',
-		'Icybee\Modules\Users\Roles\DeleteOperation::process:before' => $hooks . 'before_roles_delete',
-		'Icybee\Modules\Users\WebsiteAdminNotAccessible::rescue' => $hooks . 'on_website_admin_not_accessible_rescue'
+		ICanBoogie\HTTP\AuthenticationRequired::class .'::rescue' => $hooks . 'on_security_exception_rescue',
+		ICanBoogie\HTTP\PermissionRequired::class . '::rescue' => $hooks . 'on_security_exception_rescue',
+		ICanBoogie\Routing\RouteDispatcher::class . '::dispatch:before' => $hooks . 'before_routing_dispatcher_dispatch',
+		Icybee\Modules\Users\Roles\DeleteOperation::class . '::process:before' => $hooks . 'before_roles_delete',
+		Icybee\Modules\Users\WebsiteAdminNotAccessible::class . '::rescue' => $hooks . 'on_website_admin_not_accessible_rescue'
 
 	],
 
 	'prototypes' => [
 
-		'ICanBoogie\Core::lazy_get_user' => $hooks . 'get_user',
-		'ICanBoogie\Core::lazy_get_user_id' => $hooks . 'get_user_id',
-		'ICanBoogie\Core::lazy_get_user_permission_resolver' => $hooks . 'get_user_permission_resolver',
-		'ICanBoogie\Core::lazy_get_user_ownership_resolver' => $hooks . 'get_user_ownership_resolver',
-		'ICanBoogie\Core::check_user_permission' => $hooks . 'check_user_permission',
-		'ICanBoogie\Core::check_user_ownership' => $hooks . 'check_user_ownership'
+		ICanBoogie\Core::class . '::lazy_get_user' => $hooks . 'get_user',
+		ICanBoogie\Core::class . '::lazy_get_user_id' => $hooks . 'get_user_id',
+		ICanBoogie\Core::class . '::lazy_get_user_permission_resolver' => $hooks . 'get_user_permission_resolver',
+		ICanBoogie\Core::class . '::lazy_get_user_ownership_resolver' => $hooks . 'get_user_ownership_resolver',
+		ICanBoogie\Core::class . '::check_user_permission' => $hooks . 'check_user_permission',
+		ICanBoogie\Core::class . '::check_user_ownership' => $hooks . 'check_user_ownership'
 
 	],
 

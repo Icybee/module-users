@@ -39,17 +39,17 @@ class HooksTest extends \PHPUnit_Framework_TestCase
 	public function test_get_user()
 	{
 		self::$app->user_id = 1;
-		$this->assertInstanceOf(__NAMESPACE__ . '\User', self::$app->user);
+		$this->assertInstanceOf(User::class, self::$app->user);
 		$this->assertTrue(self::$app->user->is_admin);
 	}
 
 	public function test_get_user_permission_resolver()
 	{
-		$this->assertInstanceOf(__NAMESPACE__ . '\PermissionResolver', self::$app->user_permission_resolver);
+		$this->assertInstanceOf(PermissionResolver::class, self::$app->user_permission_resolver);
 	}
 
 	public function test_get_user_ownership_resolver()
 	{
-		$this->assertInstanceOf(__NAMESPACE__ . '\OwnershipResolver', self::$app->user_ownership_resolver);
+		$this->assertInstanceOf(OwnershipResolver::class, self::$app->user_ownership_resolver);
 	}
 }

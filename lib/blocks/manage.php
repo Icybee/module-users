@@ -130,7 +130,7 @@ class UsernameColumn extends Column
 			Element::INNER_HTML => $label,
 
 			'class' => 'edit',
-			'href' => \ICanBoogie\Routing\contextualize("/admin/{$record->constructor}/{$record->uid}/edit"),
+			'href' => $this->app->url_for("admin:{$record->constructor}:edit", $record),
 			'title' => $this->t('manage.edit')
 
 		]);

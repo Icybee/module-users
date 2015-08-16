@@ -5,9 +5,12 @@ namespace Icybee\Modules\Users;
 use Brickrouge\Button;
 use Brickrouge\Element;
 use Brickrouge\Form;
+use Icybee\Binding\ObjectBindings;
 
 class AvailableSitesBlock extends Element
 {
+	use ObjectBindings;
+
 	public function render()
 	{
 		$app = $this->app;

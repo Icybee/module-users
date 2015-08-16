@@ -11,26 +11,28 @@
 
 namespace Icybee\Modules\Users;
 
-use Brickrouge\AlterCSSClassNamesEvent;
 use ICanBoogie\ActiveRecord;
 use ICanBoogie\ActiveRecord\CreatedAtProperty;
 use ICanBoogie\ActiveRecord\RecordNotFound;
 
+use Brickrouge\AlterCSSClassNamesEvent;
 use Brickrouge\CSSClassNames;
 use Brickrouge\CSSClassNamesProperty;
 
 use Icybee\Modules\Users\Roles\Role;
+use Icybee\Binding\ObjectBindings as IcybeeBindings;
+use Icybee\Modules\Registry\Binding\UserBindings as RegistryBindings;
 
 /**
  * A user.
  *
- * @property-read \ICanBoogie\Core $app
+ * @property-read Model $model
+ *
  * @property-read string $name The formatted name of the user.
  * @property-read boolean $is_admin true if the user is admin, false otherwise.
  * @property-read boolean $is_guest true if the user is a guest, false otherwise.
  * @property-read Role $role
  * @property Role[] $roles
- * @property \Icybee\Modules\Registry\MetasHandler $metas
  *
  * @property-read string $password_hash The password hash.
  * @property-read bool|null $has_legacy_password_hash Whether the password hash is a legacy hash.
@@ -38,6 +40,8 @@ use Icybee\Modules\Users\Roles\Role;
  */
 class User extends ActiveRecord implements CSSClassNames
 {
+	use IcybeeBindings;
+	use RegistryBindings;
 	use CreatedAtProperty;
 	use LoggedAtProperty;
 	use CSSClassNamesProperty;
@@ -213,12 +217,10 @@ class User extends ActiveRecord implements CSSClassNames
 	public $is_activated = false;
 
 	/**
-	 * Defaults `$model` to {@link MODEL_ID}.
-	 *
 	 * Initializes the {@link $constructor} property with the model identifier if it is not
 	 * defined.
 	 *
-	 * @param string|\ICanBoogie\ActiveRecord\Model $model
+	 * @inheritdoc
 	 */
 	public function __construct($model = self::MODEL_ID)
 	{
@@ -453,12 +455,11 @@ class User extends ActiveRecord implements CSSClassNames
 	 * If the ownership information is missing from the entry (the 'uid' property is null), the user
 	 * must have the ADMINISTER level to be considered the owner.
 	 *
-	 * @param mixed $module
 	 * @param ActiveRecord $record
 	 *
 	 * @return boolean
 	 */
-	public function has_ownership($module, $record)
+	public function has_ownership($record)
 	{
 		return $this->app->check_user_ownership($this, $record);
 	}
@@ -466,9 +467,9 @@ class User extends ActiveRecord implements CSSClassNames
 	/**
 	 * Logs the user in.
 	 *
-	 * A user is logged in by setting its id in the `application[user_agent]` session key.
+	 * A user is logged in by setting its id in the `user_id` session key.
 	 *
-	 * Note: The method does *not* checks the user authentication !
+	 * Note: The method does *not* check user authentication!
 	 *
 	 * The following things happen when the user is logged in:
 	 *
@@ -506,7 +507,7 @@ class User extends ActiveRecord implements CSSClassNames
 	 *
 	 * - The `$app->user` property is unset.
 	 * - The `$app->user_id` property is unset.
-	 * - The `$app->session['user_id']` property is unset.
+	 * - The `user_id` session property is removed.
 	 */
 	public function logout()
 	{

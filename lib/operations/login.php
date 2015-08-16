@@ -14,6 +14,7 @@ namespace Icybee\Modules\Users;
 use ICanBoogie\HTTP\Request;
 use ICanBoogie\I18n;
 use ICanBoogie\I18n\Translator\Proxi;
+use Icybee\Binding\ObjectBindings;
 use Icybee\Modules\Registry\MetasHandler;
 
 /**
@@ -21,6 +22,8 @@ use Icybee\Modules\Registry\MetasHandler;
  */
 class LoginOperation extends \ICanBoogie\Operation
 {
+	use ObjectBindings;
+
 	/**
 	 * Adds form control.
 	 */

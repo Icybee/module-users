@@ -16,6 +16,8 @@ use ICanBoogie\Errors;
 
 /**
  * Deletes a user.
+ *
+ * @property User $record
  */
 class DeleteOperation extends Super
 {

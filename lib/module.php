@@ -91,7 +91,7 @@ Cordialement'
 	protected function block_profile()
 	{
 		$app = $this->app;
-		$app->document->page_title = I18n\t('My profile');
+		$app->document->page_title = $app->translate('My profile');
 
 		$module = $this;
 		$user = $app->user;

@@ -38,7 +38,7 @@ class OwnershipResolverListTest extends \PHPUnit_Framework_TestCase
 
 		self::$resolver = new OwnershipResolver([
 
-			'users' => __NAMESPACE__ . '\Hooks::resolve_user_ownership'
+			'users' => Hooks::class . '::resolve_user_ownership'
 
 		]);
 	}

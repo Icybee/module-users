@@ -17,6 +17,8 @@ namespace Icybee\Modules\Users;
  * - username (string) Username of the locked account.
  * - token (string) Token to unlock the account.
  * - continue (string)[optional] Destination of the operation successful process. Default to '/'.
+ *
+ * @property User $record
  */
 class UnlockLoginOperation extends \ICanBoogie\Operation
 {

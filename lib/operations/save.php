@@ -11,6 +11,8 @@
 
 namespace Icybee\Modules\Users;
 
+use ICanBoogie\Errors;
+
 /**
  * Create or update a user profile.
  */
@@ -144,16 +146,16 @@ class SaveOperation extends \Icybee\Operation\Constructor\Save
 	/**
 	 * The 'User' role (rid 2) is mandatory for every user.
 	 *
-	 * @see ICanBoogie.Operation::control_form()
+	 * @inheritdoc
 	 */
 	protected function control_form()
 	{
 		$this->request->params[User::ROLES][2] = 'on';
 
-		return parent::control_form($this);
+		return parent::control_form();
 	}
 
-	protected function validate(\ICanboogie\Errors $errors)
+	protected function validate(Errors $errors)
 	{
 		$properties = $this->properties;
 

@@ -40,66 +40,35 @@ class UserTest extends \PHPUnit_Framework_TestCase
 	{
 		$user = new User;
 		$d = $user->logged_at;
-		$this->assertInstanceOf('ICanBoogie\DateTime', $d);
+		$this->assertInstanceOf(DateTime::class, $d);
 		$this->assertTrue($d->is_empty);
 		$this->assertEquals('UTC', $d->zone->name);
 		$this->assertEquals('0000-00-00 00:00:00', $d->as_db);
 
 		$user->logged_at = '2013-03-07 18:30:45';
+		/* @var $d DateTime */
 		$d = $user->logged_at;
-		$this->assertInstanceOf('ICanBoogie\DateTime', $d);
+		$this->assertInstanceOf(DateTime::class, $d);
+
 		$this->assertFalse($d->is_empty);
 		$this->assertEquals('UTC', $d->zone->name);
 		$this->assertEquals('2013-03-07 18:30:45', $d->as_db);
 
 		$user->logged_at = new DateTime('2013-03-07 18:30:45', 'utc');
 		$d = $user->logged_at;
-		$this->assertInstanceOf('ICanBoogie\DateTime', $d);
+		$this->assertInstanceOf(DateTime::class, $d);
 		$this->assertFalse($d->is_empty);
 		$this->assertEquals('UTC', $d->zone->name);
 		$this->assertEquals('2013-03-07 18:30:45', $d->as_db);
 
 		$user->logged_at = null;
-		$this->assertInstanceOf('ICanBoogie\DateTime', $d);
+		$this->assertInstanceOf(DateTime::class, $d);
 
 		$user->logged_at = DateTime::now();
 		$properties = $user->__sleep();
 		$this->assertArrayHasKey('logged_at', $properties);
 		$array = $user->to_array();
 		$this->assertArrayHasKey('logged_at', $array);
-	}
-
-	public function test_created_at()
-	{
-		$user = new User;
-		$d = $user->created_at;
-		$this->assertInstanceOf('ICanBoogie\DateTime', $d);
-		$this->assertTrue($d->is_empty);
-		$this->assertEquals('UTC', $d->zone->name);
-		$this->assertEquals('0000-00-00 00:00:00', $d->as_db);
-
-		$user->created_at = '2013-03-07 18:30:45';
-		$d = $user->created_at;
-		$this->assertInstanceOf('ICanBoogie\DateTime', $d);
-		$this->assertFalse($d->is_empty);
-		$this->assertEquals('UTC', $d->zone->name);
-		$this->assertEquals('2013-03-07 18:30:45', $d->as_db);
-
-		$user->created_at = new DateTime('2013-03-07 18:30:45', 'utc');
-		$d = $user->created_at;
-		$this->assertInstanceOf('ICanBoogie\DateTime', $d);
-		$this->assertFalse($d->is_empty);
-		$this->assertEquals('UTC', $d->zone->name);
-		$this->assertEquals('2013-03-07 18:30:45', $d->as_db);
-
-		$user->created_at = null;
-		$this->assertInstanceOf('ICanBoogie\DateTime', $d);
-
-		$user->created_at = DateTime::now();
-		$properties = $user->__sleep();
-		$this->assertArrayHasKey('created_at', $properties);
-		$array = $user->to_array();
-		$this->assertArrayHasKey('created_at', $array);
 	}
 
 	public function test_created_at_save_with_record()
@@ -128,6 +97,7 @@ class UserTest extends \PHPUnit_Framework_TestCase
 		]);
 
 		$uid = $user->model->save(array_diff_key($user->to_array(), [ 'uid' => true ]));
+		/* @var $user User */
 		$user = $user->model[$uid];
 
 		$this->assertFalse($user->created_at->is_empty);
@@ -223,6 +193,7 @@ class UserTest extends \PHPUnit_Framework_TestCase
 
 		$uid = $user->save();
 		$this->assertNotEmpty($uid);
+		/* @var $record User */
 		$record = $user->model[$uid];
 
 		$this->assertTrue($record->verify_password('P4SSW0RD'));
