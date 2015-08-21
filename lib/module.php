@@ -56,7 +56,7 @@ Cordialement'
 	{
 		return parent::resolve_model_tags($tags, 'primary') + [
 
-			Model::CONSTRUCTOR => $this->id
+			UserModel::CONSTRUCTOR => $this->id
 
 		];
 	}

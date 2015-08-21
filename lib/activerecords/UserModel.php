@@ -16,7 +16,7 @@ use ICanBoogie\ActiveRecord;
 
 use Icybee\ConstructorModel;
 
-class Model extends ConstructorModel
+class UserModel extends ConstructorModel
 {
 	public function save(array $properties, $key = null, array $options = [])
 	{
