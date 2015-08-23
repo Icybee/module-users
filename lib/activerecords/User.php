@@ -26,7 +26,7 @@ use Icybee\Modules\Registry\Binding\UserBindings as RegistryBindings;
 /**
  * A user.
  *
- * @property-read Model $model
+ * @property-read UserModel $model
  *
  * @property-read string $name The formatted name of the user.
  * @property-read boolean $is_admin true if the user is admin, false otherwise.
