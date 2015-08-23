@@ -11,16 +11,19 @@
 
 namespace Icybee\Modules\Users;
 
+use ICanBoogie\Errors;
 use ICanBoogie\HTTP\Request;
 use ICanBoogie\I18n;
-use ICanBoogie\I18n\Translator\Proxi;
+use ICanBoogie\Operation;
+
 use Icybee\Binding\ObjectBindings;
 use Icybee\Modules\Registry\MetasHandler;
 
 /**
+ * @property \ICanBoogie\Core|\Icybee\Binding\CoreBindings|\ICanBoogie\Binding\Mailer\CoreBindings $app
  * @property User $record The logged user.
  */
-class LoginOperation extends \ICanBoogie\Operation
+class LoginOperation extends Operation
 {
 	use ObjectBindings;
 
@@ -44,11 +47,13 @@ class LoginOperation extends \ICanBoogie\Operation
 		return new LoginForm();
 	}
 
-	protected function validate(\ICanboogie\Errors $errors)
+	protected function validate(Errors $errors)
 	{
 		$request = $this->request;
 		$username = $request[User::USERNAME];
 		$password = $request[User::PASSWORD];
+
+		/* @var $uid int */
 
 		$uid = $this->app->models['users']
 		->select('uid')
@@ -116,8 +121,6 @@ class LoginOperation extends \ICanBoogie\Operation
 					'continue' => $request->uri
 
 				]);
-
-				$t = new Proxi([ 'scope' => [ \ICanBoogie\normalize($user->constructor, '_'), 'connect', 'operation' ] ]);
 
 				$this->app->mail([
 

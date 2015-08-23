@@ -17,6 +17,8 @@ class HooksTest extends \PHPUnit_Framework_TestCase
 
 	static public function setupBeforeClass()
 	{
+		/* @var $app \ICanBoogie\Core|\ICanBoogie\Binding\ActiveRecord\CoreBindings */
+
 		self::$app = $app = \ICanBoogie\app();
 
 		$app->models['users']->truncate();
