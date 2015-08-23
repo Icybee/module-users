@@ -9,16 +9,6 @@ $hooks = Hooks::class . '::';
 
 return [
 
-	'events' => [
-
-		ICanBoogie\HTTP\AuthenticationRequired::class .'::rescue' => $hooks . 'on_security_exception_rescue',
-		ICanBoogie\HTTP\PermissionRequired::class . '::rescue' => $hooks . 'on_security_exception_rescue',
-		ICanBoogie\Routing\RouteDispatcher::class . '::dispatch:before' => $hooks . 'before_routing_dispatcher_dispatch',
-		Icybee\Modules\Users\Roles\DeleteOperation::class . '::process:before' => $hooks . 'before_roles_delete',
-		Icybee\Modules\Users\WebsiteAdminNotAccessible::class . '::rescue' => $hooks . 'on_website_admin_not_accessible_rescue'
-
-	],
-
 	'patron.markups' => [
 
 		'user' => [ $hooks . 'markup_user' ],
