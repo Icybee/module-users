@@ -17,7 +17,7 @@ namespace Icybee\Modules\Users;
  * The trait adds support for a `password` and `password_hash` property. The `password` property
  * is white-only, and the `password_hash` property is private and only accessible by the class
  * using the trait. The {@link verify_password()} and {@link hash_password()} method must be
- * used for password operations.
+ * used for password Operation.
  *
  * Currently, for the trait to work properly the `password` property needs to be unset during
  * `__construct()` and the `password_hash` property needs to be added during `to_array()`:

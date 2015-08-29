@@ -9,12 +9,13 @@
  * file that was distributed with this source code.
  */
 
-namespace Icybee\Modules\Users;
+namespace Icybee\Modules\Users\Operation;
 
 use ICanBoogie\Errors;
 use ICanBoogie\Operation;
 
 use Icybee\Binding\ObjectBindings;
+use Icybee\Modules\Users\User;
 
 /**
  * Log the user out of the system.

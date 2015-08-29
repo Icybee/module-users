@@ -9,14 +9,16 @@
  * file that was distributed with this source code.
  */
 
-namespace Icybee\Modules\Users;
+namespace Icybee\Modules\Users\Operation;
 
 use ICanBoogie\Errors;
+use Icybee\Modules\Users\Module;
+use Icybee\Modules\Users\User;
 
 /**
  * Create or update a user profile.
  */
-class SaveOperation extends \Icybee\Operation\Constructor\Save
+class SaveOperation extends \ICanBoogie\Module\Operation\SaveOperation
 {
 	protected function lazy_get_properties()
 	{

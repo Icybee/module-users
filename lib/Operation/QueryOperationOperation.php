@@ -9,7 +9,7 @@
  * file that was distributed with this source code.
  */
 
-namespace Icybee\Modules\Users;
+namespace Icybee\Modules\Users\Operation;
 
 class QueryOperationOperation extends \Icybee\Operation\Module\QueryOperation
 {

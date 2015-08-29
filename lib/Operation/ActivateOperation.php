@@ -9,10 +9,12 @@
  * file that was distributed with this source code.
  */
 
-namespace Icybee\Modules\Users;
+namespace Icybee\Modules\Users\Operation;
 
 use ICanBoogie\Errors;
 use ICanBoogie\Operation;
+use Icybee\Modules\Users\Module;
+use Icybee\Modules\Users\User;
 
 /**
  * Enables a user account.

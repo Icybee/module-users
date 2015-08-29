@@ -5,6 +5,10 @@ namespace Icybee\Modules\Users;
 use ICanBoogie\HTTP\Request;
 use ICanBoogie\Operation;
 
+use Icybee\Modules\Users\Operation\ActivateOperation;
+use Icybee\Modules\Users\Operation\DeactivateOperation;
+use Icybee\Modules\Users\Operation\LoginOperation;
+use Icybee\Modules\Users\Operation\LogoutOperation;
 use Icybee\Routing\RouteMaker as Make;
 
 return [

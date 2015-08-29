@@ -9,7 +9,7 @@
  * file that was distributed with this source code.
  */
 
-namespace Icybee\Modules\Users;
+namespace Icybee\Modules\Users\Operation;
 
 use ICanBoogie\Errors;
 use ICanBoogie\HTTP\Request;
@@ -18,6 +18,8 @@ use ICanBoogie\Operation;
 
 use Icybee\Binding\ObjectBindings;
 use Icybee\Modules\Registry\MetasHandler;
+use Icybee\Modules\Users\LoginForm;
+use Icybee\Modules\Users\User;
 
 /**
  * @property \ICanBoogie\Core|\Icybee\Binding\CoreBindings|\ICanBoogie\Binding\Mailer\CoreBindings $app
@@ -44,7 +46,7 @@ class LoginOperation extends Operation
 	 */
 	protected function lazy_get_form()
 	{
-		return new LoginForm();
+		return new LoginForm;
 	}
 
 	protected function validate(Errors $errors)

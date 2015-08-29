@@ -9,7 +9,12 @@
  * file that was distributed with this source code.
  */
 
-namespace Icybee\Modules\Users;
+namespace Icybee\Modules\Users\Operation;
+
+use ICanBoogie\Errors;
+use ICanBoogie\Operation;
+
+use Icybee\Modules\Users\User;
 
 /**
  * Unlocks login locked after multiple failed login attempts.
@@ -20,7 +25,7 @@ namespace Icybee\Modules\Users;
  *
  * @property User $record
  */
-class UnlockLoginOperation extends \ICanBoogie\Operation
+class UnlockLoginOperation extends Operation
 {
 	protected function lazy_get_record()
 	{
@@ -29,7 +34,7 @@ class UnlockLoginOperation extends \ICanBoogie\Operation
 		return $this->module->model->where('username = ? OR email = ?', $username, $username)->one;
 	}
 
-	protected function validate(\ICanboogie\Errors $errors)
+	protected function validate(Errors $errors)
 	{
 		$token = $this->request['token'];
 

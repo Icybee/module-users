@@ -38,9 +38,9 @@ class Hooks
 	 * Checks if the role to be deleted is used or not.
 	 *
 	 * @param Operation\BeforeProcessEvent $event
-	 * @param \Icybee\Modules\Users\Roles\DeleteOperation $operation
+	 * @param \Icybee\Modules\Users\Roles\Operation\DeleteOperation $operation
 	 */
-	static public function before_roles_delete(Operation\BeforeProcessEvent $event, \Icybee\Modules\Users\Roles\DeleteOperation $operation)
+	static public function before_roles_delete(Operation\BeforeProcessEvent $event, \Icybee\Modules\Users\Roles\Operation\DeleteOperation $operation)
 	{
 		$rid = $operation->key;
 		$count = self::app()->models['users/has_many_roles']->filter_by_rid($rid)->count;

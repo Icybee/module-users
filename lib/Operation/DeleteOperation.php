@@ -9,17 +9,18 @@
  * file that was distributed with this source code.
  */
 
-namespace Icybee\Modules\Users;
+namespace Icybee\Modules\Users\Operation;
 
-use ICanBoogie\DeleteOperation as Super;
 use ICanBoogie\Errors;
+
+use Icybee\Modules\Users\User;
 
 /**
  * Deletes a user.
  *
  * @property User $record
  */
-class DeleteOperation extends Super
+class DeleteOperation extends \ICanBoogie\Module\Operation\DeleteOperation
 {
 	/**
 	 * @inheritdoc
