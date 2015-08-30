@@ -1,10 +1,11 @@
 <?php
 
-namespace Icybee\Modules\Users;
+namespace Icybee\Modules\Users\Block;
 
 use Brickrouge\Button;
 use Brickrouge\Element;
 use Brickrouge\Form;
+
 use Icybee\Binding\ObjectBindings;
 
 class AvailableSitesBlock extends Element

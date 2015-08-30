@@ -9,11 +9,10 @@
  * file that was distributed with this source code.
  */
 
-namespace Icybee\Modules\Users;
+namespace Icybee\Modules\Users\Block;
 
 use Brickrouge\Group;
 
-use Icybee\Modules\Users\User;
 
 use Brickrouge\Document;
 use Brickrouge\Element;
@@ -21,19 +20,22 @@ use Brickrouge\Form;
 use Brickrouge\Text;
 use Brickrouge\Widget;
 
+use Icybee\Modules\Users\Module;
+use Icybee\Modules\Users\User;
+
 /**
  * A block to edit users.
  *
  * @property User $record
  * @property User $user
  */
-class EditBlock extends \Icybee\EditBlock
+class EditBlock extends \Icybee\Block\EditBlock
 {
 	static protected function add_assets(Document $document)
 	{
 		parent::add_assets($document);
 
-		$document->js->add(DIR . 'public/admin.js');
+		$document->js->add(\Icybee\Modules\Users\DIR . 'public/admin.js');
 	}
 
 	protected function get_permission()

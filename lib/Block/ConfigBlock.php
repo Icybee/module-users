@@ -9,17 +9,12 @@
  * file that was distributed with this source code.
  */
 
-namespace Icybee\Modules\Users;
+namespace Icybee\Modules\Users\Block;
 
 /**
- * @inheritdoc
- *
- * @property User $record
+ * A block to config users.
  */
-class DeleteBlock extends \Icybee\DeleteBlock
+class ConfigBlock extends \Icybee\Block\ConfigBlock
 {
-	protected function get_record_name()
-	{
-		return $this->record->name;
-	}
+
 }
