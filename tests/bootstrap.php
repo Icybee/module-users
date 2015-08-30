@@ -11,22 +11,15 @@
 
 namespace ICanBoogie;
 
-$_SERVER['DOCUMENT_ROOT'] = __DIR__;
-
-if (!file_exists(__DIR__ . '/../vendor/icanboogie-modules'))
-{
-	mkdir(__DIR__ . '/../vendor/icanboogie-modules');
-}
-
 require __DIR__ . '/../vendor/autoload.php';
 
-/* @var $app Core|Module\CoreBindings */
+/* @var $app Core|\Icybee\Binding\Core\CoreBindings */
 
 $app = new Core(array_merge_recursive(get_autoconfig(), [
 
 	'config-path' => [
 
-		__DIR__ . DIRECTORY_SEPARATOR . 'config' => Autoconfig\Config::CONFIG_WEIGHT_MODULE
+		__DIR__ . '/config' => Autoconfig\Config::CONFIG_WEIGHT_MODULE
 
 	],
 
@@ -39,24 +32,4 @@ $app = new Core(array_merge_recursive(get_autoconfig(), [
 ]));
 
 $app->boot();
-
-#
-# Install modules
-#
-
-$errors = $app->modules->install(new \ICanBoogie\Errors);
-
-if ($errors->count())
-{
-	foreach ($errors as $id => $error)
-	{
-		if ($error instanceof \Exception)
-		{
-			$error = $error->getMessage();
-		}
-
-		echo "$id: $error\n";
-	}
-
-	exit(1);
-}
+$app->modules->install();

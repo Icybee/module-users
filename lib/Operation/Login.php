@@ -16,7 +16,7 @@ use ICanBoogie\HTTP\Request;
 use ICanBoogie\I18n;
 use ICanBoogie\Operation;
 
-use Icybee\Binding\PrototypedBindings;
+use Icybee\Binding\Core\PrototypedBindings;
 use Icybee\Modules\Registry\MetasHandler;
 use Icybee\Modules\Users\LoginForm;
 use Icybee\Modules\Users\User;

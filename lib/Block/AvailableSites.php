@@ -6,7 +6,7 @@ use Brickrouge\Button;
 use Brickrouge\Element;
 use Brickrouge\Form;
 
-use Icybee\Binding\PrototypedBindings;
+use Icybee\Binding\Core\PrototypedBindings;
 
 class AvailableSitesBlock extends Element
 {
