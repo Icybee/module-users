@@ -27,8 +27,6 @@
 		"icybee/module-registry": "^3.0.0"
 	},
 	"require-dev": {
-		"icanboogie/operation": "^2.2.0",
-		"icanboogie/bind-activerecord": "^0.3.0",
 		"icanboogie/bind-facets": "^0.2.0"
 	},
 	"suggest": {
