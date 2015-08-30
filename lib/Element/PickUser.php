@@ -13,14 +13,14 @@ namespace Icybee\Modules\Users\Element;
 
 use Brickrouge\Element;
 
-use Icybee\Binding\ObjectBindings;
+use Icybee\Binding\PrototypedBindings;
 
 /**
  * An element to pick a user.
  */
 class PickUser extends Element
 {
-	use ObjectBindings;
+	use PrototypedBindings;
 
 	/**
 	 * The options of the element are created with {@link create_options()}.

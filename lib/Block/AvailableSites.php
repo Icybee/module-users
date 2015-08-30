@@ -6,11 +6,11 @@ use Brickrouge\Button;
 use Brickrouge\Element;
 use Brickrouge\Form;
 
-use Icybee\Binding\ObjectBindings;
+use Icybee\Binding\PrototypedBindings;
 
 class AvailableSitesBlock extends Element
 {
-	use ObjectBindings;
+	use PrototypedBindings;
 
 	public function render()
 	{

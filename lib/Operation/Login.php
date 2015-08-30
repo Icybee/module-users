@@ -16,7 +16,7 @@ use ICanBoogie\HTTP\Request;
 use ICanBoogie\I18n;
 use ICanBoogie\Operation;
 
-use Icybee\Binding\ObjectBindings;
+use Icybee\Binding\PrototypedBindings;
 use Icybee\Modules\Registry\MetasHandler;
 use Icybee\Modules\Users\LoginForm;
 use Icybee\Modules\Users\User;
@@ -27,7 +27,7 @@ use Icybee\Modules\Users\User;
  */
 class LoginOperation extends Operation
 {
-	use ObjectBindings;
+	use PrototypedBindings;
 
 	/**
 	 * Adds form control.

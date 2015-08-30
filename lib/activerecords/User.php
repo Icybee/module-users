@@ -20,7 +20,7 @@ use Brickrouge\CSSClassNames;
 use Brickrouge\CSSClassNamesProperty;
 
 use Icybee\Modules\Users\Roles\Role;
-use Icybee\Binding\ObjectBindings as IcybeeBindings;
+use Icybee\Binding\PrototypedBindings as IcybeeBindings;
 use Icybee\Modules\Registry\Binding\UserBindings as RegistryBindings;
 
 /**

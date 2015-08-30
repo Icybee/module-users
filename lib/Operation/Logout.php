@@ -14,7 +14,7 @@ namespace Icybee\Modules\Users\Operation;
 use ICanBoogie\Errors;
 use ICanBoogie\Operation;
 
-use Icybee\Binding\ObjectBindings;
+use Icybee\Binding\PrototypedBindings;
 use Icybee\Modules\Users\User;
 
 /**
@@ -26,7 +26,7 @@ use Icybee\Modules\Users\User;
  */
 class LogoutOperation extends Operation
 {
-	use ObjectBindings;
+	use PrototypedBindings;
 
 	/**
 	 * Returns the record of the user to logout.
