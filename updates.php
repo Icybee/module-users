@@ -26,13 +26,13 @@ class Update20120101 extends Update
 			throw new AssertionFailed('assert_not_table_exists', 'users');
 		}
 
-		$db("RENAME TABLE `user_users` TO `users`");
+		$db("RENAME TABLE `{prefix}user_users` TO `users`");
 	}
 
 	public function update_constructor_type()
 	{
 		$db = $this->app->db;
-		$db("UPDATE users SET constructor = 'users' WHERE constructor = 'user.users'");
+		$db("UPDATE `{prefix}users` SET constructor = 'users' WHERE constructor = 'user.users'");
 	}
 }
 
