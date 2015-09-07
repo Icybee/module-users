@@ -29,7 +29,7 @@ class DeleteOperation extends \ICanBoogie\Module\Operation\DeleteOperation
 	{
 		if ($this->key == 1)
 		{
-			$errors['uid'] = $errors->format("Daddy cannot be deleted.");
+			$errors->add('uid', "Daddy cannot be deleted.");
 		}
 
 		return parent::validate($errors);

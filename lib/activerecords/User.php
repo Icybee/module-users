@@ -53,6 +53,7 @@ class User extends ActiveRecord implements CSSClassNames
 	const EMAIL = 'email';
 	const PASSWORD = 'password';
 	const PASSWORD_HASH = 'password_hash';
+	const PASSWORD_VERIFY = 'password-verify';
 	const USERNAME = 'username';
 	const FIRSTNAME = 'firstname';
 	const LASTNAME = 'lastname';

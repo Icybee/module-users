@@ -163,14 +163,14 @@ class SaveOperation extends \ICanBoogie\Module\Operation\SaveOperation
 
 		if (!empty($properties[User::PASSWORD]))
 		{
-			if (!$this->request[User::PASSWORD . '-verify'])
+			if (!$this->request[User::PASSWORD_VERIFY])
 			{
-				$errors[User::PASSWORD . '-verify'] = $errors->format('Password verify is empty.');
+				$errors->add(User::PASSWORD_VERIFY, "Password verify is empty.");
 			}
 
-			if ($properties[User::PASSWORD] != $this->request[User::PASSWORD . '-verify'])
+			if ($properties[User::PASSWORD] != $this->request[User::PASSWORD_VERIFY])
 			{
-				$errors[User::PASSWORD . '-verify'] = $errors->format("Password and password verify don't match.");
+				$errors->add(User::PASSWORD_VERIFY, "Password and password verify don't match.");
 			}
 		}
 
@@ -188,7 +188,7 @@ class SaveOperation extends \ICanBoogie\Module\Operation\SaveOperation
 
 			if ($used)
 			{
-				$errors[User::USERNAME] = $errors->format("The user name %username is already used.", [
+				$errors->add(User::USERNAME, "The user name %username is already used.", [
 
 					'%username' => $username
 
@@ -207,7 +207,7 @@ class SaveOperation extends \ICanBoogie\Module\Operation\SaveOperation
 
 			if ($used)
 			{
-				$errors[User::EMAIL] = $errors->format("The email address %email est already used.", [
+				$errors->add(User::EMAIL, "The email address %email est already used.", [
 
 					'%email' => $email
 
@@ -223,18 +223,15 @@ class SaveOperation extends \ICanBoogie\Module\Operation\SaveOperation
 		$previous_uid = $this->app->user_id;
 
 		$rc = parent::process();
-
 		$uid = $rc['key'];
-
-		$errors = $this->response->errors;
 
 		if (!$previous_uid)
 		{
-			$this->response->message = $errors->format("Your profile has been created.");
+			$this->response->message = $this->format("Your profile has been created.");
 		}
 		else if ($previous_uid == $uid)
 		{
-			$this->response->message = $errors->format($rc['mode'] == 'update' ? "Your profile has been updated." : "Your profile has been created.");
+			$this->response->message = $this->format($rc['mode'] == 'update' ? "Your profile has been updated." : "Your profile has been created.");
 		}
 		else
 		{
@@ -242,7 +239,7 @@ class SaveOperation extends \ICanBoogie\Module\Operation\SaveOperation
 
 			$record = $this->module->model[$uid];
 
-			$this->response->message = $errors->format($rc['mode'] == 'update' ? "%name's profile has been updated." : "%name's profile has been created.", [ 'name' => $record->name ]);
+			$this->response->message = $this->format($rc['mode'] == 'update' ? "%name's profile has been updated." : "%name's profile has been created.", [ 'name' => $record->name ]);
 		}
 
 		return $rc;

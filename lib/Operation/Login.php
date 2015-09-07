@@ -64,7 +64,7 @@ class LoginOperation extends Operation
 
 		if (!$uid)
 		{
-			$errors[User::PASSWORD] = $errors->format('Unknown username/password combination.');
+			$errors->add(User::PASSWORD, "Unknown username/password combination.");
 
 			return false;
 		}
@@ -102,7 +102,7 @@ class LoginOperation extends Operation
 
 		if (!$user->verify_password($password))
 		{
-			$errors[User::PASSWORD] = $errors->format('Unknown username/password combination.');
+			$errors->add(User::PASSWORD, "Unknown username/password combination.");
 
 			$metas['failed_login_count'] += 1;
 			$metas['failed_login_time'] = $now;
@@ -148,7 +148,7 @@ EOT
 
 				unset($errors[User::PASSWORD]);
 
-				$errors[] = $errors->format("Your account has been locked, a message has been sent to your e-mail address.");
+				$errors->add(null, "Your account has been locked, a message has been sent to your e-mail address.");
 			}
 
 			return false;
@@ -156,7 +156,7 @@ EOT
 
 		if (!$user->is_admin && !$user->is_activated)
 		{
-			$errors[] = $errors->format('User %username is not activated', [ '%username' => $username ]);
+			$errors->add(null, "User %username is not activated", [ '%username' => $username ]);
 
 			return false;
 		}
