@@ -55,8 +55,8 @@ return [
 
 	'users.edit.element' => [
 
-		'label.siteid' => "Restriction d'accès aux sites",
-		'description.siteid' => "Permet de restraindre l'accès de l'utilisateur aux
+		'label.site_id' => "Restriction d'accès aux sites",
+		'description.site_id' => "Permet de restraindre l'accès de l'utilisateur aux
 		sites sélectionnés. Si aucun site n'est sélectionné, tous les sites lui sont accessibles.",
 		'description.language' => "Il s'agit de la langue à utiliser pour l'interface."
 

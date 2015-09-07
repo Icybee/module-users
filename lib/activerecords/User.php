@@ -427,7 +427,7 @@ class User extends ActiveRecord implements CSSClassNames
 		}
 
 		return $this->model->models['users/has_many_sites']
-		->select('siteid')
+		->select('site_id')
 		->filter_by_uid($this->uid)
 		->all(\PDO::FETCH_COLUMN);
 	}

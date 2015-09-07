@@ -55,7 +55,7 @@ return [
 			Model::SCHEMA => [
 
 				'uid' => [ 'foreign', 'primary' => true ],
-				'siteid' => [ 'foreign', 'primary' => true ]
+				'site_id' => [ 'foreign', 'primary' => true ]
 
 			]
 		]

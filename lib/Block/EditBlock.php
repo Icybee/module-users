@@ -320,7 +320,7 @@ class EditBlock extends \Icybee\Block\EditBlock
 
 		$options = $this->app
 		->models['sites']
-		->select('siteid, IF(admin_title != "", admin_title, concat(title, ":", language))')
+		->select('site_id, IF(admin_title != "", admin_title, concat(title, ":", language))')
 		->order('admin_title, title')
 		->pairs;
 
@@ -331,10 +331,10 @@ class EditBlock extends \Icybee\Block\EditBlock
 
 		return new Element(Element::TYPE_CHECKBOX_GROUP, [
 
-			Form::LABEL => 'siteid',
+			Form::LABEL => 'site_id',
 			Element::OPTIONS => $options,
 			Element::GROUP => 'advanced',
-			Element::DESCRIPTION => 'siteid',
+			Element::DESCRIPTION => 'site_id',
 
 			'class' => 'inputs-list widget-bordered',
 			'value' => $value

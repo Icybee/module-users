@@ -24,7 +24,7 @@ class AvailableSitesBlock extends Element
 		$ws_title = \ICanBoogie\escape($site->admin_title ? $site->admin_title : $site->title .':' . $site->language);
 
 		$available = $site->model
-		->where('siteid IN(' . implode(',', $app->user->restricted_sites_ids) . ')')
+		->where('site_id IN(' . implode(',', $app->user->restricted_sites_ids) . ')')
 		->order('admin_title, title')
 		->all;
 

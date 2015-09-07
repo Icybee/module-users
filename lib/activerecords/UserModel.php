@@ -88,7 +88,7 @@ class UserModel extends ConstructorModel
 
 		foreach ($restricted_sites as $site_id)
 		{
-			$has_many_sites->execute('INSERT {self} SET uid = ?, siteid = ?', [ $rc, $site_id ]);
+			$has_many_sites->execute('INSERT {self} SET uid = ?, site_id = ?', [ $rc, $site_id ]);
 		}
 	}
 }
