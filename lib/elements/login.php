@@ -20,8 +20,12 @@ use Brickrouge\Element;
 use Brickrouge\Form;
 use Brickrouge\Text;
 
+use Icybee\Binding\Core\PrototypedBindings;
+
 class LoginForm extends Form
 {
+	use PrototypedBindings;
+
 	const PASSWORD_RECOVERY_LINK = '#password-recovery-link';
 
 	public $lost_password = [];
@@ -66,8 +70,6 @@ class LoginForm extends Form
 
 			Form::HIDDENS => [
 
-				Operation::DESTINATION => 'users',
-				Operation::NAME => Module::OPERATION_LOGIN,
 				'redirect_to' => $app->request['redirect_to']
 
 			],
@@ -95,7 +97,8 @@ class LoginForm extends Form
 			Element::IS => 'Login',
 
 			'class' => 'widget-login',
-			'name' => 'users/login'
+			'name' => 'users/login',
+			'action' => $this->app->url_for('api:login')
 
 		]);
 	}

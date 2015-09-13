@@ -15,6 +15,7 @@ use ICanBoogie\Errors;
 use ICanBoogie\HTTP\Request;
 use ICanBoogie\I18n;
 use ICanBoogie\Operation;
+use ICanBoogie\Module\ControllerBindings as ModuleBindings;
 
 use Icybee\Binding\Core\PrototypedBindings;
 use Icybee\Modules\Registry\MetasHandler;
@@ -22,12 +23,14 @@ use Icybee\Modules\Users\LoginForm;
 use Icybee\Modules\Users\User;
 
 /**
+ * Log in a user.
+ *
  * @property \ICanBoogie\Core|\Icybee\Binding\CoreBindings|\ICanBoogie\Binding\Mailer\CoreBindings $app
  * @property User $record The logged user.
  */
 class LoginOperation extends Operation
 {
-	use PrototypedBindings;
+	use PrototypedBindings, ModuleBindings;
 
 	/**
 	 * Adds form control.
@@ -57,7 +60,7 @@ class LoginOperation extends Operation
 
 		/* @var $uid int */
 
-		$uid = $this->app->models['users']
+		$uid = $this->model
 		->select('uid')
 		->where('username = ? OR email = ?', $username, $username)
 		->rc;
@@ -72,7 +75,7 @@ class LoginOperation extends Operation
 		/* @var $user User */
 		/* @var $metas MetasHandler */
 
-		$user = $this->app->models['users'][$uid];
+		$user = $this->model[$uid];
 		$metas = $user->metas;
 
 		$now = time();
