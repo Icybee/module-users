@@ -18,7 +18,7 @@ use ICanBoogie\Operation;
 use ICanBoogie\Module\ControllerBindings as ModuleBindings;
 
 use Icybee\Binding\Core\PrototypedBindings;
-use Icybee\Modules\Registry\MetasHandler;
+use Icybee\Modules\Registry\MetaCollection;
 use Icybee\Modules\Users\LoginForm;
 use Icybee\Modules\Users\User;
 
@@ -73,7 +73,7 @@ class LoginOperation extends Operation
 		}
 
 		/* @var $user User */
-		/* @var $metas MetasHandler */
+		/* @var $metas MetaCollection */
 
 		$user = $this->model[$uid];
 		$metas = $user->metas;
