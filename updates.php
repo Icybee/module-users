@@ -110,3 +110,17 @@ class Update20131022 extends Update
 		->rename_column('lastconnection', 'logged_at');
 	}
 }
+
+
+/**
+ * @module users
+ */
+class Update20150922 extends Update
+{
+	public function update_column_siteid()
+	{
+		$this->module->models['has_many_sites']
+		->assert_has_column('siteid')
+		->rename_column('siteid', 'site_id');
+	}
+}
