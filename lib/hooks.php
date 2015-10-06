@@ -23,8 +23,8 @@ use ICanBoogie\PropertyNotDefined;
 use ICanBoogie\Routing\RouteDispatcher;
 use ICanBoogie\Session;
 
-use Icybee\AdminDecorator;
-use Icybee\DocumentDecorator;
+use Icybee\Element\AdminDecorator;
+use Icybee\Element\DocumentDecorator;
 use Icybee\Modules\Members\Member;
 use Icybee\Modules\Users\Binding\CoreBindings;
 

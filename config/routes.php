@@ -58,7 +58,7 @@ return [
 ] + Make::admin('users', Routing\UsersAdminController::class, [
 
 	'id_name' => 'uid',
-	'only' => [ 'index', 'create', 'edit', 'confirm-delete', 'profile', 'authenticate' ],
+	'only' => [ 'index', 'new', 'edit', 'confirm-delete', 'profile', 'authenticate' ],
 	'actions' => [
 
 		'profile' => [
