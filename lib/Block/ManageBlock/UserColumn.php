@@ -88,13 +88,13 @@ class UserColumn extends Column
 			->pairs;
 	}
 
-	public function alter_query_with_filter(Query $query, $filter_value)
+	public function alter_query_with_value(Query $query, $value)
 	{
-		$query = parent::alter_query_with_filter($query, $filter_value);
+		$query = parent::alter_query_with_value($query, $value);
 
-		if ($filter_value)
+		if ($value)
 		{
-			$query->and([ $this->id => $filter_value ]);
+			$query->and([ $this->id => $value ]);
 		}
 
 		return $query;
@@ -119,9 +119,9 @@ class UserColumn extends Column
 	 *
 	 * @inheritdoc
 	 */
-	public function alter_records(array $records)
+	public function alter_records(array &$records)
 	{
-		$records = parent::alter_records($records);
+		parent::alter_records($records);
 		$keys = [];
 
 		foreach ($records as $record)
@@ -142,8 +142,6 @@ class UserColumn extends Column
 				$this->user_cache = $e->records;
 			}
 		}
-
-		return $records;
 	}
 
 	public function get_options()
