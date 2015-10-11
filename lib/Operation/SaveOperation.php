@@ -12,28 +12,35 @@
 namespace Icybee\Modules\Users\Operation;
 
 use ICanBoogie\Errors;
+use ICanBoogie\HTTP\Request;
+
 use Icybee\Modules\Users\Module;
 use Icybee\Modules\Users\User;
+use Icybee\Modules\Users\UserModel;
 
 /**
  * Create or update a user profile.
+ *
+ * @property-read UserModel $model
+ * @property User $record User
  */
 class SaveOperation extends \ICanBoogie\Module\Operation\SaveOperation
 {
+	protected function get_model()
+	{
+		return $this->module->model;
+	}
+
 	protected function lazy_get_properties()
 	{
 		$properties = parent::lazy_get_properties();
 		$request = $this->request;
 
-		#
-		# password
-		#
-
 		unset($properties[User::PASSWORD_HASH]);
 
 		if ($request[User::PASSWORD])
 		{
-			$properties[User::PASSWORD_HASH] = User::hash_password($request[User::PASSWORD]);
+			$properties[User::PASSWORD] = $request[User::PASSWORD];
 		}
 
 		if ($this->app->user->has_permission(Module::PERMISSION_ADMINISTER, $this->module))
@@ -150,72 +157,119 @@ class SaveOperation extends \ICanBoogie\Module\Operation\SaveOperation
 	 *
 	 * @inheritdoc
 	 */
-	protected function control_form()
+	protected function action(Request $request)
 	{
-		$this->request->params[User::ROLES][2] = 'on';
+		$request->params[User::ROLES][2] = 'on';
 
-		return parent::control_form();
+		return parent::action($request);
 	}
 
+	/**
+	 * Validates the `password`, `username`, and `email` properties.
+	 *
+	 * @inheritdoc
+	 */
 	protected function validate(Errors $errors)
 	{
-		$properties = $this->properties;
+		$request = $this->request;
 
-		if (!empty($properties[User::PASSWORD]))
+		$this->validate_password($request, $errors);
+		$this->validate_username($request, $errors);
+		$this->validate_email($request, $errors);
+
+		return parent::validate($errors);
+	}
+
+	/**
+	 * Checks that the password matches password-verify.
+	 *
+	 * @param Request $request
+	 * @param Errors $errors
+	 */
+	protected function validate_password(Request $request, Errors $errors)
+	{
+		$password = $request[User::PASSWORD];
+
+		if (!$password)
 		{
-			if (!$this->request[User::PASSWORD_VERIFY])
-			{
-				$errors->add(User::PASSWORD_VERIFY, "Password verify is empty.");
-			}
-
-			if ($properties[User::PASSWORD] != $this->request[User::PASSWORD_VERIFY])
-			{
-				$errors->add(User::PASSWORD_VERIFY, "Password and password verify don't match.");
-			}
+			return;
 		}
 
-		$uid = $this->key ? $this->key : 0;
-		$model = $this->app->models['users'];
+		$password_verify = $request[User::PASSWORD_VERIFY];
 
-		#
-		# unique username
-		#
-
-		if (isset($properties[User::USERNAME]))
+		if (!$password_verify)
 		{
-			$username = $properties[User::USERNAME];
-			$used = $model->select('uid')->where('username = ? AND uid != ?', $username, $uid)->rc;
+			$errors->add(User::PASSWORD_VERIFY, "Password verify is empty.");
 
-			if ($used)
-			{
-				$errors->add(User::USERNAME, "The user name %username is already used.", [
-
-					'%username' => $username
-
-				]);
-			}
+			return;
 		}
 
-		#
-		# check if email is unique
-		#
-
-		if (isset($properties[User::EMAIL]))
+		if ($password === $password_verify)
 		{
-			$email = $properties[User::EMAIL];
-			$used = $model->select('uid')->where('email = ? AND uid != ?', $email, $uid)->rc;
-
-			if ($used)
-			{
-				$errors->add(User::EMAIL, "The email address %email est already used.", [
-
-					'%email' => $email
-
-				]);
-			}
+			return;
 		}
 
-		return count($errors) == 0 && parent::validate($errors);
+		$errors->add(User::PASSWORD_VERIFY, "Password and password verify don't match.");
+	}
+
+	/**
+	 * Checks that the username is unique.
+	 *
+	 * @param Request $request
+	 * @param Errors $errors
+	 */
+	protected function validate_username(Request $request, Errors $errors)
+	{
+		$username = $request[User::USERNAME];
+
+		if (!$username)
+		{
+			return;
+		}
+
+		$uid = $this->key ?: 0;
+		$used = $this->model->where('username = ? AND uid != ?', $username, $uid)->exists;
+
+		if (!$used)
+		{
+			return;
+		}
+
+		$errors->add(User::USERNAME, "The user name %username is already used.", [
+
+			'%username' => $username
+
+		]);
+	}
+
+	/**
+	 * Checks that the email is email.
+	 *
+	 * @param Request $request
+	 * @param Errors $errors
+	 */
+	protected function validate_email(Request $request, Errors $errors)
+	{
+		$email = $request[User::EMAIL];
+
+		if (!$email)
+		{
+			return;
+		}
+
+		$uid = $this->key ?: 0;
+		$used = $this->model->where('email = ? AND uid != ?', $email, $uid)->exists;
+
+		if (!$used)
+		{
+			return;
+		}
+
+		$errors->add(User::EMAIL, "The email address %email is already used.", [
+
+			'%email' => $email
+
+		]);
 	}
 
 	protected function process()
@@ -223,21 +277,18 @@ class SaveOperation extends \ICanBoogie\Module\Operation\SaveOperation
 		$previous_uid = $this->app->user_id;
 
 		$rc = parent::process();
-		$uid = $rc['key'];
 
 		if (!$previous_uid)
 		{
 			$this->response->message = $this->format("Your profile has been created.");
 		}
-		else if ($previous_uid == $uid)
+		else if ($previous_uid == $rc['key'])
 		{
 			$this->response->message = $this->format($rc['mode'] == 'update' ? "Your profile has been updated." : "Your profile has been created.");
 		}
 		else
 		{
-			/* @var $record User */
-
-			$record = $this->module->model[$uid];
+			$record = $this->record;
 
 			$this->response->message = $this->format($rc['mode'] == 'update' ? "%name's profile has been updated." : "%name's profile has been created.", [ 'name' => $record->name ]);
 		}
