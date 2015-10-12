@@ -130,7 +130,7 @@ class LoginOperation extends Operation
 				$this->app->mail([
 
 					'destination' => $user->email,
-					'from' => 'no-reply@' . $_SERVER['HTTP_HOST'],
+					'from' => 'no-reply@' . $request->headers['Host'],
 					'subject' => "Your account has been locked",
 					'body' => <<<EOT
 You receive this message because your account has been locked.

@@ -26,7 +26,7 @@ class Module extends \Icybee\Module
 	const OPERATION_DEACTIVATE = 'deactivate';
 	const OPERATION_IS_UNIQUE = 'is_unique';
 
-	static $config_default = [
+	static public $config_default = [
 
 		'notifies' => [
 

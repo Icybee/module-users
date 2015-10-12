@@ -28,7 +28,10 @@ class LoginForm extends Form
 
 	const PASSWORD_RECOVERY_LINK = '#password-recovery-link';
 
-	public $lost_password = [];
+	/**
+	 * @var Element
+	 */
+	public $lost_password;
 
 	/**
 	 * Adds the "widget.css" and "widget.js" assets.

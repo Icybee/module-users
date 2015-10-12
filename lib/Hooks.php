@@ -13,12 +13,12 @@ namespace Icybee\Modules\Users;
 
 use ICanBoogie\ActiveRecord;
 use ICanBoogie\Core;
+use ICanBoogie\HTTP\AuthenticationRequired;
 use ICanBoogie\HTTP\PermissionRequired;
 use ICanBoogie\HTTP\Response;
 use ICanBoogie\HTTP\RequestDispatcher;
 use ICanBoogie\HTTP\SecurityError;
 use ICanBoogie\Operation;
-use ICanBoogie\Operation\OperationDispatcher;
 use ICanBoogie\PropertyNotDefined;
 use ICanBoogie\Routing\RouteDispatcher;
 use ICanBoogie\Session;
@@ -63,7 +63,7 @@ class Hooks
 	{
 		$request = $event->request;
 
-		if ($request->context->dispatcher instanceof OperationDispatcher && $request->is_xhr)
+		if (!$request->is_get)
 		{
 			return;
 		}
@@ -134,9 +134,14 @@ class Hooks
 		$app = self::app();
 		$user = $app->user;
 
-		if ($user->is_guest || $user instanceof Member)
+		if ($user->is_guest)
 		{
-			throw new PermissionRequired();
+			throw new AuthenticationRequired;
+		}
+
+		if ($user instanceof Member)
+		{
+			throw new PermissionRequired;
 		}
 
 		if ($user->language)
@@ -159,14 +164,19 @@ class Hooks
 		{
 			throw $e;
 		}
-		catch (\Exception $e) { }
+		catch (\Exception $e)
+		{
+			#
+			# not important
+			#
+		}
 
 		if (!$restricted_sites || in_array($app->site_id, $restricted_sites))
 		{
 			return;
 		}
 
-		throw new WebsiteAdminNotAccessible();
+		throw new WebsiteAdminNotAccessible;
 	}
 
 	/*
