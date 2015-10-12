@@ -27,13 +27,15 @@
 		"icybee/module-registry": "^3.0.0"
 	},
 	"require-dev": {
-		"icanboogie/bind-facets": "^0.2.0"
+		"icanboogie/bind-facets": "^1.0.0"
 	},
 	"suggest": {
 		"icanboogie/mailer": "Mailer is a library for PHP that is designed to handle emails generation and sending."
 	},
 	"autoload": {
-		"classmap": [ "lib" ]
+		"psr-4": {
+			"Icybee\\Modules\\Users\\": "lib"
+		}
 	},
 
 	"scripts": {

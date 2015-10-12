@@ -27,6 +27,7 @@ use Icybee\Modules\Registry\Binding\UserBindings as RegistryBindings;
  * A user.
  *
  * @property-read UserModel $model
+ * @property-read \ICanBoogie\Core|Binding\CoreBindings $app
  *
  * @property-read string $name The formatted name of the user.
  * @property-read boolean $is_admin true if the user is admin, false otherwise.
@@ -40,11 +41,8 @@ use Icybee\Modules\Registry\Binding\UserBindings as RegistryBindings;
  */
 class User extends ActiveRecord implements CSSClassNames
 {
-	use IcybeeBindings;
-	use RegistryBindings;
-	use CreatedAtProperty;
-	use LoggedAtProperty;
-	use CSSClassNamesProperty;
+	use IcybeeBindings, RegistryBindings;
+	use CreatedAtProperty, LoggedAtProperty, CSSClassNamesProperty;
 	use PasswordTrait;
 
 	const MODEL_ID = 'users';
@@ -218,12 +216,11 @@ class User extends ActiveRecord implements CSSClassNames
 	public $is_activated = false;
 
 	/**
-	 * Initializes the {@link $constructor} property with the model identifier if it is not
-	 * defined.
+	 * If empty, the {@link $constructor} property is initialized with the model identifier.
 	 *
 	 * @inheritdoc
 	 */
-	public function __construct($model = self::MODEL_ID)
+	public function __construct($model = null)
 	{
 		parent::__construct($model);
 

@@ -1,6 +1,6 @@
 <?php
 
-namespace Icybee\Modules\Users;
+namespace Icybee\Modules\Users\Facets;
 
 use ICanBoogie\Facets\BooleanCriterion;
 use ICanBoogie\Facets\DateTimeCriterion;

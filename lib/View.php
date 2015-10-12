@@ -12,6 +12,7 @@
 namespace Icybee\Modules\Users;
 
 use ICanBoogie\HTTP\AuthenticationRequired;
+
 use Icybee\Modules\Views\ViewOptions;
 
 /**
