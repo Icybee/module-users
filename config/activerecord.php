@@ -2,8 +2,8 @@
 
 namespace Icybee\Modules\Users\Facets;
 
-use ICanBoogie\Facets\BooleanCriterion;
-use ICanBoogie\Facets\DateTimeCriterion;
+use ICanBoogie\Facets\Criterion\BooleanCriterion;
+use ICanBoogie\Facets\Criterion\DateCriterion;
 
 return [
 
@@ -13,8 +13,8 @@ return [
 
 			'username' => UsernameCriterion::class,
 			'is_activated' => BooleanCriterion::class,
-			'created_at' => DateTimeCriterion::class,
-			'logged_at' => DateTimeCriterion::class
+			'created_at' => DateCriterion::class,
+			'logged_at' => DateCriterion::class
 
 		]
 	]

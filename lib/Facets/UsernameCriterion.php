@@ -11,9 +11,9 @@
 
 namespace Icybee\Modules\Users\Facets;
 
-use ICanBoogie\Facets\Criterion;
+use ICanBoogie\Facets\Criterion\BasicCriterion;
 
-class UsernameCriterion extends Criterion
+class UsernameCriterion extends BasicCriterion
 {
 
 }
