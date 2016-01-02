@@ -475,8 +475,6 @@ class User extends ActiveRecord implements CSSClassNames
 	 * - The `$app->user_id` property is set to the user id.
 	 * - The session id is regenerated and the user id, ip and user agent are stored in the session.
 	 *
-	 * @return boolean true if the login is successful.
-	 *
 	 * @throws \Exception in attempt to log in a guest user.
 	 *
 	 * @see \Icybee\Modules\Users\Hooks\get_user_id
@@ -491,11 +489,8 @@ class User extends ActiveRecord implements CSSClassNames
 		$app = $this->app;
 		$app->user = $this;
 		$app->user_id = $this->uid;
-		$app->session->regenerate_id(true);
-		$app->session->regenerate_token();
+		$app->session->regenerate();
 		$app->session['user_id'] = $this->uid;
-
-		return true;
 	}
 
 	/**
@@ -510,6 +505,7 @@ class User extends ActiveRecord implements CSSClassNames
 	public function logout()
 	{
 		$app = $this->app;
+		$app->session->regenerate();
 
 		unset($app->user);
 		unset($app->user_id);

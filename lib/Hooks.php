@@ -196,12 +196,12 @@ class Hooks
 	 */
 	static public function get_user_id(Core $app)
 	{
-		if (!Session::exists())
+		$session = $app->session;
+
+		if (!$session->is_referenced)
 		{
 			return null;
 		}
-
-		$session = $app->session;
 
 		return isset($session['user_id']) ? $session['user_id'] : null;
 	}
@@ -237,9 +237,11 @@ class Hooks
 
 		if (!$user)
 		{
-			if (Session::exists())
+			$session = $app->session;
+
+			if ($session->is_referenced)
 			{
-				unset($app->session['user_id']);
+				unset($session['user_id']);
 			}
 
 			$user = new User($model);
