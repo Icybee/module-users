@@ -115,21 +115,21 @@ class User extends ActiveRecord implements CSSClassNames
 	 * The method takes care of setting the {@link password_hash} property which is not
 	 * settable otherwise.
 	 *
-	 * @return User
+	 * @return static
 	 */
 	static public function from($properties = null, array $construct_args = [], $class_name = null)
 	{
-		if (is_array($properties) && array_key_exists('password_hash', $properties))
+		if (!is_array($properties) || !array_key_exists('password_hash', $properties))
 		{
-			$password_hash = $properties['password_hash'];
-			unset($properties['password_hash']);
-			$instance = parent::from($properties, $construct_args);
-			$instance->password_hash = $password_hash;
-
-			return $instance;
+			return parent::from($properties, $construct_args, $class_name);
 		}
 
-		return parent::from($properties, $construct_args, $class_name);
+		$password_hash = $properties['password_hash'];
+		unset($properties['password_hash']);
+		$instance = parent::from($properties, $construct_args);
+		$instance->password_hash = $password_hash;
+
+		return $instance;
 	}
 
 	/**
@@ -248,14 +248,14 @@ class User extends ActiveRecord implements CSSClassNames
 	/**
 	 * @inheritdoc
 	 */
-	public function save()
+	public function save(array $options = [])
 	{
 		if ($this->get_created_at()->is_empty)
 		{
 			$this->set_created_at('now');
 		}
 
-		return parent::save();
+		return parent::save($options);
 	}
 
 	/**
