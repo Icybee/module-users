@@ -32,7 +32,7 @@ class LoginComboElement extends Element
 
 		parent::__construct('div', $attributes + [
 
-			Element::IS => 'LoginCombo',
+			Element::IS => 'user-login-combo',
 
 			'id' => 'login',
 			'class' => 'widget-login-combo'

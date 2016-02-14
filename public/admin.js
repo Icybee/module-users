@@ -29,8 +29,8 @@
 		, email = document.id(form.elements.email)
 		, auto_username = !username.value
 		, uid = form.elements[ICanBoogie.Operation.KEY] ? form.elements[ICanBoogie.Operation.KEY].value : null
-		, usernameGroup = username.getParent('.control-group')
-		, emailGroup = email.getParent('.control-group')
+		, usernameGroup = username.getParent('.form-group')
+		, emailGroup = email.getParent('.form-group')
 		, lastCheckUsername = null
 		, lastCheckEmail = null
 

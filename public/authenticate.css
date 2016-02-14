@@ -5,7 +5,7 @@ html {
 	background: -webkit-linear-gradient(top, #F6F6F6 70%, #E8E8E8);
 	background: linear-gradient(to bottom, #F6F6F6 70%, #E8E8E8);
 }
- 
+
 body.page-slug-authenticate #contents {
 	background: transparent;
 	box-shadow: none;
@@ -21,11 +21,11 @@ body.page-slug-authenticate #contents {
 	margin: 0;
 }
 
-.widget-login-combo input {
+.widget-login-combo .form-control {
 	height: auto;
-	width: 100%;
 	box-sizing: border-box;
 	line-height: 1.5em;
+	font-size: 1em;
 }
 
 .widget-login-combo .btn {
@@ -42,18 +42,14 @@ body.page-slug-authenticate #contents {
 	margin: .5em 0;
 }
 
-.widget-login-combo .control-group + .control-group {
-	margin-top: 1em;
-}
-
 .widget-login-combo .alert {
 	font-size: 1rem;
 }
 
-.widget-login-combo .control-group > label {
+.widget-login-combo .form-control-label {
 	font-size: 1rem;
 }
 
-.widget-login-combo .control-group--submit {
+.widget-login-combo .form-group--submit {
 	text-align: center;
 }

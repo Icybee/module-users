@@ -52,7 +52,7 @@ class AvailableSitesBlock extends Element
 
 			]),
 
-			Form::RENDERER => 'Simple',
+			Form::RENDERER => Form\GroupRenderer::class,
 
 			Element::CHILDREN => [
 

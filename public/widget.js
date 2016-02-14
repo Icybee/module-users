@@ -1,155 +1,171 @@
-Brickrouge.Widget.Login = new Class({
+!function (Brickrouge) {
 
-	Extends: Brickrouge.Form,
+	Brickrouge.Widget.Login = new Class({
 
-	options: {
+		Extends: Brickrouge.Form,
 
-		useXHR: true
-	},
+		options: {
 
-	initialize: function(el, options)
-	{
-		this.parent(el, options)
+			useXHR: true
+		},
 
-		if (document.body.hasClass('page-slug-authenticate'))
+		initialize: function(el, options)
 		{
-			this.element.elements.username.focus()
-		}
-	},
+			this.parent(el, options)
 
-	success: function(response)
-	{
-		var location = response.redirect_to || response.location // response.location is deprecated
+			if (document.body.hasClass('page-slug-authenticate'))
+			{
+				this.element.elements.username.focus()
+			}
+		},
 
-		if (location)
+		success: function(response)
 		{
-			window.location = location
+			var location = response.redirect_to || response.location // response.location is deprecated
+
+			if (location)
+			{
+				window.location = location
+			}
+			else
+			{
+				window.location.reload(true)
+			}
 		}
-		else
+	})
+
+	Brickrouge.Widget.LoginCombo = new Class({
+
+		initialize: function(el, options)
 		{
-			window.location.reload(true)
-		}
-	}
-})
+			var forms = el.getElements('form')
+			, login = forms[0]
+			, nonce = forms[1]
+			, shake
 
-Brickrouge.Widget.LoginCombo = new Class({
+			function zoomTransition(el, transition, to) {
 
-	initialize: function(el, options)
-	{
-		var forms = el.getElements('form')
-		, login = forms[0]
-		, nonce = forms[1]
-		, shake
+				var scale = transition.scale[0] + (transition.scale[1] - transition.scale[0]) * to
+				, opacity = transition.opacity[0] + (transition.opacity[1] - transition.opacity[0]) * to
 
-		function zoomTransition(el, transition, to) {
+				el.setStyles({
 
-			var scale = transition.scale[0] + (transition.scale[1] - transition.scale[0]) * to
-			, opacity = transition.opacity[0] + (transition.opacity[1] - transition.opacity[0]) * to
+					transform: 'scale(' + scale + ')',
+					'-moz-transform': 'scale(' + scale + ')',
+					'-webkit-transform': 'scale(' + scale + ')',
+					opacity: opacity,
+					visibility: opacity ? 'visible' : 'hidden'
 
-			el.setStyles({
+				})
+			}
 
-				transform: 'scale(' + scale + ')',
-				'-moz-transform': 'scale(' + scale + ')',
-				'-webkit-transform': 'scale(' + scale + ')',
-				opacity: opacity,
-				visibility: opacity ? 'visible' : 'hidden'
+			function zoomOut(el) {
+
+				var fx = new Fx(el)
+				, transition = {
+
+					scale: [1, .5],
+					opacity: [1, 0]
+
+				}
+
+				fx.set = function(to) {
+
+					zoomTransition(el, transition, to)
+
+				}
+
+				fx.start(0, 1)
+			}
+
+			function zoomIn(el) {
+
+				var fx = new Fx(el)
+				, transition = {
+
+					scale: [1.5, 1],
+					opacity: [0, 1]
+
+				}
+
+				fx.set = function(to) {
+
+					zoomTransition(el, transition, to)
+
+				}
+
+				fx.start(0, 1)
+			}
+
+			function nonceIn()
+			{
+				Brickrouge.from(nonce).clearAlert()
+
+				zoomOut(login)
+				zoomIn(nonce)
+			}
+
+			function nonceOut()
+			{
+				zoomOut(nonce)
+				zoomIn(login)
+			}
+
+			login.getElement('a').addEvent('click', function(ev) {
+
+				ev.stop()
+
+				nonceIn()
+			})
+
+			nonce.getElement('a').addEvent('click', function(ev) {
+
+				ev.stop()
+
+				nonceOut()
+			})
+
+			shake = (function (target, amplitude, duration)
+			{
+				target = document.id(target)
+				target.setStyle('position', 'relative')
+
+				var fx = new Fx.Tween(target, { property: 'left', duration: duration / 5 })
+
+				return function()
+				{
+					fx.start(-amplitude).chain
+					(
+						function () { this.start(amplitude) },
+						function () { this.start(-amplitude) },
+						function () { this.start(amplitude) },
+						function () { this.start(0) }
+					)
+				}
+
+			}) (el.getParent('shakable') || el, 50, 200)
+
+			Brickrouge.from(login).addEvent('failure', shake)
+			Brickrouge.from(nonce).addEvent('success', function(response) {
+
+				this.element.reset()
+
+				nonceOut.delay(6000)
 
 			})
 		}
+	})
 
-		function zoomOut(el) {
+	Brickrouge.register('user-login', function (element, options) {
 
-			var fx = new Fx(el)
-			, transition = {
+		return new Brickrouge.Widget.Login(element, options)
 
-				scale: [1, .5],
-				opacity: [1, 0]
+	})
 
-			}
+	Brickrouge.register('user-login-combo', function (element, options) {
 
-			fx.set = function(to) {
+		return new Brickrouge.Widget.LoginCombo(element, options)
 
-				zoomTransition(el, transition, to)
+	})
 
-			}
-
-			fx.start(0, 1)
-		}
-
-		function zoomIn(el) {
-
-			var fx = new Fx(el)
-			, transition = {
-
-				scale: [1.5, 1],
-				opacity: [0, 1]
-
-			}
-
-			fx.set = function(to) {
-
-				zoomTransition(el, transition, to)
-
-			}
-
-			fx.start(0, 1)
-		}
-
-		function nonceIn()
-		{
-			nonce.get('widget').clearAlert()
-
-			zoomOut(login)
-			zoomIn(nonce)
-		}
-
-		function nonceOut()
-		{
-			zoomOut(nonce)
-			zoomIn(login)
-		}
-
-		login.getElement('a').addEvent('click', function(ev) {
-
-			ev.stop()
-
-			nonceIn()
-		})
-
-		nonce.getElement('a').addEvent('click', function(ev) {
-
-			ev.stop()
-
-			nonceOut()
-		})
-
-		shake = (function (target, amplitude, duration)
-		{
-			target = document.id(target)
-			target.setStyle('position', 'relative')
-
-			var fx = new Fx.Tween(target, { property: 'left', duration: duration / 5 })
-
-			return function()
-			{
-				fx.start(-amplitude).chain
-				(
-					function () { this.start(amplitude) },
-					function () { this.start(-amplitude) },
-					function () { this.start(amplitude) },
-					function () { this.start(0) }
-				)
-			}
-
-		}) (el.getParent('shakable') || el, 50, 200)
-
-		login.get('widget').addEvent('failure', shake)
-		nonce.get('widget').addEvent('success', function(response) {
-
-			this.element.reset()
-
-			nonceOut.delay(6000)
-
-		})
-	}
-})
+} (Brickrouge)

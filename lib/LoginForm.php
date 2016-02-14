@@ -18,6 +18,7 @@ use Brickrouge\Button;
 use Brickrouge\Document;
 use Brickrouge\Element;
 use Brickrouge\Form;
+use Brickrouge\Group;
 use Brickrouge\Text;
 
 use Icybee\Binding\Core\PrototypedBindings;
@@ -69,7 +70,7 @@ class LoginForm extends Form
 
 			],
 
-			Form::RENDERER => 'Simple',
+			Form::RENDERER => Form\GroupRenderer::class,
 
 			Form::HIDDENS => [
 
@@ -81,14 +82,14 @@ class LoginForm extends Form
 
 				User::USERNAME => new Text([
 
-					Form::LABEL => 'username',
+					Group::LABEL => 'username',
 					Element::REQUIRED => true
 
 				]),
 
 				User::PASSWORD => new Text([
 
-					Form::LABEL => 'password',
+					Group::LABEL => 'password',
 					Element::REQUIRED => true,
 					Element::DESCRIPTION => $this->lost_password,
 
@@ -97,7 +98,7 @@ class LoginForm extends Form
 				])
 			],
 
-			Element::IS => 'Login',
+			Element::IS => 'user-login',
 
 			'class' => 'widget-login',
 			'name' => 'users/login',
