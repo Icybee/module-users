@@ -11,7 +11,7 @@
 
 namespace Icybee\Modules\Users\Operation;
 
-use ICanBoogie\Errors;
+use ICanBoogie\ErrorCollection;
 use ICanBoogie\Operation;
 use Icybee\Modules\Users\Module;
 use Icybee\Modules\Users\User;
@@ -40,7 +40,7 @@ class ActivateOperation extends Operation
 	/**
 	 * @inheritdoc
 	 */
-	protected function validate(Errors $errors)
+	protected function validate(ErrorCollection $errors)
 	{
 		return true;
 	}

@@ -11,7 +11,7 @@
 
 namespace Icybee\Modules\Users\Operation;
 
-use ICanBoogie\Errors;
+use ICanBoogie\ErrorCollection;
 use ICanBoogie\HTTP\Request;
 use ICanBoogie\I18n;
 use ICanBoogie\Operation;
@@ -52,7 +52,10 @@ class LoginOperation extends Operation
 		return new LoginForm;
 	}
 
-	protected function validate(Errors $errors)
+	/**
+	 * @inheritdoc
+	 */
+	protected function validate(ErrorCollection $errors)
 	{
 		$request = $this->request;
 		$username = $request[User::USERNAME];
@@ -67,7 +70,10 @@ class LoginOperation extends Operation
 
 		if (!$uid)
 		{
-			$errors->add(User::PASSWORD, "Unknown username/password combination.");
+			$errors
+				->add(User::USERNAME)
+				->add(User::PASSWORD)
+				->add_generic("Unknown username/password combination.");
 
 			return false;
 		}
@@ -105,7 +111,10 @@ class LoginOperation extends Operation
 
 		if (!$user->verify_password($password))
 		{
-			$errors->add(User::PASSWORD, "Unknown username/password combination.");
+			$errors
+				->add(User::USERNAME)
+				->add(User::PASSWORD)
+				->add_generic("Unknown username/password combination.");
 
 			$metas['failed_login_count'] += 1;
 			$metas['failed_login_time'] = $now;
@@ -151,7 +160,7 @@ EOT
 
 				unset($errors[User::PASSWORD]);
 
-				$errors->add(null, "Your account has been locked, a message has been sent to your e-mail address.");
+				$errors->add_generic("Your account has been locked, a message has been sent to your e-mail address.");
 			}
 
 			return false;
@@ -159,7 +168,7 @@ EOT
 
 		if (!$user->is_admin && !$user->is_activated)
 		{
-			$errors->add(null, "User %username is not activated", [ '%username' => $username ]);
+			$errors->add_generic("User %username is not activated", [ '%username' => $username ]);
 
 			return false;
 		}

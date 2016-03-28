@@ -11,7 +11,8 @@
 
 namespace Icybee\Modules\Users\Operation;
 
-use ICanBoogie\Errors;
+use Brickrouge\Form;
+use ICanBoogie\ErrorCollection;
 use ICanBoogie\HTTP\Request;
 
 use Icybee\Modules\Users\Module;
@@ -115,6 +116,7 @@ class SaveOperation extends \ICanBoogie\Module\Operation\SaveOperation
 		}
 
 		$block = $this->module->getBlock('edit', $this->key);
+		$block->render(); // FIXME-20160327: because form is populated on render
 
 		return $block->element;
 	}
@@ -169,7 +171,7 @@ class SaveOperation extends \ICanBoogie\Module\Operation\SaveOperation
 	 *
 	 * @inheritdoc
 	 */
-	protected function validate(Errors $errors)
+	protected function validate(ErrorCollection $errors)
 	{
 		$request = $this->request;
 
@@ -184,9 +186,9 @@ class SaveOperation extends \ICanBoogie\Module\Operation\SaveOperation
 	 * Checks that the password matches password-verify.
 	 *
 	 * @param Request $request
-	 * @param Errors $errors
+	 * @param ErrorCollection $errors
 	 */
-	protected function validate_password(Request $request, Errors $errors)
+	protected function validate_password(Request $request, ErrorCollection $errors)
 	{
 		$password = $request[User::PASSWORD];
 
@@ -216,9 +218,9 @@ class SaveOperation extends \ICanBoogie\Module\Operation\SaveOperation
 	 * Checks that the username is unique.
 	 *
 	 * @param Request $request
-	 * @param Errors $errors
+	 * @param ErrorCollection $errors
 	 */
-	protected function validate_username(Request $request, Errors $errors)
+	protected function validate_username(Request $request, ErrorCollection $errors)
 	{
 		$username = $request[User::USERNAME];
 
@@ -246,9 +248,9 @@ class SaveOperation extends \ICanBoogie\Module\Operation\SaveOperation
 	 * Checks that the email is email.
 	 *
 	 * @param Request $request
-	 * @param Errors $errors
+	 * @param ErrorCollection $errors
 	 */
-	protected function validate_email(Request $request, Errors $errors)
+	protected function validate_email(Request $request, ErrorCollection $errors)
 	{
 		$email = $request[User::EMAIL];
 

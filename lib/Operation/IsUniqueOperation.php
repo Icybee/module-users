@@ -11,7 +11,7 @@
 
 namespace Icybee\Modules\Users\Operation;
 
-use ICanBoogie\Errors;
+use ICanBoogie\ErrorCollection;
 use ICanBoogie\Operation;
 use Icybee\Modules\Users\User;
 
@@ -35,7 +35,7 @@ class IsUniqueOperation extends Operation
 	/**
 	 * @inheritdoc
 	 */
-	protected function validate(Errors $errors)
+	protected function validate(ErrorCollection $errors)
 	{
 		$request = $this->request;
 		$username = $request[User::USERNAME];
@@ -46,24 +46,24 @@ class IsUniqueOperation extends Operation
 		{
 			if ($this->module->model->select('uid')->where('username = ? AND uid != ?', $username, $uid)->rc)
 			{
-				$errors[User::USERNAME] = 'This username is already used';
+				$errors->add(User::USERNAME, "This username is already used");
 			}
 		}
 		else
 		{
-			$errors[User::USERNAME] = null;
+			unset($errors[User::USERNAME]);
 		}
 
 		if ($email)
 		{
 			if ($this->module->model->select('uid')->where('email = ? AND uid != ?', $email, $uid)->rc)
 			{
-				$errors[User::EMAIL] = 'This email is already used';
+				$errors->add(User::EMAIL, "This email is already used");
 			}
 		}
 		else
 		{
-			$errors[User::EMAIL] = null;
+			unset($errors[User::EMAIL]);
 		}
 
 		return count($errors) == 0;

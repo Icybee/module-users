@@ -11,7 +11,7 @@
 
 namespace Icybee\Modules\Users\Operation;
 
-use ICanBoogie\Errors;
+use ICanBoogie\ErrorCollection;
 use ICanBoogie\Operation;
 
 use Icybee\Modules\Users\User;
@@ -34,7 +34,10 @@ class UnlockLoginOperation extends Operation
 		return $this->module->model->where('username = ? OR email = ?', $username, $username)->one;
 	}
 
-	protected function validate(Errors $errors)
+	/**
+	 * @inheritdoc
+	 */
+	protected function validate(ErrorCollection $errors)
 	{
 		$token = $this->request['token'];
 

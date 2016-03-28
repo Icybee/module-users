@@ -11,7 +11,7 @@
 
 namespace Icybee\Modules\Users\Operation;
 
-use ICanBoogie\Errors;
+use ICanBoogie\ErrorCollection;
 
 use Icybee\Modules\Users\User;
 
@@ -25,7 +25,7 @@ class DeleteOperation extends \ICanBoogie\Module\Operation\DeleteOperation
 	/**
 	 * @inheritdoc
 	 */
-	protected function validate(Errors $errors)
+	protected function validate(ErrorCollection $errors)
 	{
 		if ($this->key == 1)
 		{
