@@ -248,6 +248,20 @@ class User extends ActiveRecord implements CSSClassNames
 	/**
 	 * @inheritdoc
 	 */
+	public function create_validation_rules()
+	{
+		return [
+
+			'username' => 'required',
+			'email' => 'required|email|unique',
+			'timezone' => 'timezone'
+
+		];
+	}
+
+	/**
+	 * @inheritdoc
+	 */
 	public function save(array $options = [])
 	{
 		if ($this->get_created_at()->is_empty)

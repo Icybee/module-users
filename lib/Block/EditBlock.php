@@ -126,6 +126,7 @@ class EditBlock extends \Icybee\Block\EditBlock
 				Group::LABEL => 'email',
 				Element::GROUP => 'connection',
 				Element::REQUIRED => true,
+				Element::VALIDATION => 'email',
 
 				'autocomplete' => 'off'
 
