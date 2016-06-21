@@ -145,8 +145,8 @@
 
 			}) (el.getParent('shakable') || el, 50, 200)
 
-			Brickrouge.from(login).addEvent('failure', shake)
-			Brickrouge.from(nonce).addEvent('success', function(response) {
+			Brickrouge.from(login).observe(Brickrouge.Form.EVENT_FAILURE, shake)
+			Brickrouge.from(nonce).observe(Brickrouge.Form.EVENT_SUCCESS, () => {
 
 				this.element.reset()
 
@@ -156,13 +156,13 @@
 		}
 	})
 
-	Brickrouge.register('user-login', function (element, options) {
+	Brickrouge.register('user-login', (element, options) => {
 
 		return new Brickrouge.Widget.Login(element, options)
 
 	})
 
-	Brickrouge.register('user-login-combo', function (element, options) {
+	Brickrouge.register('user-login-combo', (element, options) => {
 
 		return new Brickrouge.Widget.LoginCombo(element, options)
 

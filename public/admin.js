@@ -1,6 +1,6 @@
 ;!function() {
 
-	var NAME_AS_USERNAME = 0
+	const NAME_AS_USERNAME = 0
 	, NAME_AS_FIRSTNAME = 1
 	, NAME_AS_LASTNAME = 2
 	, NAME_AS_FIRSTNAME_LASTNAME = 3
@@ -9,33 +9,33 @@
 
 	window.addEvent('domready', function() {
 
-		var form = document.body.getElement('form.edit')
+		const form = document.body.getElement('form.edit')
 
 		if (!form)
 		{
 			return
 		}
 
-		var username = document.id(form.elements.username)
+		const username = form.elements.username
 
 		if (!username)
 		{
 			return
 		}
 
-		var firstname = document.id(form.elements.firstname)
-		, lastname = document.id(form.elements.lastname)
-		, nickname = document.id(form.elements.nickname)
-		, email = document.id(form.elements.email)
+		let firstname = form.elements.firstname
+		, lastname = form.elements.lastname
+		, nickname = form.elements.nickname
+		, email = form.elements.email
 		, auto_username = !username.value
 		, uid = form.elements[ICanBoogie.Operation.KEY] ? form.elements[ICanBoogie.Operation.KEY].value : null
-		, usernameGroup = username.getParent('.form-group')
-		, emailGroup = email.getParent('.form-group')
+		, usernameGroup = username.closest('.form-group')
+		, emailGroup = email.closest('.form-group')
 		, lastCheckUsername = null
 		, lastCheckEmail = null
 
-		var operation_check_unique = new Request.API
-		({
+		const operation_check_unique = new Request.API({
+
 			url: 'users/is_unique',
 
 			onFailure: function(xhr, response)
@@ -53,7 +53,7 @@
 
 		function check_unique()
 		{
-			var value = username.value
+			const value = username.value
 
 			if (!value || (value == lastCheckUsername && lastCheckEmail == email.value)) return
 
@@ -63,7 +63,7 @@
 			operation_check_unique.get({ uid: uid, username: value, email: email.value })
 		}
 
-		username.addEvent('keyup', function(ev) {
+		username.addEvent('keyup', ev => {
 
 			auto_username = !username.value
 
@@ -75,7 +75,7 @@
 			check_unique()
 		})
 
-		email.addEvent('keyup', function(ev) {
+		email.addEvent('keyup', ev => {
 
 			if (ev.key.length > 1 && ev.key != 'backspace' && ev.key != 'delete')
 			{
@@ -92,7 +92,7 @@
 				return
 			}
 
-			value = ((firstname.value ? firstname.value[0] : '') + (lastname.value ? lastname.value : '')).toLowerCase()
+			let value = ((firstname.value ? firstname.value[0] : '') + (lastname.value ? lastname.value : '')).toLowerCase()
 
 			value = value.replace(/[àáâãäåąă]/g,"a")
 			value = value.replace(/[çćčċ]/g,"c")
@@ -117,11 +117,11 @@
 		//
 		//
 
-		var nameAs = document.id(form.elements.name_as)
+		const nameAs = form.elements.name_as
 
 		function updateDisplayOption(index, value)
 		{
-			var el = nameAs.getElement('option[value=' + index + ']')
+			let el = nameAs.querySelector(`option[value=${index}]`)
 
 			if (!value)
 			{
