@@ -1,27 +1,20 @@
 !function (Brickrouge) {
 
-	Brickrouge.Widget.Login = new Class({
+	class Login extends Brickrouge.Form {
 
-		Extends: Brickrouge.Form,
-
-		options: {
-
-			useXHR: true
-		},
-
-		initialize: function(el, options)
+		constructor(el, options)
 		{
-			this.parent(el, options)
+			super(el, Object.assign({}, { useXHR: true }, options))
 
 			if (document.body.hasClass('page-slug-authenticate'))
 			{
 				this.element.elements.username.focus()
 			}
-		},
+		}
 
-		success: function(response)
+		success(response)
 		{
-			var location = response.redirect_to || response.location // response.location is deprecated
+			const location = response.redirect_to || response.location // response.location is deprecated
 
 			if (location)
 			{
@@ -32,16 +25,15 @@
 				window.location.reload(true)
 			}
 		}
-	})
+	}
 
-	Brickrouge.Widget.LoginCombo = new Class({
+	class LoginCombo {
 
-		initialize: function(el, options)
+		constructor(el, options)
 		{
-			var forms = el.getElements('form')
-			, login = forms[0]
-			, nonce = forms[1]
-			, shake
+			const forms = el.querySelectorAll('form')
+			const login = forms[0]
+			const nonce = forms[1]
 
 			function zoomTransition(el, transition, to) {
 
@@ -125,7 +117,7 @@
 				nonceOut()
 			})
 
-			shake = (function (target, amplitude, duration)
+			const shake = (function (target, amplitude, duration)
 			{
 				target = document.id(target)
 				target.setStyle('position', 'relative')
@@ -145,8 +137,8 @@
 
 			}) (el.getParent('shakable') || el, 50, 200)
 
-			Brickrouge.from(login).observe(Brickrouge.Form.EVENT_FAILURE, shake)
-			Brickrouge.from(nonce).observe(Brickrouge.Form.EVENT_SUCCESS, () => {
+			Brickrouge.from(login).observeFailure(shake)
+			Brickrouge.from(nonce).observeSuccess(() => {
 
 				this.element.reset()
 
@@ -154,17 +146,17 @@
 
 			})
 		}
-	})
+	}
 
 	Brickrouge.register('user-login', (element, options) => {
 
-		return new Brickrouge.Widget.Login(element, options)
+		return new Login(element, options)
 
 	})
 
 	Brickrouge.register('user-login-combo', (element, options) => {
 
-		return new Brickrouge.Widget.LoginCombo(element, options)
+		return new LoginCombo(element, options)
 
 	})
 
