@@ -13,13 +13,11 @@ namespace Icybee\Modules\Users;
 
 use ICanBoogie\ActiveRecord;
 use ICanBoogie\ActiveRecord\CreatedAtProperty;
-use ICanBoogie\ActiveRecord\RecordNotFound;
 
 use Brickrouge\AlterCSSClassNamesEvent;
 use Brickrouge\CSSClassNames;
 use Brickrouge\CSSClassNamesProperty;
 
-use Icybee\Modules\Users\Roles\Role;
 use Icybee\Binding\Core\PrototypedBindings as IcybeeBindings;
 use Icybee\Modules\Registry\Binding\UserBindings as RegistryBindings;
 
@@ -32,7 +30,6 @@ use Icybee\Modules\Registry\Binding\UserBindings as RegistryBindings;
  * @property-read string $name The formatted name of the user.
  * @property-read boolean $is_admin true if the user is admin, false otherwise.
  * @property-read boolean $is_guest true if the user is a guest, false otherwise.
- * @property-read Role $role
  *
  * @property-read string $password_hash The password hash.
  * @property-read bool|null $has_legacy_password_hash Whether the password hash is a legacy hash.
@@ -318,39 +315,6 @@ class User extends ActiveRecord implements CSSClassNames
 		}
 
 		return $rc;
-	}
-
-	/**
-	 * Returns the role of the user.
-	 *
-	 * This is the getter for the {@link $role} magic property.
-	 *
-	 * @return Role
-	 */
-	protected function lazy_get_role()
-	{
-		$permissions = [];
-		$name = null;
-
-		foreach ($this->roles as $role)
-		{
-			$name .= ', ' . $role->name;
-
-			foreach ($role->perms as $access => $permission)
-			{
-				$permissions[$access] = $permission;
-			}
-		}
-
-		$role = new Role;
-		$role->perms = $permissions;
-
-		if ($name)
-		{
-			$role->name = substr($name, 2);
-		}
-
-		return $role;
 	}
 
 	/**
