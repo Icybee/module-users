@@ -21,12 +21,13 @@ use Brickrouge\Text;
 use Brickrouge\Widget;
 
 use Icybee\Modules\Users\Module;
+use Icybee\Modules\Users\Roles\Binding\UserBindings;
 use Icybee\Modules\Users\User;
 
 /**
  * A block to edit users.
  *
- * @property User $record
+ * @property User|UserBindings $record
  * @property User $user
  */
 class EditBlock extends \Icybee\Block\EditBlock

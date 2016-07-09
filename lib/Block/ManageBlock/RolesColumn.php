@@ -12,6 +12,7 @@
 namespace Icybee\Modules\Users\Block\ManageBlock;
 
 use Icybee\Block\ManageBlock\Column;
+use Icybee\Modules\Users\Roles\Binding\UserBindings;
 use Icybee\Modules\Users\User;
 
 /**
@@ -20,7 +21,7 @@ use Icybee\Modules\Users\User;
 class RolesColumn extends Column
 {
 	/**
-	 * @param User $record
+	 * @param User|UserBindings $record
 	 *
 	 * @inheritdoc
 	 */

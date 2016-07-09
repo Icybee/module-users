@@ -33,7 +33,6 @@ use Icybee\Modules\Registry\Binding\UserBindings as RegistryBindings;
  * @property-read boolean $is_admin true if the user is admin, false otherwise.
  * @property-read boolean $is_guest true if the user is a guest, false otherwise.
  * @property-read Role $role
- * @property Role[] $roles
  *
  * @property-read string $password_hash The password hash.
  * @property-read bool|null $has_legacy_password_hash Whether the password hash is a legacy hash.
@@ -352,51 +351,6 @@ class User extends ActiveRecord implements CSSClassNames
 		}
 
 		return $role;
-	}
-
-	/**
-	 * Returns all the roles associated with the user.
-	 *
-	 * This is the getter for the {@link $roles} magic property.
-	 *
-	 * @return array
-	 */
-	protected function lazy_get_roles()
-	{
-		$models = $this->model->models;
-
-		try
-		{
-			if (!$this->uid)
-			{
-				return [ $models['users.roles'][1] ];
-			}
-		}
-		catch (\Exception $e)
-		{
-			return [];
-		}
-
-		$rids = $models['users/has_many_roles']
-		->select('rid')
-		->filter_by_uid($this->uid)
-		->all(\PDO::FETCH_COLUMN);
-
-		if (!in_array(2, $rids))
-		{
-			array_unshift($rids, 2);
-		}
-
-		try
-		{
-			return $models['users.roles']->find($rids);
-		}
-		catch (RecordNotFound $e)
-		{
-			trigger_error($e->getMessage());
-
-			return array_filter($e->records);
-		}
 	}
 
 	/**
