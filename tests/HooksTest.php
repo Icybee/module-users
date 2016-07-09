@@ -26,14 +26,16 @@ class HooksTest extends \PHPUnit_Framework_TestCase
 		User::from([
 
 			'username' => 'admin',
-			'email' => 'admin@example.com'
+			'email' => 'admin@example.com',
+			'timezone' => 'Europe/Paris',
 
 		])->save();
 
 		User::from([
 
 			'username' => 'user',
-			'email' => 'user@example.com'
+			'email' => 'user@example.com',
+			'timezone' => 'Europe/Paris',
 
 		])->save();
 	}

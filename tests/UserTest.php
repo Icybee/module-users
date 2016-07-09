@@ -76,7 +76,8 @@ class UserTest extends \PHPUnit_Framework_TestCase
 		$user = User::from([
 
 			'username' => 'person',
-			'email' => 'person@example.tld'
+			'email' => 'person@example.tld',
+			'timezone' => 'Europe/Paris',
 
 		]);
 
@@ -92,7 +93,8 @@ class UserTest extends \PHPUnit_Framework_TestCase
 		$user = User::from([
 
 			'username' => 'person',
-			'email' => 'person@example.tld'
+			'email' => 'person@example.tld',
+			'timezone' => 'Europe/Paris',
 
 		]);
 
@@ -184,10 +186,14 @@ class UserTest extends \PHPUnit_Framework_TestCase
 
 	public function test_password()
 	{
-		$user = new User;
-		$user->username = "example";
-		$user->email = "example@example.com";
-		$user->password = 'P4SSW0RD';
+		$user = User::from([
+
+			'username' => "example",
+			'email' => "example@example.com",
+			'password' => 'P4SSW0RD',
+			'timezone' => 'Europe/Paris',
+
+		]);
 
 		$this->assertTrue($user->verify_password('P4SSW0RD'));
 
