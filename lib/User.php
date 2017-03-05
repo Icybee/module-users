@@ -445,7 +445,12 @@ class User extends ActiveRecord implements CSSClassNames
 		$app = $this->app;
 		$app->user = $this;
 		$app->user_id = $this->uid;
-		$app->session->regenerate();
+
+		if (PHP_SAPI !== 'cli')
+		{
+			$app->session->regenerate();
+		}
+
 		$app->session['user_id'] = $this->uid;
 	}
 
@@ -461,7 +466,11 @@ class User extends ActiveRecord implements CSSClassNames
 	public function logout()
 	{
 		$app = $this->app;
-		$app->session->regenerate();
+
+		if (PHP_SAPI !== 'cli')
+		{
+			$app->session->regenerate();
+		}
 
 		unset($app->user);
 		unset($app->user_id);
