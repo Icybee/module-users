@@ -11,12 +11,10 @@
 
 namespace Icybee\Modules\Users\Block;
 
-use Brickrouge\Group;
-
-
 use Brickrouge\Document;
 use Brickrouge\Element;
 use Brickrouge\Form;
+use Brickrouge\Group;
 use Brickrouge\Text;
 use Brickrouge\Widget;
 

@@ -12,20 +12,18 @@
 namespace Icybee\Modules\Users;
 
 use ICanBoogie\ActiveRecord;
-use ICanBoogie\ActiveRecord\CreatedAtProperty;
 
 use Brickrouge\AlterCSSClassNamesEvent;
 use Brickrouge\CSSClassNames;
 use Brickrouge\CSSClassNamesProperty;
 
-use Icybee\Binding\Core\PrototypedBindings as IcybeeBindings;
 use Icybee\Modules\Registry\Binding\UserBindings as RegistryBindings;
 
 /**
  * A user.
  *
  * @property-read UserModel $model
- * @property-read \ICanBoogie\Core|Binding\CoreBindings $app
+ * @property-read \ICanBoogie\Core|Binding\ApplicationBindings $app
  *
  * @property-read string $name The formatted name of the user.
  * @property-read boolean $is_admin true if the user is admin, false otherwise.
@@ -37,8 +35,10 @@ use Icybee\Modules\Registry\Binding\UserBindings as RegistryBindings;
  */
 class User extends ActiveRecord implements CSSClassNames
 {
-	use IcybeeBindings, RegistryBindings;
-	use CreatedAtProperty, LoggedAtProperty, CSSClassNamesProperty;
+	use RegistryBindings;
+	use ActiveRecord\Property\CreatedAtProperty;
+	use LoggedAtProperty;
+	use CSSClassNamesProperty;
 	use PasswordTrait;
 
 	const MODEL_ID = 'users';
@@ -433,7 +433,7 @@ class User extends ActiveRecord implements CSSClassNames
 	 *
 	 * @throws \Exception in attempt to log in a guest user.
 	 *
-	 * @see \Icybee\Modules\Users\Hooks\get_user_id
+	 * @see \Icybee\Modules\Users\Hooks::get_user_id()
 	 */
 	public function login()
 	{

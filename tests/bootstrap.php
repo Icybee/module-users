@@ -11,25 +11,9 @@
 
 namespace ICanBoogie;
 
+chdir(__DIR__);
+
 require __DIR__ . '/../vendor/autoload.php';
 
-/* @var $app Core|\Icybee\Binding\Core\CoreBindings */
-
-$app = new Core(array_merge_recursive(get_autoconfig(), [
-
-	'config-path' => [
-
-		__DIR__ . '/config' => Autoconfig\Config::CONFIG_WEIGHT_MODULE
-
-	],
-
-	'module-path' => [
-
-		realpath(__DIR__ . '/../')
-
-	]
-
-]));
-
-$app->boot();
+$app = boot();
 $app->modules->install();

@@ -12,12 +12,10 @@
 namespace Icybee\Modules\Users\Operation;
 
 use ICanBoogie\ErrorCollection;
-use ICanBoogie\HTTP\Request;
 use ICanBoogie\I18n;
 use ICanBoogie\Operation;
 use ICanBoogie\Module\ControllerBindings as ModuleBindings;
 
-use Icybee\Binding\Core\PrototypedBindings;
 use Icybee\Modules\Registry\MetaCollection;
 use Icybee\Modules\Users\LoginForm;
 use Icybee\Modules\Users\User;
@@ -25,12 +23,11 @@ use Icybee\Modules\Users\User;
 /**
  * Log in a user.
  *
- * @property \ICanBoogie\Core|\Icybee\Binding\CoreBindings|\ICanBoogie\Binding\Mailer\CoreBindings $app
  * @property User $record The logged user.
  */
 class LoginOperation extends Operation
 {
-	use PrototypedBindings, ModuleBindings;
+	use ModuleBindings;
 
 	/**
 	 * Adds form control.

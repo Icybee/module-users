@@ -12,8 +12,7 @@
 namespace Icybee\Modules\Users\Element;
 
 use Brickrouge\Element;
-
-use Icybee\Binding\Core\PrototypedBindings;
+use ICanBoogie\Binding\PrototypedBindings;
 
 /**
  * An element to pick a user.

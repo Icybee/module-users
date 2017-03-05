@@ -11,8 +11,6 @@
 
 namespace Icybee\Modules\Users;
 
-use ICanBoogie\Operation;
-
 use Brickrouge\A;
 use Brickrouge\Button;
 use Brickrouge\Document;
@@ -20,8 +18,7 @@ use Brickrouge\Element;
 use Brickrouge\Form;
 use Brickrouge\Group;
 use Brickrouge\Text;
-
-use Icybee\Binding\Core\PrototypedBindings;
+use ICanBoogie\Binding\PrototypedBindings;
 
 class LoginForm extends Form
 {

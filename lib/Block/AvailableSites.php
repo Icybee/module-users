@@ -5,8 +5,7 @@ namespace Icybee\Modules\Users\Block;
 use Brickrouge\Button;
 use Brickrouge\Element;
 use Brickrouge\Form;
-
-use Icybee\Binding\Core\PrototypedBindings;
+use ICanBoogie\Binding\PrototypedBindings;
 
 class AvailableSitesBlock extends Element
 {

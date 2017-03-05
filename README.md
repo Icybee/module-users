@@ -37,6 +37,9 @@ profile, or if he has the permission to administer the module Users.
 
 use ICanBoogie\Module;
 
+/* @var \Icybee\Modules\Users\User $user */
+/* @var \ICanBoogie\Application $app */
+
 if ($user->has_permission('update own profile')
 || $user->has_permission(Module::PERMISSION_ADMINISTER, $app->modules['users']))
 {
@@ -83,6 +86,9 @@ The following example demonstrates how to verify if a user is the owner of a nod
 
 ```php
 <?php
+
+/* @var \Icybee\Modules\Users\User $user */
+/* @var \ICanBoogie\Application $app */
 
 $node = $app->models['nodes']->one;
 
@@ -185,6 +191,8 @@ function(User $user, ActiveRecord $record)
 	{
 		return true;
 	}
+
+	return null;
 }
 ```
 
@@ -222,12 +230,15 @@ as a numeric value such as `-10` and `10`, the special values `top` and `bottom`
 relative to another resolver such as `before:<resolver_id>` and `after:<resolver_id>`,
 where `<resolver_id>` is the identifier of another resolver.
 
-```
+```php
 <?php
 
 // users.roles/config/users.php
 
 namespace Icybee\Modules\Users\Roles;
+
+use Icybee\Modules\Users\PermissionResolver;
+use Icybee\Modules\Users\OwnershipResolver;
 
 return [
 
@@ -261,6 +272,9 @@ by "mymodule" to be positioned before the one defined by "roles". With the relat
 // mymodule/config/users.php
 
 namespace App\Modules\MyModule;
+
+use Icybee\Modules\Users\PermissionResolver;
+use Icybee\Modules\Users\OwnershipResolver;
 
 return [
 
@@ -333,7 +347,7 @@ to unlock its account.
 
 ## Requirement
 
-The package requires PHP 5.5 or later.
+The package requires PHP 5.6 or later.
 
 
 

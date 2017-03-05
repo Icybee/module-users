@@ -28,7 +28,7 @@ use Icybee\Modules\Users\User;
  * @property PermissionResolverInterface $user_permission_resolver
  * @property OwnershipResolverInterface $user_ownership_resolver
  */
-trait CoreBindings
+trait ApplicationBindings
 {
 
 }

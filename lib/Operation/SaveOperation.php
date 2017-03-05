@@ -11,7 +11,6 @@
 
 namespace Icybee\Modules\Users\Operation;
 
-use Brickrouge\Form;
 use ICanBoogie\ErrorCollection;
 use ICanBoogie\HTTP\Request;
 

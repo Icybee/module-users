@@ -11,7 +11,7 @@
 
 namespace Icybee\Modules\Users;
 
-use ICanBoogie\ActiveRecord\DateTimePropertySupport;
+use ICanBoogie\ActiveRecord\Property\DateTimePropertySupport;
 use ICanBoogie\DateTime;
 
 /**

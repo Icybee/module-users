@@ -24,7 +24,7 @@ use ICanBoogie\Routing\RouteDispatcher;
 use Icybee\Element\AdminDecorator;
 use Icybee\Element\DocumentDecorator;
 use Icybee\Modules\Members\Member;
-use Icybee\Modules\Users\Binding\CoreBindings;
+use Icybee\Modules\Users\Binding\ApplicationBindings;
 
 class Hooks
 {
@@ -214,7 +214,7 @@ class Hooks
 	 *
 	 * This is the getter for the `$app->user` property.
 	 *
-	 * @param Core|CoreBindings|\ICanBoogie\Binding\ActiveRecord\CoreBindings $app
+	 * @param Core|ApplicationBindings|\ICanBoogie\Binding\ActiveRecord\CoreBindings $app
 	 *
 	 * @return User The user object, or guest user object.
 	 */
@@ -275,7 +275,7 @@ class Hooks
 	/**
 	 * Checks if a user has a given permission.
 	 *
-	 * @param Core|CoreBindings $app
+	 * @param Core|ApplicationBindings $app
 	 * @param User $user
 	 * @param string $permission
 	 * @param string $target
@@ -292,7 +292,7 @@ class Hooks
 	/**
 	 * Checks if a user has the ownership of a record.
 	 *
-	 * @param Core|CoreBindings $app
+	 * @param Core|ApplicationBindings $app
 	 * @param User $user
 	 * @param ActiveRecord $record
 	 *

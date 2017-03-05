@@ -11,6 +11,8 @@
 
 namespace Icybee\Modules\Users;
 
+use function ICanBoogie\app;
+
 /**
  * A trait to handle a password.
  *
@@ -133,7 +135,7 @@ trait PasswordTrait
 		# Trying old hashing
 		#
 
-		$config = \ICanBoogie\Core::get()->configs['user'];
+		$config = app()->configs['user'];
 
 		if (empty($config['password_salt']))
 		{

@@ -2,33 +2,37 @@
 	"name": "icybee/module-users",
 	"type": "icanboogie-module",
 	"description": "Manages the users of the CMS Icybee",
-	"keywords": [ "user", "login" ],
+	"keywords": [
+		"user",
+		"login"
+	],
 	"license": "BSD-3-Clause",
 	"authors": [
 		{
 			"name": "Olivier Laviale",
 			"email": "olivier.laviale@gmail.com",
 			"homepage": "http://www.weirdog.com/",
-			"role" : "Developer"
+			"role": "Developer"
 		}
 	],
 	"support": {
 		"issues": "https://github.com/Icybee/module-users/issues",
 		"source": "https://github.com/Icybee/module-users"
 	},
-
 	"minimum-stability": "dev",
-
+	"prefer-dist": true,
+	"prefer-stable": true,
 	"require": {
-		"php": ">=5.5",
+		"php": ">=5.6",
 		"icanboogie/module-installer": "^1.2",
 		"brickrouge/brickrouge": "^3.0",
 		"brickrouge/css-class-names": "^2.0",
-		"icybee/core": "^3.0",
-		"icybee/module-registry": "^3.0"
+		"icybee/core": "^4.0",
+		"icybee/module-registry": "^4.0",
+		"icybee/module-views": "^4.0"
 	},
 	"require-dev": {
-		"icanboogie/bind-facets": "^0.6"
+		"icanboogie/bind-facets": "^0.7"
 	},
 	"suggest": {
 		"icanboogie/mailer": "Mailer is a library for PHP that is designed to handle emails generation and sending."
@@ -38,11 +42,14 @@
 			"Icybee\\Modules\\Users\\": "lib"
 		}
 	},
-
+	"autoload-dev": {
+		"classmap": [
+			"tests/Application.php"
+		]
+	},
 	"scripts": {
 		"post-autoload-dump": "ICanBoogie\\Autoconfig\\Hooks::on_autoload_dump"
 	},
-
 	"extra": {
 		"icanboogie": {
 			"config-constructor": {
