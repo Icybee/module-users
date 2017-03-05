@@ -18,14 +18,8 @@
 	</testsuites>
 
 	<filter>
-		<whitelist processUncoveredFilesFromWhitelist="true">
+		<whitelist processUncoveredFilesFromWhitelist="false">
 			<directory suffix=".php">./lib</directory>
-			<exclude>
-				<directory suffix=".php">./lib/Block</directory>
-				<directory suffix=".php">./lib/Operation</directory>
-				<directory suffix=".php">./lib/Routing</directory>
-				<file>./lib/View.php</file>
-			</exclude>
 		</whitelist>
 	</filter>
 </phpunit>
