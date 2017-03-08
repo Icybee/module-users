@@ -51,9 +51,8 @@ if ($user->has_permission('update own profile')
 
 ### Determine a user ownership
 
-The method `has_ownership()` determines if a user is the owner of a record. Beware, _ownership_
-doesn't mean _permission_ ! A user can be the owner of a record without having the permission
-to delete it.
+The method `has_ownership()` determines if a user has ownership of a resource. Beware, _ownership_
+does not mean _permission_! A user may own a resource and lack the permission to delete it.
 
 The following example demonstrates how to verify if a user is the owner of a node.
 
@@ -67,6 +66,32 @@ if ($user->has_ownership($node))
 	// …
 }
 ```
+
+The `assert_ownership()` method throws a `UserHasNoOwnership` method if the user has no ownership
+of a resource.
+
+```php
+<?php
+
+use Icybee\Modules\Users\UserHasNoOwnership;
+
+/* @var \Icybee\Modules\Users\User $user */
+/* @var \ICanBoogie\Application $app */
+
+$node = $app->models['nodes']->one;
+
+try 
+{
+	$user->assert_ownership($node);
+
+	// …
+}
+catch (UserHasNoOwnership $e)
+{
+	var_dump($e->resource, $e->user);
+}
+```
+
 
 
 

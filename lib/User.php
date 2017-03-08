@@ -380,18 +380,28 @@ class User extends ActiveRecord implements CSSClassNames
 	}
 
 	/**
-	 * Checks if the user has the ownership of an entry.
+	 * Determine if the user has ownership of a resource.
 	 *
-	 * If the ownership information is missing from the entry (the 'uid' property is null), the user
-	 * must have the ADMINISTER level to be considered the owner.
+	 * @param mixed $resource
 	 *
-	 * @param ActiveRecord $record
-	 *
-	 * @return boolean
+	 * @return bool
 	 */
-	public function has_ownership($record)
+	public function has_ownership($resource)
 	{
-		return $this->app->check_user_ownership($this, $record);
+		return $this->app->check_user_ownership($this, $resource);
+	}
+
+	/**
+	 * @param mixed $resource
+	 *
+	 * @throws UserHasNoOwnership if user has no ownership of the resource.
+	 */
+	public function assert_ownership($resource)
+	{
+		if (!$this->has_ownership($resource))
+		{
+			throw new UserHasNoOwnership($this, $resource);
+		}
 	}
 
 	/**

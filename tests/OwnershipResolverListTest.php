@@ -13,6 +13,9 @@ namespace Icybee\Modules\Users;
 
 use ICanBoogie\ActiveRecord;
 
+/**
+ * @group ownership
+ */
 class OwnershipResolverListTest extends \PHPUnit_Framework_TestCase
 {
 	static private $admin_user;

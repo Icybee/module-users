@@ -221,4 +221,53 @@ class UserTest extends \PHPUnit_Framework_TestCase
 		$user->uid = 0;
 		$this->assertEquals("user constructor-users is-guest", $user->css_class);
 	}
+
+	/**
+	 * @dataProvider provide_test_assert_ownership
+	 * @group ownership
+	 *
+	 * @param bool $has_ownership
+	 */
+	public function test_assert_ownership($has_ownership)
+	{
+		$resource = uniqid();
+
+		$user = $this->getMockBuilder(User::class)
+			->disableOriginalConstructor()
+			->setMethods([ 'has_ownership' ])
+			->getMock();
+		$user
+			->method('has_ownership')
+			->with($resource)
+			->willReturn($has_ownership);
+
+		if (!$has_ownership)
+		{
+			if (method_exists($this, 'expectException'))
+			{
+				$this->expectException(UserHasNoOwnership::class);
+			}
+			else
+			{
+				$this->setExpectedException(UserHasNoOwnership::class);
+			}
+		}
+
+		/* @var User $user */
+
+		$user->assert_ownership($resource);
+	}
+
+	/**
+	 * @return array
+	 */
+	public function provide_test_assert_ownership()
+	{
+		return [
+
+			[ false ],
+			[ true ]
+
+		];
+	}
 }
