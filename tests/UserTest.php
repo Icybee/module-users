@@ -245,11 +245,11 @@ class UserTest extends \PHPUnit_Framework_TestCase
 		{
 			if (method_exists($this, 'expectException'))
 			{
-				$this->expectException(UserHasNoOwnership::class);
+				$this->expectException(UserLacksOwnership::class);
 			}
 			else
 			{
-				$this->setExpectedException(UserHasNoOwnership::class);
+				$this->setExpectedException(UserLacksOwnership::class);
 			}
 		}
 

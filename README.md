@@ -93,13 +93,13 @@ if ($user->has_ownership($node))
 }
 ```
 
-The `assert_ownership()` method throws a `UserHasNoOwnership` method if the user has no ownership
+The `assert_ownership()` method throws a `UserLacksOwnership` exception if the user lacks ownership
 of a resource.
 
 ```php
 <?php
 
-use Icybee\Modules\Users\UserHasNoOwnership;
+use Icybee\Modules\Users\UserLacksOwnership;
 
 /* @var \Icybee\Modules\Users\User $user */
 /* @var \ICanBoogie\Application $app */
@@ -112,7 +112,7 @@ try
 
 	// …
 }
-catch (UserHasNoOwnership $e)
+catch (UserLacksOwnership $e)
 {
 	var_dump($e->resource, $e->user);
 }

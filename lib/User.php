@@ -408,13 +408,13 @@ class User extends ActiveRecord implements CSSClassNames
 	/**
 	 * @param mixed $resource
 	 *
-	 * @throws UserHasNoOwnership if user has no ownership of the resource.
+	 * @throws UserLacksOwnership if the user lacks ownership of the resource.
 	 */
 	public function assert_ownership($resource)
 	{
 		if (!$this->has_ownership($resource))
 		{
-			throw new UserHasNoOwnership($this, $resource);
+			throw new UserLacksOwnership($this, $resource);
 		}
 	}
 

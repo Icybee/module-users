@@ -16,13 +16,13 @@ use ICanBoogie\HTTP\Status;
 /**
  * @group ownership
  */
-class UserHasNoOwnershipTest extends \PHPUnit_Framework_TestCase
+class UserLacksOwnershipTest extends \PHPUnit_Framework_TestCase
 {
 	public function test_exception()
 	{
 		$user = new User;
 		$resource = uniqid();
-		$exception = new UserHasNoOwnership($user, $resource);
+		$exception = new UserLacksOwnership($user, $resource);
 
 		$this->assertSame($user, $exception->user);
 		$this->assertSame($resource, $exception->resource);

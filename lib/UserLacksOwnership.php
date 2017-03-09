@@ -15,14 +15,16 @@ use ICanBoogie\Accessor\AccessorTrait;
 use ICanBoogie\HTTP\Status;
 
 /**
+ * Exception thrown when the user lacks ownership of a resource.
+ *
  * @property-read User $user
  * @property-read mixed $resource
  */
-class UserHasNoOwnership extends \Exception
+class UserLacksOwnership extends \Exception
 {
 	use AccessorTrait;
 
-	const DEFAULT_MESSAGE = 'User has no ownership of the resource.';
+	const DEFAULT_MESSAGE = 'User lacks ownership of the resource.';
 
 	/**
 	 * @var User
