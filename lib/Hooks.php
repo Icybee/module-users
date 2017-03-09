@@ -16,12 +16,10 @@ use ICanBoogie\Core;
 use ICanBoogie\HTTP\AuthenticationRequired;
 use ICanBoogie\HTTP\PermissionRequired;
 use ICanBoogie\HTTP\Response;
-use ICanBoogie\HTTP\RequestDispatcher;
 use ICanBoogie\HTTP\SecurityError;
 use ICanBoogie\Operation;
 use ICanBoogie\PropertyNotDefined;
 use ICanBoogie\Routing\RouteDispatcher;
-use ICanBoogie\Session;
 
 use Icybee\Element\AdminDecorator;
 use Icybee\Element\DocumentDecorator;
@@ -50,7 +48,7 @@ class Hooks
 			return;
 		}
 
-		$event->errors['rid'] = $event->errors->format('The role %name is used by :count users.', [ 'name' => $operation->record->name, ':count' => $count ]);
+		$event->errors['rid'] = $operation->format('The role %name is used by :count users.', [ 'name' => $operation->record->name, ':count' => $count ]);
 	}
 
 	/**
