@@ -235,7 +235,7 @@ class EditBlock extends \Icybee\Block\EditBlock
 
 		return new Element(Element::TYPE_CHECKBOX_GROUP, [
 
-			Form::LABEL => 'roles',
+			Group::LABEL => 'roles',
 			Element::GROUP => 'advanced',
 			Element::OPTIONS => $options,
 			Element::OPTIONS_DISABLED => [ 2 => true ],
@@ -333,7 +333,7 @@ class EditBlock extends \Icybee\Block\EditBlock
 
 		return new Element(Element::TYPE_CHECKBOX_GROUP, [
 
-			Form::LABEL => 'site_id',
+			Group::LABEL => 'site_id',
 			Element::OPTIONS => $options,
 			Element::GROUP => 'advanced',
 			Element::DESCRIPTION => 'site_id',
