@@ -1,10 +1,9 @@
 # Users
 
 [![Release](https://img.shields.io/packagist/v/icybee/module-users.svg)](https://github.com/Icybee/module-users/releases)
-[![Build Status](https://img.shields.io/travis/Icybee/module-users/master.svg)](http://travis-ci.org/Icybee/module-users)
-[![HHVM](https://img.shields.io/hhvm/icybee/module-users.svg)](http://hhvm.h4cc.de/package/icybee/module-users)
-[![Code Quality](https://img.shields.io/scrutinizer/g/Icybee/module-users/master.svg)](https://scrutinizer-ci.com/g/Icybee/module-users)
-[![Code Coverage](https://img.shields.io/coveralls/Icybee/module-users/master.svg)](https://coveralls.io/r/Icybee/module-users)
+[![Build Status](https://img.shields.io/travis/Icybee/module-users.svg)](http://travis-ci.org/Icybee/module-users)
+[![Code Quality](https://img.shields.io/scrutinizer/g/Icybee/module-users.svg)](https://scrutinizer-ci.com/g/Icybee/module-users)
+[![Code Coverage](https://img.shields.io/coveralls/Icybee/module-users.svg)](https://coveralls.io/r/Icybee/module-users)
 [![Packagist](https://img.shields.io/packagist/dt/icybee/module-users.svg)](https://packagist.org/packages/icybee/module-users)
 
 Manages users of the CMS Icybee.
@@ -383,8 +382,8 @@ The test suite is ran with the `make test` command. [PHPUnit](https://phpunit.de
 
 The package is continuously tested by [Travis CI](http://about.travis-ci.org/).
 
-[![Build Status](https://img.shields.io/travis/Icybee/module-users/master.svg)](https://travis-ci.org/Icybee/module-users)
-[![Code Coverage](https://img.shields.io/coveralls/Icybee/module-users/master.svg)](https://coveralls.io/r/Icybee/module-users)
+[![Build Status](https://img.shields.io/travis/Icybee/module-users.svg)](https://travis-ci.org/Icybee/module-users)
+[![Code Coverage](https://img.shields.io/coveralls/Icybee/module-users.svg)](https://coveralls.io/r/Icybee/module-users)
 
 
 
