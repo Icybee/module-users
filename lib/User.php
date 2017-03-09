@@ -383,13 +383,13 @@ class User extends ActiveRecord implements CSSClassNames
 	 * @param string|int $permission
 	 * @param mixed|null $resource
 	 *
-	 * @throws UserHasNoPermission if user does not have the required permission.
+	 * @throws UserLacksPermission if user lacks a required permission.
 	 */
 	public function assert_permission($permission, $resource = null)
 	{
 		if (!$this->has_permission($permission, $resource))
 		{
-			throw new UserHasNoPermission($this, $permission, $resource);
+			throw new UserLacksPermission($this, $permission, $resource);
 		}
 	}
 

@@ -45,13 +45,12 @@ if ($user->has_permission('update own profile')
 }
 ```
 
-The `assert_permission()` method throws a `UserHasNoPermission` method if the user does not have a required
-permission.
+The `assert_permission()` method throws a `UserLacksPermission` exception if the user lacks a required permission.
 
 ```php
 <?php
 
-use Icybee\Modules\Users\UserHasNoPermission;
+use Icybee\Modules\Users\UserLacksPermission;
 
 /* @var \Icybee\Modules\Users\User $user */
 /* @var \ICanBoogie\Application $app */
@@ -65,7 +64,7 @@ try
 
 	// …
 }
-catch (UserHasNoPermission $e)
+catch (UserLacksPermission $e)
 {
 	var_dump($e->permission, $e->resource, $e->user);
 }

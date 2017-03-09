@@ -15,15 +15,17 @@ use ICanBoogie\Accessor\AccessorTrait;
 use ICanBoogie\HTTP\Status;
 
 /**
+ * Exception thrown when a user lacks a required permission.
+ *
  * @property-read User $user
  * @property-read string|int $permission
  * @property-read mixed|null $resource
  */
-class UserHasNoPermission extends \Exception
+class UserLacksPermission extends \Exception
 {
 	use AccessorTrait;
 
-	const DEFAULT_MESSAGE = 'User does not have the required permission.';
+	const DEFAULT_MESSAGE = 'User lacks the required permission.';
 
 	/**
 	 * @var User

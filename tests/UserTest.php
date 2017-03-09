@@ -295,11 +295,11 @@ class UserTest extends \PHPUnit_Framework_TestCase
 		{
 			if (method_exists($this, 'expectException'))
 			{
-				$this->expectException(UserHasNoPermission::class);
+				$this->expectException(UserLacksPermission::class);
 			}
 			else
 			{
-				$this->setExpectedException(UserHasNoPermission::class);
+				$this->setExpectedException(UserLacksPermission::class);
 			}
 		}
 

@@ -16,14 +16,14 @@ use ICanBoogie\HTTP\Status;
 /**
  * @group permission
  */
-class UserHasNoPermissionTest extends \PHPUnit_Framework_TestCase
+class UserLacksPermissionTest extends \PHPUnit_Framework_TestCase
 {
 	public function test_exception()
 	{
 		$user = new User;
 		$permission = uniqid();
 		$resource = uniqid();
-		$exception = new UserHasNoPermission($user, $permission, $resource);
+		$exception = new UserLacksPermission($user, $permission, $resource);
 
 		$this->assertSame($user, $exception->user);
 		$this->assertSame($permission, $exception->permission);
