@@ -270,4 +270,54 @@ class UserTest extends \PHPUnit_Framework_TestCase
 
 		];
 	}
+
+	/**
+	 * @dataProvider provide_test_assert_permission
+	 * @group permission
+	 *
+	 * @param bool $has_permission
+	 */
+	public function test_assert_permission($has_permission)
+	{
+		$permission = uniqid();
+		$resource = uniqid();
+
+		$user = $this->getMockBuilder(User::class)
+			->disableOriginalConstructor()
+			->setMethods([ 'has_permission' ])
+			->getMock();
+		$user
+			->method('has_permission')
+			->with($permission, $resource)
+			->willReturn($has_permission);
+
+		if (!$has_permission)
+		{
+			if (method_exists($this, 'expectException'))
+			{
+				$this->expectException(UserHasNoPermission::class);
+			}
+			else
+			{
+				$this->setExpectedException(UserHasNoPermission::class);
+			}
+		}
+
+		/* @var User $user */
+
+		$user->assert_permission($permission, $resource);
+	}
+
+	/**
+	 * @return array
+	 */
+	public function provide_test_assert_permission()
+	{
+		return [
+
+			[ false ],
+			[ true ]
+
+		];
+	}
 }

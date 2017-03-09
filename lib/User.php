@@ -365,18 +365,32 @@ class User extends ActiveRecord implements CSSClassNames
 	 * Checks if the user has a given permission.
 	 *
 	 * @param string|int $permission
-	 * @param mixed $target
+	 * @param mixed|null $resource
 	 *
 	 * @return mixed
 	 */
-	public function has_permission($permission, $target = null)
+	public function has_permission($permission, $resource = null)
 	{
 		if ($this->is_admin)
 		{
 			return Module::PERMISSION_ADMINISTER;
 		}
 
-		return $this->app->check_user_permission($this, $permission, $target);
+		return $this->app->check_user_permission($this, $permission, $resource);
+	}
+
+	/**
+	 * @param string|int $permission
+	 * @param mixed|null $resource
+	 *
+	 * @throws UserHasNoPermission if user does not have the required permission.
+	 */
+	public function assert_permission($permission, $resource = null)
+	{
+		if (!$this->has_permission($permission, $resource))
+		{
+			throw new UserHasNoPermission($this, $permission, $resource);
+		}
 	}
 
 	/**

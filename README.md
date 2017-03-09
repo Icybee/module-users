@@ -45,6 +45,33 @@ if ($user->has_permission('update own profile')
 }
 ```
 
+The `assert_permission()` method throws a `UserHasNoPermission` method if the user does not have a required
+permission.
+
+```php
+<?php
+
+use Icybee\Modules\Users\UserHasNoPermission;
+
+/* @var \Icybee\Modules\Users\User $user */
+/* @var \ICanBoogie\Application $app */
+/* @var string|int $permission */
+
+$node = $app->models['nodes']->one;
+
+try 
+{
+	$user->assert_permission($permission, $node);
+
+	// …
+}
+catch (UserHasNoPermission $e)
+{
+	var_dump($e->permission, $e->resource, $e->user);
+}
+```
+
+
 
 
 
