@@ -11,8 +11,9 @@
 
 namespace Icybee\Modules\Users;
 
+use function ICanBoogie\app;
 use ICanBoogie\ActiveRecord;
-use ICanBoogie\Core;
+use ICanBoogie\Application;
 use ICanBoogie\HTTP\AuthenticationRequired;
 use ICanBoogie\HTTP\PermissionRequired;
 use ICanBoogie\HTTP\Response;
@@ -24,7 +25,6 @@ use ICanBoogie\Routing\RouteDispatcher;
 use Icybee\Element\AdminDecorator;
 use Icybee\Element\DocumentDecorator;
 use Icybee\Modules\Members\Member;
-use Icybee\Modules\Users\Binding\ApplicationBindings;
 
 class Hooks
 {
@@ -41,7 +41,7 @@ class Hooks
 	static public function before_roles_delete(Operation\BeforeProcessEvent $event, \Icybee\Modules\Users\Roles\Operation\DeleteOperation $operation)
 	{
 		$rid = $operation->key;
-		$count = self::app()->models['users/has_many_roles']->filter_by_rid($rid)->count;
+		$count = app()->models['users/has_many_roles']->filter_by_rid($rid)->count;
 
 		if (!$count)
 		{
@@ -71,7 +71,7 @@ class Hooks
 			\ICanBoogie\log_error($target->getMessage());
 		}
 
-		$block = self::app()->modules['users']->getBlock('connect');
+		$block = app()->modules['users']->getBlock('connect');
 
 		$document = new DocumentDecorator(new AdminDecorator($block));
 		$document->body->add_class('page-slug-authenticate');
@@ -93,7 +93,7 @@ class Hooks
 	 */
 	static public function on_website_admin_not_accessible_rescue(\ICanboogie\Exception\RescueEvent $event, WebsiteAdminNotAccessible $target)
 	{
-		$block = self::app()->modules['users']->getBlock('available-sites');
+		$block = app()->modules['users']->getBlock('available-sites');
 
 		$document = new DocumentDecorator(new AdminDecorator($block));
 
@@ -129,7 +129,7 @@ class Hooks
 			return;
 		}
 
-		$app = self::app();
+		$app = app();
 		$user = $app->user;
 
 		if ($user->is_guest)
@@ -186,13 +186,13 @@ class Hooks
 	 *
 	 * This is the getter for the `$app->user_id` property.
 	 *
-	 * @param Core $app
+	 * @param Application $app
 	 *
 	 * @return int|null Returns the identifier of the user or null if the user is a guest.
 	 *
 	 * @see User::login()
 	 */
-	static public function get_user_id(Core $app)
+	static public function get_user_id(Application $app)
 	{
 		$session = $app->session;
 
@@ -214,11 +214,11 @@ class Hooks
 	 *
 	 * This is the getter for the `$app->user` property.
 	 *
-	 * @param Core|ApplicationBindings|\ICanBoogie\Binding\ActiveRecord\CoreBindings $app
+	 * @param Application $app
 	 *
 	 * @return User The user object, or guest user object.
 	 */
-	static public function get_user(Core $app)
+	static public function get_user(Application $app)
 	{
 		$user = null;
 		$uid = $app->user_id;
@@ -251,11 +251,11 @@ class Hooks
 	/**
 	 * Returns a user permission resolver configured with the `users` config.
 	 *
-	 * @param Core $app
+	 * @param Application $app
 	 *
 	 * @return PermissionResolver
 	 */
-	static public function get_user_permission_resolver(Core $app)
+	static public function get_user_permission_resolver(Application $app)
 	{
 		return new PermissionResolver($app->configs['users_permission_resolver_list']);
 	}
@@ -263,11 +263,11 @@ class Hooks
 	/**
 	 * Returns a user permission resolver configured with the `users` config.
 	 *
-	 * @param Core $app
+	 * @param Application $app
 	 *
 	 * @return OwnershipResolver
 	 */
-	static public function get_user_ownership_resolver(Core $app)
+	static public function get_user_ownership_resolver(Application $app)
 	{
 		return new OwnershipResolver($app->configs['users_ownership_resolver_list']);
 	}
@@ -275,14 +275,14 @@ class Hooks
 	/**
 	 * Checks if a user has a given permission.
 	 *
-	 * @param Core|ApplicationBindings $app
+	 * @param Application $app
 	 * @param User $user
 	 * @param string $permission
 	 * @param string $target
 	 *
 	 * @return bool
 	 */
-	static public function check_user_permission(Core $app, User $user, $permission, $target = null)
+	static public function check_user_permission(Application $app, User $user, $permission, $target = null)
 	{
 		$user_permission_resolver = $app->user_permission_resolver;
 
@@ -292,13 +292,13 @@ class Hooks
 	/**
 	 * Checks if a user has the ownership of a record.
 	 *
-	 * @param Core|ApplicationBindings $app
+	 * @param Application $app
 	 * @param User $user
 	 * @param ActiveRecord $record
 	 *
 	 * @return bool
 	 */
-	static public function check_user_ownership(Core $app, User $user, ActiveRecord $record)
+	static public function check_user_ownership(Application $app, User $user, ActiveRecord $record)
 	{
 		$user_ownership_resolver = $app->user_ownership_resolver;
 
@@ -350,18 +350,6 @@ class Hooks
 	 */
 	static public function markup_user(array $args, $engine, $template)
 	{
-		return $engine($template, self::app()->user);
-	}
-
-	/*
-	 * Support
-	 */
-
-	/**
-	 * @return Core|\Icybee\Binding\CoreBindings
-	 */
-	static private function app()
-	{
-		return \ICanBoogie\app();
+		return $engine($template, app()->user);
 	}
 }

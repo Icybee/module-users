@@ -11,15 +11,17 @@
 
 namespace Icybee\Modules\Users;
 
+use function ICanBoogie\app;
+
 class HooksTest extends \PHPUnit_Framework_TestCase
 {
 	static private $app;
 
 	static public function setupBeforeClass()
 	{
-		/* @var $app \ICanBoogie\Core|\ICanBoogie\Binding\ActiveRecord\CoreBindings */
+		/* @var $app \ICanBoogie\Application */
 
-		self::$app = $app = \ICanBoogie\app();
+		self::$app = $app = app();
 
 		$app->models['users']->truncate();
 

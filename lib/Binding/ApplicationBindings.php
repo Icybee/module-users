@@ -18,7 +18,7 @@ use Icybee\Modules\Users\PermissionResolverInterface;
 use Icybee\Modules\Users\User;
 
 /**
- * {@link \ICanBoogie\Core} prototype bindings.
+ * {@link \ICanBoogie\Application} prototype bindings.
  *
  * @method bool check_user_permission(User $user, $permission, $target = null)
  * @method bool check_user_ownership(User $user, ActiveRecord $record)

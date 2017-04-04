@@ -23,7 +23,7 @@ use Icybee\Modules\Registry\Binding\UserBindings as RegistryBindings;
  * A user.
  *
  * @property-read UserModel $model
- * @property-read \ICanBoogie\Core|Binding\ApplicationBindings $app
+ * @property-read \ICanBoogie\Application $app
  *
  * @property-read string $name The formatted name of the user.
  * @property-read boolean $is_admin true if the user is admin, false otherwise.
