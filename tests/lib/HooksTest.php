@@ -19,8 +19,6 @@ class HooksTest extends \PHPUnit_Framework_TestCase
 
 	static public function setupBeforeClass()
 	{
-		/* @var $app \ICanBoogie\Application */
-
 		self::$app = $app = app();
 
 		$app->models['users']->truncate();
@@ -29,7 +27,6 @@ class HooksTest extends \PHPUnit_Framework_TestCase
 
 			'username' => 'admin',
 			'email' => 'admin@example.com',
-			'timezone' => 'Europe/Paris',
 
 		])->save();
 
@@ -37,7 +34,6 @@ class HooksTest extends \PHPUnit_Framework_TestCase
 
 			'username' => 'user',
 			'email' => 'user@example.com',
-			'timezone' => 'Europe/Paris',
 
 		])->save();
 	}

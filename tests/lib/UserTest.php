@@ -77,7 +77,6 @@ class UserTest extends \PHPUnit_Framework_TestCase
 
 			'username' => 'person',
 			'email' => 'person@example.tld',
-			'timezone' => 'Europe/Paris',
 
 		]);
 
@@ -94,7 +93,6 @@ class UserTest extends \PHPUnit_Framework_TestCase
 
 			'username' => 'person',
 			'email' => 'person@example.tld',
-			'timezone' => 'Europe/Paris',
 
 		]);
 
@@ -191,7 +189,6 @@ class UserTest extends \PHPUnit_Framework_TestCase
 			'username' => "example",
 			'email' => "example@example.com",
 			'password' => 'P4SSW0RD',
-			'timezone' => 'Europe/Paris',
 
 		]);
 
