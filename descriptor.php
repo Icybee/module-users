@@ -68,7 +68,6 @@ return [
 
 	],
 
-	Descriptor::REQUIRED => true,
 	Descriptor::REQUIRES => [ 'users.roles' ],
 	Descriptor::TITLE => "Users"
 
