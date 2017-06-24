@@ -14,7 +14,7 @@ namespace Icybee\Modules\Users\Operation;
 use ICanBoogie\ErrorCollection;
 use ICanBoogie\I18n;
 use ICanBoogie\Operation;
-use ICanBoogie\Module\ControllerBindings as ModuleBindings;
+use ICanBoogie\Binding\Module\ControllerBindings as ModuleBindings;
 
 use Icybee\Modules\Registry\MetaCollection;
 use Icybee\Modules\Users\LoginForm;
